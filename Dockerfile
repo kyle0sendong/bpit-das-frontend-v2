@@ -25,4 +25,4 @@ RUN apk add --no-cache tzdata
 RUN npm install -g serve
 
 # Start
-CMD ["serve", "-s", "/app/react-app/dist", "-p", "1776"]
+CMD ["serve", "-s", "/app/react-app/dist", "-p", "55000"]
