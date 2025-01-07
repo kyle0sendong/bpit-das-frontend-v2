@@ -9,9 +9,52 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMenu.module.css';
+import {
+  IconGauge,
+  IconHome2,
+} from '@tabler/icons-react';
+import { Tooltip, UnstyledButton } from '@mantine/core';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+interface NavbarLinkProps {
+  icon: typeof IconHome2;
+  label: string;
+  active?: boolean;
+  onClick?: () => void;
+}
+
+const NavbarLink = ({ icon: Icon, label, active, onClick }: NavbarLinkProps) => {
+  return (
+    <Tooltip label={label} position="bottom" >
+      <UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined}>
+        <Icon size={20} stroke={1.5} />
+      </UnstyledButton>
+    </Tooltip>
+  );
+}
+const data = [
+  { icon: IconHome2, label: 'Configurations', link: "configurations" },
+  { icon: IconGauge, label: 'Data Monitoring', link: "data-monitoring"},
+  { icon: IconHome2, label: 'Data History', link: "data-history" },
+  { icon: IconGauge, label: 'User Logs', link: "user-logs"},
+];
 export default function HeaderMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [active, setActive] = useState(10);
+  const navigate = useNavigate();
+
+  const links = data.map((link, index) => (
+    <NavbarLink
+      {...link}
+      key={link.label}
+      active={index === active}
+      onClick={() => {
+        setActive(index)
+        navigate(link?.link)
+      }}
+    />
+  ));
 
   return (
     <Box>
@@ -20,15 +63,7 @@ export default function HeaderMenu() {
           BPIT DAS
 
           <Group h="100%" gap={0} visibleFrom="sm">
-            <a href="configurations" className={classes.link}>
-              Configurations
-            </a>
-            <a href="#" className={classes.link}>
-              Learn
-            </a>
-            <a href="#" className={classes.link}>
-              Academy
-            </a>
+            {links}
           </Group>
 
           <Group visibleFrom="sm">
@@ -55,10 +90,10 @@ export default function HeaderMenu() {
             Home
           </a>
           <a href="#" className={classes.link}>
-            Learn
+            Data Monitoring
           </a>
           <a href="#" className={classes.link}>
-            Academy
+            Data History
           </a>
 
           <Divider my="sm" />

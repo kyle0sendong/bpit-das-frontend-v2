@@ -22,21 +22,21 @@ const router = createBrowserRouter(
           element: <Configurations />
         },
         {
-          path:`/account-settings`, // protected
-          element: <AccountSettings />
-        },
-        {
-          path:`/user-logs`, // protected
-          element: <UserLogs />
+          path:`/data-monitoring`, // not protected
+          element: <DataMonitoring />
         },
         {
           path:`/data-history`, // not protected
           element: <DataHistory />
         },
         {
-          path:`/data-monitoring`, // not protected
-          element: <DataMonitoring />
+          path:`/user-logs`, // protected
+          element: <UserLogs />
         },
+        {
+          path:`/account-settings`, // protected
+          element: <AccountSettings />
+        }
       ]
     }
   ]
