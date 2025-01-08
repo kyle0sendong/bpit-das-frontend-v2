@@ -3,8 +3,7 @@ import { bpitDasApiUrlV1 } from "./apiUrl";
 import { ParametersType } from "@/types/parameters";
 const url = `${bpitDasApiUrlV1}/parameters`;
 
-
-export const getAllCredentials = async () => {
+export const getAllParameters = async () => {
   try {
     const data = await axios.get(url);
     return data.data;
@@ -13,7 +12,20 @@ export const getAllCredentials = async () => {
   }
 }
 
-export const insertDbCredentials = async (data: ParametersType) => {
+export const getParametersByAnalyzerId = async (id: number) => {
+  try {
+    const data = await axios.get(url, {
+      params: {
+        id
+      }
+    })
+    return data.data
+  } catch(error) {
+    console.error('Error: ', error);
+  }
+}
+
+export const insertParameter = async (data: ParametersType) => {
   try {
     return await axios.post(url, data)
   } catch(error) {
@@ -21,7 +33,7 @@ export const insertDbCredentials = async (data: ParametersType) => {
   }
 }
 
-export const updateDbCredentials = async (data: ParametersType[]) => {
+export const updateParameter = async (data: Partial<ParametersType[]>) => {
   try {
     return await axios.patch(url, data)
   } catch(error) {
@@ -29,11 +41,11 @@ export const updateDbCredentials = async (data: ParametersType[]) => {
   }
 }
 
-export const deleteDbCredentials = async (id: number) => {
+export const deleteParameter = async (id: number) => {
   try {
     return await axios.delete(url, {
-      data: {
-        id:id
+      params: {
+        id
       }
     })
   } catch(error) {
