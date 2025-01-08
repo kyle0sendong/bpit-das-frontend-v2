@@ -3,7 +3,7 @@ import { bpitDasApiUrlV1 } from "./apiUrl";
 
 const url = `${bpitDasApiUrlV1}/current-values`;
 
-export const getAllParameters = async () => {
+export const getAllCurrentValues = async () => {
   try {
     const data = await axios.get(url);
     return data.data;

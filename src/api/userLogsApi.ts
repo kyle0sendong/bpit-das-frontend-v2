@@ -3,7 +3,7 @@ import { bpitDasApiUrlV1 } from "./apiUrl";
 
 const url = `${bpitDasApiUrlV1}/user-logs`;
 
-export const getUserLogs = async (from:string, to:string) => {
+export const getUserLogsByDate = async (from:string, to:string) => {
   try {
     const data = await axios.get(url, {
       params: {

@@ -5,7 +5,7 @@ import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
 const url = `${bpitDasApiUrlV1}/tcp-analyzer`;
 
-export const getAllAnalyzers = async () => {
+export const getAllTcpAnalyzers = async () => {
   try {
     const data = await axios.get(url);
     return data.data;
