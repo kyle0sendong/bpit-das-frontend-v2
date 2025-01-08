@@ -1,4 +1,4 @@
-export type CurrentValues = {
+export type CurrentValuesType = {
   id: number;
   current_value: number;
   current_value_status: number;

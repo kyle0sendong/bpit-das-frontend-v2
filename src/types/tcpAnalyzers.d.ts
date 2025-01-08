@@ -1,4 +1,4 @@
-export type TcpAnalyzer = {
+export type TcpAnalyzerType = {
   id: number;
   name: string;
   host_address: string;

@@ -1,4 +1,4 @@
-export type VirtualChannelType = {
+export type VirtualChannelsType = {
   id: number;
   tcp_analyzer_id: number;
   name: string;
