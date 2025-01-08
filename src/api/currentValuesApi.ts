@@ -12,9 +12,13 @@ export const getAllCurrentValues = async () => {
   }
 }
 
-export const getCurrentValuesByAnalyzerId = async () => {
+export const getCurrentValuesByAnalyzerId = async (id: number) => {
   try {
-    const data = await axios.get(url);
+    const data = await axios.get(url, {
+      params: {
+        id
+      }
+    });
     return data.data;
   } catch(error) {
     console.error('Error: ', error);
