@@ -13,19 +13,6 @@ export const getAllVirtualChannels = async () => {
   }
 }
 
-export const getVirtualChannelsByAnalyzerId = async (id: number) => {
-  try {
-    const data = await axios.get(url, {
-      params: {
-        id
-      }
-    });
-    return data.data;
-  } catch(error) {
-    console.error('Error: ', error);
-  }
-}
-
 export const insertVirtualChannel = async (data: VirtualChannelsType) => {
   try {
     return await axios.post(url, data);
