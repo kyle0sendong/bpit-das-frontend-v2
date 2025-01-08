@@ -1,0 +1,1 @@
+export const bpitDasApiUrlV1 = `http://localhost:8000/api/v1`
