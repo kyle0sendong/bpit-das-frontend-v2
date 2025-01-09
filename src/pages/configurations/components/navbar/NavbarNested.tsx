@@ -1,11 +1,8 @@
 import {
-  IconAdjustments,
   IconCalendarStats,
   IconFileAnalytics,
   IconGauge,
-  IconLock,
-  IconNotes,
-  IconPresentationAnalytics,
+  IconNotes
 } from '@tabler/icons-react';
 import { ScrollArea } from '@mantine/core';
 import { LinksGroup } from "../links-group/NavbarLinksGroup"

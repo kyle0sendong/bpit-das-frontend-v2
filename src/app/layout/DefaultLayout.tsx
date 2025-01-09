@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Flex, Box } from "@mantine/core";
 import HeaderMenu from "@/components/header/HeaderMenu";
+import Footer from "@/components/footer/Footer";
 
 const DefaultLayout = () => {
   return (
@@ -10,6 +11,7 @@ const DefaultLayout = () => {
         <Box>
         <Outlet />
         </Box>
+        <Footer/>
       </Flex>
     </>
   )

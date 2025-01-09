@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { Box } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import NavbarNested from "./components/navbar/NavbarNested";
 const ConfigurationsLayout = () => {
   return (
-    <Box h="100%" w="100%" bd="1px solid red">
+    <Flex mih="75vh" w="100%">
       <NavbarNested />
       <Outlet />
-    </Box>
+    </Flex>
   )
 }
 
