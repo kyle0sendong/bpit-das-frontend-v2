@@ -9,8 +9,6 @@ import {
   deleteTcpAnalyzer
 } from "@/api/tcpAnalyzersApi";
 
-const queryClient = useQueryClient();
-
 export const useGetAllTcpAnalyzers = () => {
   return useQuery({
     queryKey: [queryKeys.useGetAllTcpAnalyzers()],
@@ -26,6 +24,7 @@ export const useGetTcpAnalyzerById = (id: number) => {
 }
 
 export const useInsertTcpAnalyzer = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: insertTcpAnalyzer,
     onSuccess: () => {
@@ -35,6 +34,7 @@ export const useInsertTcpAnalyzer = () => {
 }
 
 export const useUpdateTcpAnalyzer = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateTcpAnalyzer,
     onSuccess: () => {
@@ -44,6 +44,7 @@ export const useUpdateTcpAnalyzer = () => {
 }
 
 export const useDeleteTcpAnalyzer = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteTcpAnalyzer,
     onSuccess: () => {

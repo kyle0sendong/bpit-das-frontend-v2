@@ -8,8 +8,6 @@ import {
   deleteVirtualChannel
 } from "@/api/virtualChannelsApi";
 
-const queryClient = useQueryClient();
-
 export const useGetAllVirtualChannels = () => {
   return useQuery({
     queryKey: [queryKeys.useGetAllVirtualChannels()],
@@ -18,6 +16,7 @@ export const useGetAllVirtualChannels = () => {
 }
 
 export const useInsertVirtualChannel = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: insertVirtualChannel,
     onSuccess: () => {
@@ -27,6 +26,7 @@ export const useInsertVirtualChannel = () => {
 }
 
 export const useUpdateVirtualChannel = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateVirtualChannel,
     onSuccess: () => {
@@ -36,6 +36,7 @@ export const useUpdateVirtualChannel = () => {
 }
 
 export const useDeleteVirtualChannel = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteVirtualChannel,
     onSuccess: () => {
