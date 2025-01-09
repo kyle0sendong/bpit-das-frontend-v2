@@ -1,10 +1,10 @@
 import axios from "axios";
 import { bpitDasApiUrlV1 } from "./apiUrl";
-import { SitesType } from "@/types/sites";
+import { StationsType } from "@/types/stations";
 
 const url = `${bpitDasApiUrlV1}/sites`;
 
-export const getAllSites = async () => {
+export const getAllStations = async () => {
   try {
     const data = await axios.get(url);
     return data.data;
@@ -13,7 +13,7 @@ export const getAllSites = async () => {
   }
 }
 
-export const updateSite = async (data: Partial<SitesType[]>) => {
+export const updateStations = async (data: Partial<StationsType[]>) => {
   try {
     return await axios.patch(url, data)
   } catch(error) {

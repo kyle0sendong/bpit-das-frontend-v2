@@ -3,7 +3,7 @@ import { bpitDasApiUrlV1 } from "./apiUrl";
 
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
-const url = `${bpitDasApiUrlV1}/tcp-analyzer`;
+const url = `${bpitDasApiUrlV1}/tcp-analyzers`;
 
 export const getAllTcpAnalyzers = async () => {
   try {
