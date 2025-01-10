@@ -22,7 +22,7 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, link="", links 
       component='a'
       className={classes.link}
       key={link.label}
-      onClick={() => navigate('tcp-analyzers')}
+      onClick={() => navigate(link.link)}
     >
       {link.label}
     </UnstyledButton>
