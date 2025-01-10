@@ -22,13 +22,13 @@ const ConfigurationsLayout = () => {
     const tcpAnalyzerLinks = tcpAnalyzersData.map( (data) => {
       return {
         label: data.name,
-        link: "testing"
+        link: `tcp-analyzers/id?id=${data.id}`
       }
     })
 
     const linksData = [
-      { label: 'Station', icon: IconGauge, link: "asd" },
-      { label: 'Virtual Channels', icon: IconFileAnalytics, link: ""},
+      { label: 'Station', icon: IconGauge, link: "stations" },
+      { label: 'Virtual Channels', icon: IconFileAnalytics, link: "virtual-channels"},
       {
         label: 'TCP Analyzers',
         icon: IconNotes,

@@ -36,7 +36,7 @@ const router = createBrowserRouter(
               element: <VirtualChannel />
             },
             {
-              path:`tcp-analyzers`,
+              path:`tcp-analyzers/:id`,
               element: <TcpAnalyzers />
             },
             {
