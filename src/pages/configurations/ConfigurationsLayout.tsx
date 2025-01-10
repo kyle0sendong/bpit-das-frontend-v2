@@ -19,7 +19,6 @@ const ConfigurationsLayout = () => {
   if(tcpAnalyzers.isFetched) {
 
     const tcpAnalyzersData: TcpAnalyzerType[] = tcpAnalyzers.data;
-
     const tcpAnalyzerLinks = tcpAnalyzersData.map( (data) => {
       return {
         label: data.name,
@@ -35,13 +34,13 @@ const ConfigurationsLayout = () => {
         icon: IconNotes,
         link: "",
         initiallyOpened: true,
-        links: tcpAnalyzerLinks
+        links: [{label: "Add TCP Analyzer", link:""}, ...tcpAnalyzerLinks, ]
       },
       {
         label: 'Serial Analyzers',
         icon: IconCalendarStats,
         link: "",
-        links: []
+        links: [{label: "Add Serial Analyzer", link:""}]
       }
     ];
 
