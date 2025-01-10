@@ -11,14 +11,13 @@ const TcpAnalyzerCard = ({id}: {id: string}) => {
 
     const tcpAnalyzerData: TcpAnalyzerType = tcpAnalyzer.data[0];
 
-    console.log(tcpAnalyzerData)
     return (
       <Flex w="100%" m="xs">
 
         <Paper shadow="md" my="auto" p="xs">
           <Flex gap={14} align="center">
             <Paper shadow="md">
-              <Button h="100%" p="lg" variant="default" style={{fontSize:"1.3rem"}}>
+              <Button h="100%" p="sm" variant="default" style={{fontSize:"1.3rem"}}>
                 {tcpAnalyzerData.name}
               </Button>
             </Paper>
