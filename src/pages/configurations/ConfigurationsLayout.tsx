@@ -1,13 +1,66 @@
+import {
+  IconCalendarStats,
+  IconFileAnalytics,
+  IconGauge,
+  IconNotes
+} from '@tabler/icons-react';
+import { Flex, Loader } from "@mantine/core";
 import { Outlet } from "react-router-dom";
-import { Flex } from "@mantine/core";
+
 import NavbarNested from "./components/navbar/NavbarNested";
+
+import { useGetAllTcpAnalyzers } from "@/hooks/tcpAnalyzersHook";
+
+import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
+
 const ConfigurationsLayout = () => {
-  return (
-    <Flex mih="75vh" w="100%">
-      <NavbarNested />
-      <Outlet />
-    </Flex>
-  )
+  const tcpAnalyzers = useGetAllTcpAnalyzers();
+
+  if(tcpAnalyzers.isFetched) {
+
+    const tcpAnalyzersData: TcpAnalyzerType[] = tcpAnalyzers.data;
+
+    const tcpAnalyzerLinks = tcpAnalyzersData.map( (data) => {
+      return {
+        label: data.name,
+        link: "testing"
+      }
+    })
+
+    const linksData = [
+      { label: 'Station', icon: IconGauge, link: "asd" },
+      { label: 'Virtual Channels', icon: IconFileAnalytics, link: ""},
+      {
+        label: 'TCP Analyzers',
+        icon: IconNotes,
+        link: "",
+        initiallyOpened: true,
+        links: tcpAnalyzerLinks
+      },
+      {
+        label: 'Serial Analyzers',
+        icon: IconCalendarStats,
+        link: "",
+        links: []
+      }
+    ];
+
+    return (
+      <Flex mih="75vh" w="100%">
+        <NavbarNested linksData={linksData}/>
+        <Outlet />
+      </Flex>
+    )
+  } else {
+    return (
+      <Flex mih="75vh" w="100%">
+        <Loader size={32} />
+      </Flex>
+    )
+  }
+
+  
+
 }
 
 export default ConfigurationsLayout;
