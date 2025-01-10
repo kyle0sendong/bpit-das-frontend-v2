@@ -9,8 +9,6 @@ import {
   deleteParameter
 } from "@/api/parametersApi";
 
-const queryClient = useQueryClient();
-
 export const useGetAllParameters = () => {
   return useQuery({
     queryKey: [queryKeys.useGetAllParameters()],
@@ -26,6 +24,7 @@ export const useGetParametersByAnalyzerId = (id: number) => {
 }
 
 export const useInsertParameter = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: insertParameter,
     onSuccess: () => {
@@ -35,6 +34,7 @@ export const useInsertParameter = () => {
 }
 
 export const useUpdateParameter = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateParameter,
     onSuccess: () => {
@@ -44,6 +44,7 @@ export const useUpdateParameter = () => {
 }
 
 export const useDeleteParameter = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteParameter,
     onSuccess: () => {
