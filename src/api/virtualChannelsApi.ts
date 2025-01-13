@@ -21,7 +21,7 @@ export const insertVirtualChannel = async (data: VirtualChannelsType) => {
   }
 }
 
-export const updateVirtualChannel = async (data: Partial<VirtualChannelsType[]>) => {
+export const updateVirtualChannel = async (data: Partial<VirtualChannelsType>[]) => {
   try {
     return await axios.patch(url, data);
   } catch(error) {

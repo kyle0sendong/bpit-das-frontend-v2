@@ -22,7 +22,7 @@ export const insertTimebases = async (data: TimebasesType) => {
   }
 }
 
-export const updateTimebases = async (data: Partial<TimebasesType[]>) => {
+export const updateTimebases = async (data: Partial<TimebasesType>[]) => {
   try {
     return await axios.patch(url, data)
   } catch(error) {

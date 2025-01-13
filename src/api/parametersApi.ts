@@ -33,7 +33,7 @@ export const insertParameter = async (data: ParametersType) => {
   }
 }
 
-export const updateParameter = async (data: Partial<ParametersType[]>) => {
+export const updateParameter = async (data: Partial<ParametersType>[]) => {
   try {
     return await axios.patch(url, data)
   } catch(error) {
