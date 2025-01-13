@@ -11,7 +11,7 @@ const TableColumn = () => (
     <Table.Th ta="center">Start Address</Table.Th>
     <Table.Th ta="center">Register Count</Table.Th>
     <Table.Th ta="center">Offset Formula</Table.Th>
-    <Table.Th ta="center">asd</Table.Th>
+    <Table.Th ta="center">Actions</Table.Th>
   </Table.Tr>
 )
 

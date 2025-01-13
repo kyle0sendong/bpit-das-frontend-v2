@@ -31,8 +31,7 @@ const TableForm = ({parametersData}: TableFormProps) => {
     <form 
       onSubmit={ 
         form.onSubmit( (values) => {
-          console.log(modifyFormValues(values))
-          // updateParameter(modifyFormValues(values))
+          updateParameter(modifyFormValues(values))
         })
       }
     >
