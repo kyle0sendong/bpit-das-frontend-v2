@@ -1,4 +1,4 @@
-import { Paper, Flex } from "@mantine/core";
+import { Paper } from "@mantine/core";
 import { useGetParametersByAnalyzerId } from "@/hooks/parametersHook";
 import TableForm from "./table-form/TableForm";
 
@@ -11,11 +11,9 @@ const TcpParametersCard = ({id}: {id:string}) => {
   if(parameters.isFetched) {
     const parametersData: ParametersType[] = parameters.data;
     return (
-      <Flex w="100%" mx="xs">
-        <Paper shadow="md">
-          <TableForm parametersData={parametersData} />
-        </Paper>
-      </Flex>
+      <Paper shadow="md">
+        <TableForm parametersData={parametersData} />
+      </Paper>
     )
   }
 

@@ -23,32 +23,32 @@ export const useGetParametersByAnalyzerId = (id: number) => {
   });
 }
 
-export const useInsertParameter = () => {
+export const useInsertParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: insertParameter,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllParameters()]})
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
     }
   });
 }
 
-export const useUpdateParameter = () => {
+export const useUpdateParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateParameter,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllParameters()]})
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
     }
   });
 }
 
-export const useDeleteParameter = () => {
+export const useDeleteParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteParameter,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllParameters()]})
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
     }
   });
 }

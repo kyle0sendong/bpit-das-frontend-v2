@@ -20,7 +20,7 @@ type TableFormProps = {
 const TableForm = ({parametersData}: TableFormProps) => {
   
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateParameter } = useUpdateParameter()
+  const { mutate: updateParameter } = useUpdateParameter(parametersData[0]?.tcp_analyzer_id)
 
   const form = useForm<ParametersType>({
     mode:"uncontrolled"

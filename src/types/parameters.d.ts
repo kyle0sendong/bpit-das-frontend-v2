@@ -11,3 +11,9 @@ export type ParametersType = {
   formula: string;
   tcp_analyzer_id: number;
 }
+
+export type InsertParameterType = {
+  id: number,
+  number: number,
+  name: string
+}

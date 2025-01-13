@@ -54,7 +54,7 @@ type TableRowsProps = {
 }
 
 const TableRows = ({parametersData, form}: TableRowsProps) => {
-  const {mutate: deleteParameter} = useDeleteParameter();
+  const {mutate: deleteParameter} = useDeleteParameter(parametersData[0]?.tcp_analyzer_id);
 
   return parametersData.map( (parameter) => {
     return (
