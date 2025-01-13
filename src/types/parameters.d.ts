@@ -2,7 +2,7 @@ export type ParametersType = {
   id: number;
   name: string;
   unit: string;
-  enable: number;
+  enable: boolean;
   request_interval: number;
   format: string;
   function_code: string;
