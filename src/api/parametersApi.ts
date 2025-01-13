@@ -1,6 +1,6 @@
 import axios from "axios";
 import { bpitDasApiUrlV1 } from "./apiUrl";
-import { ParametersType } from "@/types/parameters";
+import { ParametersType, InsertParameterType } from "@/types/parameters";
 const url = `${bpitDasApiUrlV1}/parameters`;
 
 export const getAllParameters = async () => {
@@ -25,7 +25,7 @@ export const getParametersByAnalyzerId = async (id: number) => {
   }
 }
 
-export const insertParameter = async (data: ParametersType) => {
+export const insertParameter = async (data: InsertParameterType) => {
   try {
     return await axios.post(url, data)
   } catch(error) {
