@@ -1,11 +1,12 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, TextInput, Box, NativeSelect} from "@mantine/core";
+import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useNavigate } from "react-router-dom";
 
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
-import { useUpdateTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
-
+import { useUpdateTcpAnalyzer, useDeleteTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
+import { IconCheck, IconTrash } from "@tabler/icons-react";
 
 const dataSampling = [
   { label: "100%", value: "100" },
@@ -19,8 +20,10 @@ const dataSampling = [
 const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
 
   const [opened, { open, close }] = useDisclosure(false);
+  const navigate = useNavigate();
   const { mutate: updateTcpAnalyzer } = useUpdateTcpAnalyzer(tcpAnalyzerData.id);
-
+  const { mutate: deleteTcpAnalyzer } = useDeleteTcpAnalyzer(tcpAnalyzerData.id);
+  
   const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
     initialValues: {
@@ -37,7 +40,7 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
       <Modal
         opened={opened}
         onClose={close}
-        title="Edit Station"
+        title={`Edit ${tcpAnalyzerData.name}`}
         centered
       >
         <form onSubmit={ form.onSubmit( (value) =>  {
@@ -86,12 +89,42 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
             />
           </Box>
 
-          <Button 
-            type="submit"
-            color="dark.3"
-          >
-            Save
-          </Button>
+          <Flex justify="space-between">
+            <Button type="submit" color="dark.3">
+              Save
+            </Button>
+
+            <Popover position="bottom" withArrow shadow="md">
+              <Popover.Target>
+                <Button 
+                  fz="0.6rem"
+                  rightSection={<IconTrash size="1rem" />} 
+                  variant="filled"
+                  color="red"  
+                >
+                    Delete
+                </Button>
+              </Popover.Target>
+              <Popover.Dropdown>
+                <Group>
+                  <Button 
+                    justify="center"
+                    fz="0.6rem"
+                    rightSection={<IconCheck size="1rem" />} 
+                    variant="default"
+                    onClick={ () => {
+                      navigate('/configurations')
+                      deleteTcpAnalyzer(tcpAnalyzerData.id)
+                    }}
+                  >
+                    Yes
+                  </Button>
+                </Group>
+
+              </Popover.Dropdown>
+            </Popover>
+          </Flex>
+
         </form>
       </Modal>
 
