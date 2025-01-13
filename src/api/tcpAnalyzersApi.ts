@@ -27,7 +27,7 @@ export const getTcpAnalyzerById = async (id: number) => {
   }
 }
 
-export const insertTcpAnalyzer = async (data: TcpAnalyzerType) => {
+export const insertTcpAnalyzer = async (data: Partial<TcpAnalyzerType>) => {
   try {
     return await axios.post(url, data)
   } catch(error) {

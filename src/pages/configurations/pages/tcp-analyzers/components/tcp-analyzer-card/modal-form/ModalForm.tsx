@@ -8,14 +8,7 @@ import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 import { useUpdateTcpAnalyzer, useDeleteTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
 import { IconCheck, IconTrash } from "@tabler/icons-react";
 
-const dataSampling = [
-  { label: "100%", value: "100" },
-  { label: "90%", value: "90" },
-  { label: "80%", value: "80" },
-  { label: "70%", value: "70" },
-  { label: "60%", value: "60" },
-  { label: "50%", value: "50" },
-]
+import { getDataSampling } from "../../../utils/sampling";
 
 const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
 
@@ -83,7 +76,7 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
             <NativeSelect
               size="xs"
               label="Data Sampling"
-              data={dataSampling}
+              data={getDataSampling}
               key={form.key(`sampling`)}
               {...form.getInputProps(`sampling`)}
             />

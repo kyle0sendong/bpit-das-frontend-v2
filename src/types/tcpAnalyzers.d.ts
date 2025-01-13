@@ -3,6 +3,6 @@ export type TcpAnalyzerType = {
   name: string;
   host_address: string;
   port: number;
-  device_address: string;
+  device_address: number;
   sampling: number;
 }

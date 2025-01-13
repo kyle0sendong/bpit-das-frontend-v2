@@ -15,7 +15,7 @@ const TcpAnalyzers = () => {
         <Flex> <Paper shadow="md"> <AddParameterCard id={id} /></Paper> </Flex>
       </Flex>
       <Flex mx="xs">
-        <Flex> <TcpParametersCard id={id}/> </Flex>
+        <Flex w="100%"> <TcpParametersCard id={id}/> </Flex>
       </Flex>
     </Box>
   )

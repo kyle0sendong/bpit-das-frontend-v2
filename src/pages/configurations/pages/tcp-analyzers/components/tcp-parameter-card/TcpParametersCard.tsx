@@ -11,7 +11,7 @@ const TcpParametersCard = ({id}: {id:string}) => {
   if(parameters.isFetched) {
     const parametersData: ParametersType[] = parameters.data;
     return (
-      <Paper shadow="md">
+      <Paper shadow="md" w="100%">
         <TableForm parametersData={parametersData} />
       </Paper>
     )

@@ -34,7 +34,7 @@ const ConfigurationsLayout = () => {
         icon: IconNotes,
         link: "",
         initiallyOpened: true,
-        links: [{label: "Add TCP Analyzer", link:""}, ...tcpAnalyzerLinks, ]
+        links: [{label: "Add TCP Analyzer", link:"add-tcp-analyzer"}, ...tcpAnalyzerLinks, ]
       },
       {
         label: 'Serial Analyzers',

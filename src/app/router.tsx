@@ -7,6 +7,7 @@ import Stations from "@/pages/configurations/pages/stations/Stations";
 import SerialAnalyzers from "@/pages/configurations/pages/serial-analyzers/SerialAnalyzers";
 import TcpAnalyzers from "@/pages/configurations/pages/tcp-analyzers/TcpAnalyzers";
 import VirtualChannel from "@/pages/configurations/pages/virtual-channels/VirtualChannel";
+import AddAnalyzerPage from "@/pages/configurations/pages/add-analyzer/AddAnalyzerPage";
 
 import AccountSettings from "@/pages/account-settings";
 import UserLogs from "@/pages/user-logs";
@@ -38,6 +39,10 @@ const router = createBrowserRouter(
             {
               path:`tcp-analyzers/:id`,
               element: <TcpAnalyzers />
+            },
+            {
+              path: 'add-tcp-analyzer',
+              element: <AddAnalyzerPage />
             },
             {
               path:`serial-analyzers`,
