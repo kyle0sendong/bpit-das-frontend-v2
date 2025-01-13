@@ -1,7 +1,9 @@
-import { Loader, Paper, Button, Flex, Text } from "@mantine/core";
+import { Loader, Paper, Flex, Text } from "@mantine/core";
 import { useGetTcpAnalyzerById } from "@/hooks/tcpAnalyzersHook";
 
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
+
+import ModalForm from "./modal-form/ModalForm";
 
 const TcpAnalyzerCard = ({id}: {id: string}) => {
 
@@ -15,9 +17,7 @@ const TcpAnalyzerCard = ({id}: {id: string}) => {
 
       <Flex gap={14} h="100%" p="md">
         <Paper shadow="md">
-          <Button h="100%" p="sm" variant="default" style={{fontSize:"1.3rem"}}>
-            {tcpAnalyzerData.name}
-          </Button>
+          <ModalForm tcpAnalyzerData={tcpAnalyzerData}/>
         </Paper>
 
         <Flex direction="column" gap="xs" my="auto">

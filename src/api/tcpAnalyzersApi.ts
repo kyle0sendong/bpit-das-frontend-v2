@@ -35,7 +35,7 @@ export const insertTcpAnalyzer = async (data: TcpAnalyzerType) => {
   }
 }
 
-export const updateTcpAnalyzer = async (data: Partial<TcpAnalyzerType>[]) => {
+export const updateTcpAnalyzer = async (data: Partial<TcpAnalyzerType>) => {
   try {
     return await axios.patch(url, data)
   } catch(error) {

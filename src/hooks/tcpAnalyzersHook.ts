@@ -33,12 +33,12 @@ export const useInsertTcpAnalyzer = () => {
   })
 }
 
-export const useUpdateTcpAnalyzer = () => {
+export const useUpdateTcpAnalyzer = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateTcpAnalyzer,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllTcpAnalyzers()]})
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetTcpAnalyzerById(id)]})
     }
   })
 }

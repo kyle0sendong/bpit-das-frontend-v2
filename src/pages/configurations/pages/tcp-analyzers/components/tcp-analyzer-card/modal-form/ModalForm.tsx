@@ -2,93 +2,87 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, TextInput, Box, NativeSelect} from "@mantine/core";
 import { useForm } from "@mantine/form";
 
-import { DbCredentialsType } from "@/types/dbCredentials";
-import { StationType } from "@/types/station";
+import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
-import { useInsertStation } from "@/hooks/stations";
+import { useUpdateTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
 
-type ModalFormProps = {
-  dbCredentials: DbCredentialsType[]
-}
 
-const getSelectDataMenu = (dbCredentials: DbCredentialsType[]) => {
-  const selectData: {
-    label: string,
-    value: string
-  }[] = [];
+const dataSampling = [
+  { label: "100%", value: "100" },
+  { label: "90%", value: "90" },
+  { label: "80%", value: "80" },
+  { label: "70%", value: "70" },
+  { label: "60%", value: "60" },
+  { label: "50%", value: "50" },
+]
 
-  for(const dbCredential of dbCredentials) {
-    const id = dbCredential.id ?? 1
-    selectData.push({
-      label: `${dbCredential.db_name} - ${dbCredential.db_host}`,
-      value: id.toString()
-    })
-  }
-  return selectData;
-}
+const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
 
-const ModalForm = ({dbCredentials}: ModalFormProps) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const { mutate: insertStation } = useInsertStation();
+  const { mutate: updateTcpAnalyzer } = useUpdateTcpAnalyzer(tcpAnalyzerData.id);
 
-  const form = useForm<StationType>({
+  const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
     initialValues: {
-      "db_credential_id": dbCredentials[0].id
-    },
-    validate: (values) => ({
-      table_name: values.table_name  === undefined && 'Table Name is required.',
-      station_name: values.station_name === undefined && 'Station Name is required.',
-      db_credential_id: values.db_credential_id === 0 && 'Database is required.'
-    })
+      id: tcpAnalyzerData.id
+    }
   });
 
   return (
     <>
-      <Button 
-        onClick={open}
-        mx="1rem"
-        my="0.5rem"
-        color="dark.3"
-      >
-        Add Station
+      <Button h="100%" p="sm" variant="default" onClick={open} style={{fontSize:"1.3rem"}}>
+        {tcpAnalyzerData.name}
       </Button>
 
       <Modal
         opened={opened}
         onClose={close}
-        title="Add New Station"
+        title="Edit Station"
         centered
       >
         <form onSubmit={ form.onSubmit( (value) =>  {
-          form.setFieldValue('table_name', undefined)
-          form.setFieldValue('station_name', undefined)
-          insertStation(value)
+          form.setFieldValue('id', tcpAnalyzerData.id);
+          updateTcpAnalyzer(value)
         })}>
-
           <Box mb="1rem">
             <TextInput
               size="xs"
-              label="Table Name"
-              placeholder="e.g. S001T010"
-              key={form.key('table_name')}
-              {...form.getInputProps('table_name')}
+              label="Name"
+              placeholder={tcpAnalyzerData.name}
+              key={form.key('name')}
+              {...form.getInputProps('name')}
             />
 
             <TextInput
               size="xs"
-              label="Station Name"
-              placeholder="e.g. Rio Grande Station"
-              key={form.key('station_name')}
-              {...form.getInputProps('station_name')}
+              label="IP Address"
+              placeholder={tcpAnalyzerData.host_address}
+              key={form.key('host_address')}
+              {...form.getInputProps('host_address')}
+            />
+
+            <TextInput
+              size="xs"
+              label="Port"
+              placeholder={tcpAnalyzerData.port.toString()}
+              key={form.key('port')}
+              {...form.getInputProps('port')}
+            />
+
+            <TextInput
+              size="xs"
+              label="Device Address"
+              placeholder={tcpAnalyzerData.device_address.toString()}
+              key={form.key('device_address')}
+              {...form.getInputProps('device_address')}
             />
 
             <NativeSelect
               size="xs"
-              label="Database Source"
-              data={getSelectDataMenu(dbCredentials)}
-              key={form.key(`db_credential_id`)}
-              {...form.getInputProps(`db_credential_id`)}
+              label="Data Sampling"
+              data={dataSampling}
+              key={form.key(`sampling`)}
+              {...form.getInputProps(`sampling`)}
             />
           </Box>
 
