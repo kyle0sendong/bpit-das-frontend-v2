@@ -45,14 +45,14 @@ const ConfigurationsLayout = () => {
     ];
 
     return (
-      <Flex mih="75vh" w="100%">
+      <Flex w="100%">
         <NavbarNested linksData={linksData}/>
         <Outlet />
       </Flex>
     )
   } else {
     return (
-      <Flex mih="75vh" w="100%">
+      <Flex mih="80vh" w="100%">
         <Loader size={32} />
       </Flex>
     )
