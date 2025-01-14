@@ -1,6 +1,6 @@
 import axios from "axios";
 import { bpitDasApiUrlV1 } from "./apiUrl";
-import { VirtualChannelsType } from "@/types/virtualChannels";
+import { VirtualChannelsType, InsertVirtualChannelType } from "@/types/virtualChannels";
 
 const url = `${bpitDasApiUrlV1}/virtual-channels`;
 
@@ -13,7 +13,7 @@ export const getAllVirtualChannels = async () => {
   }
 }
 
-export const insertVirtualChannel = async (data: VirtualChannelsType) => {
+export const insertVirtualChannel = async (data: InsertVirtualChannelType) => {
   try {
     return await axios.post(url, data);
   } catch(error) {

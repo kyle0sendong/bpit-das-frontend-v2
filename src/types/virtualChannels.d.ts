@@ -1,5 +1,6 @@
 export type VirtualChannelsType = {
   id: number;
+  enable: boolean;
   tcp_analyzer_id: number;
   name: string;
   unit: string;
@@ -10,4 +11,8 @@ export type VirtualChannelsType = {
   x: number;
   y: number;
   z: number;
+}
+
+export type InsertVirtualChannelType = {
+  number: number
 }
