@@ -1,4 +1,3 @@
-import { Paper } from "@mantine/core";
 import { useGetParametersByAnalyzerId } from "@/hooks/parametersHook";
 import TableForm from "./table-form/TableForm";
 
@@ -11,9 +10,7 @@ const TcpParametersCard = ({id}: {id:string}) => {
   if(parameters.isFetched) {
     const parametersData: ParametersType[] = parameters.data;
     return (
-      <Paper shadow="md" w="100%">
-        <TableForm parametersData={parametersData} />
-      </Paper>
+      <TableForm parametersData={parametersData} />
     )
   }
 

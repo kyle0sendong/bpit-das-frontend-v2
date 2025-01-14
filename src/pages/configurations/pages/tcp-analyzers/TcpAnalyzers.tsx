@@ -11,11 +11,11 @@ const TcpAnalyzers = () => {
   return (
     <Box w="100%">
       <Flex m="xs" justify="space-between" >
-        <Flex> <Paper shadow="md"> <TcpAnalyzerCard id={id}/> </Paper> </Flex>
-        <Flex> <Paper shadow="md"> <AddParameterCard id={id} /></Paper> </Flex>
+        <Paper shadow="md"> <TcpAnalyzerCard id={id}/> </Paper>
+        <Paper shadow="md"> <AddParameterCard id={id} /></Paper>
       </Flex>
       <Flex mx="xs">
-        <Flex w="100%"> <TcpParametersCard id={id}/> </Flex>
+        <Paper shadow="md" w="100%"> <TcpParametersCard id={id}/> </Paper>
       </Flex>
     </Box>
   )
