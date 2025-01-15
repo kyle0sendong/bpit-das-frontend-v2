@@ -8,8 +8,6 @@ import {
   deleteTimebases
 } from "@/api/timebasesApi";
 
-const queryClient = useQueryClient();
-
 export const useGetAllTimebases = () => {
   return useQuery({
     queryKey: [queryKeys.useGetAllTimebases()],
@@ -18,6 +16,8 @@ export const useGetAllTimebases = () => {
 }
 
 export const useInsertTimebases = () => {
+  
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: insertTimebases,
     onSuccess: () => {
@@ -27,6 +27,7 @@ export const useInsertTimebases = () => {
 }
 
 export const useUpdateTimebases = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateTimebases,
     onSuccess: () => {
@@ -36,6 +37,7 @@ export const useUpdateTimebases = () => {
 }
 
 export const useDeleteTimebases = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteTimebases,
     onSuccess: () => {
