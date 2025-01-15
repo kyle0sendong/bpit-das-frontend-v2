@@ -9,7 +9,7 @@ const DefaultLayout = () => {
       <Flex mih="100vh" w="100%" bg="#F0F0F0" direction="column">
         <HeaderMenu />
         <Box>
-        <Outlet />
+          <Outlet />
         </Box>
         <Footer/>
       </Flex>
