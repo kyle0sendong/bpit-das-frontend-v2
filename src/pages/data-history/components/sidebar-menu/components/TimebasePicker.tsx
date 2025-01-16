@@ -1,6 +1,8 @@
-import { Flex, NativeSelect } from "@mantine/core";
+import { NativeSelect } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { FormSubmitType } from "../SidebarMenu";
+import { useGetAllTimebases } from "@/hooks/timebasesHook";
+import { TimebasesType } from "@/types/timebases";
 
 type TableRowsProps = {
   form: UseFormReturnType<Partial<FormSubmitType>>;
@@ -8,15 +10,28 @@ type TableRowsProps = {
 
 const TimebasePicker = ({form}: TableRowsProps ) => {
 
-  return (
-    <Flex direction="column" mx="xs" mb="sm">
+  const timebases = useGetAllTimebases();
+
+  if(timebases.isFetched) {
+
+    const timebaseData: TimebasesType[] = timebases.data;
+    const dataMenu = timebaseData.map( (data) => {
+      const suffix = data.timebase < 60 ? 'minute/s' : data.timebase >= 60 ? 'hour/s' : 'day/s'
+      return {
+        label: `${data.timebase} ${suffix}`,
+        value: data.id.toString()
+      }
+    })
+    return (
       <NativeSelect
-        data={['1 minute', '5 minutes']}
+        data={dataMenu}
         key={form.key('timebase')}
         {...form.getInputProps('timebase')}
       />
-    </Flex>
-  )
+    )
+
+  }
+
 }
 
 export default TimebasePicker;
