@@ -1,9 +1,9 @@
-import { useState } from "react";
+
 import classes from "./SidebarMenu.module.css";
 import { Button, Divider, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { DatePickerInput } from '@mantine/dates';
 
+import DatePicker from "./components/DatePicker";
 import TimebasePicker from "./components/TimebasePicker";
 import AnalyzerPicker from "./components/AnalyzerPicker";
 import VirtualChannelPicker from "./components/VirtualChannelPicker";
@@ -17,8 +17,6 @@ export type FormSubmitType = {
 
 const SidebarMenu = () => {
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const form = useForm<any>({
       mode:"uncontrolled"
@@ -46,29 +44,13 @@ const SidebarMenu = () => {
 
           <Divider label="Select Date" labelPosition="center" styles={labelStyle}/>
           <Flex direction="column" mx="xs" mb="sm">
-            <DatePickerInput
-              placeholder="Pick Start Date"
-              value={startDate}
-              key={form.key('startDate')}
-              onChange={(value) => {
-                setStartDate(value)
-                form.setFieldValue('startDate', value)
-              }}
-            />
-
-            <DatePickerInput
-              placeholder="Pick End Date"
-              value={endDate}
-              key={form.key('endDate')}
-              onChange={(value) => {
-                setEndDate(value)
-                form.setFieldValue('endDate', value)
-              }}
-            />
+            <DatePicker form={form}/>
           </Flex>
 
           <Divider label="Timebase" labelPosition="center" styles={labelStyle}/>
-          <TimebasePicker form={form}/>
+          <Flex direction="column" mx="xs" mb="sm">
+            <TimebasePicker form={form}/>
+          </Flex>
 
           <Divider label="Analyzers" labelPosition="center" styles={labelStyle}/>
           <Flex direction="column" mx="xs" mb="sm">
@@ -77,7 +59,9 @@ const SidebarMenu = () => {
           
 
           <Divider label="Virtual Channels" labelPosition="center" styles={labelStyle}/>
-          <VirtualChannelPicker form={form}/>
+          <Flex direction="column" mx="xs" mb="sm">
+            <VirtualChannelPicker form={form}/>
+          </Flex>
         </form>
 
       </nav>
