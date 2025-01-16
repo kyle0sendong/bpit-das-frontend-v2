@@ -11,7 +11,7 @@ import AddAnalyzerPage from "@/pages/configurations/pages/add-analyzer/AddAnalyz
 
 import AccountSettings from "@/pages/account-settings";
 import UserLogs from "@/pages/user-logs";
-import DataHistory from "@/pages/data-history";
+import DataHistoryPage from "@/pages/data-history/DataHistoryPage";
 import DataMonitoring from "@/pages/data-monitoring/DataMonitoringPage";
 
 const router = createBrowserRouter(
@@ -56,7 +56,7 @@ const router = createBrowserRouter(
         },
         {
           path:`/data-history`, // not protected
-          element: <DataHistory />
+          element: <DataHistoryPage />
         },
         {
           path:`/user-logs`, // protected
