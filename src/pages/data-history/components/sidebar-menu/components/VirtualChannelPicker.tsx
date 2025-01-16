@@ -1,6 +1,9 @@
-import { Flex, NativeSelect } from "@mantine/core";
+import { NativeSelect, Loader } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { FormSubmitType } from "../SidebarMenu";
+
+import { useGetAllVirtualChannels } from "@/hooks/virtualChannelsHook";
+import { VirtualChannelsType } from "@/types/virtualChannels";
 
 type TableRowsProps = {
   form: UseFormReturnType<Partial<FormSubmitType>>;
@@ -8,15 +11,33 @@ type TableRowsProps = {
 
 const VirtualChannelPicker = ({form}: TableRowsProps ) => {
 
-  return (
-    <Flex direction="column" mx="xs" mb="sm">
+  const virtualChannels = useGetAllVirtualChannels();
+
+  if(virtualChannels.isLoading) {
+    return (
+      <Loader size="lg" />
+    )
+  }
+
+  if(virtualChannels.isFetched) {
+    const virtualChannelsData: VirtualChannelsType[] = virtualChannels.data;
+    
+    const dataMenu = virtualChannelsData.map((data) => {
+      return {
+        label: data.name,
+        value: data.id.toString()
+      }
+    })
+
+    return (
       <NativeSelect
-        data={['1 minute', '5 minutes']}
+        data={dataMenu}
         key={form.key('virtualChannel')}
         {...form.getInputProps('virtualChannel')}
       />
-    </Flex>
-  )
+    )
+  }
+
 }
 
 export default VirtualChannelPicker;

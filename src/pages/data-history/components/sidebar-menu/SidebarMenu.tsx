@@ -1,8 +1,7 @@
 import { useState } from "react";
 import classes from "./SidebarMenu.module.css";
-import { Button, Divider, Text, Checkbox, Box, Flex, NativeSelect, keys } from "@mantine/core";
+import { Button, Divider, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useNavigate } from "react-router-dom";
 import { DatePickerInput } from '@mantine/dates';
 
 import TimebasePicker from "./components/TimebasePicker";
@@ -20,7 +19,7 @@ const SidebarMenu = () => {
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  
+
   const form = useForm<any>({
       mode:"uncontrolled"
   })
@@ -72,7 +71,10 @@ const SidebarMenu = () => {
           <TimebasePicker form={form}/>
 
           <Divider label="Analyzers" labelPosition="center" styles={labelStyle}/>
-          <AnalyzerPicker form={form} />
+          <Flex direction="column" mx="xs" mb="sm">
+            <AnalyzerPicker form={form} />
+          </Flex>
+          
 
           <Divider label="Virtual Channels" labelPosition="center" styles={labelStyle}/>
           <VirtualChannelPicker form={form}/>
