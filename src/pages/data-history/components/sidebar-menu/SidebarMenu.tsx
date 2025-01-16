@@ -5,22 +5,29 @@ import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
 import { DatePickerInput } from '@mantine/dates';
 
-const SidebarMenu = () => {
-  const labelStyle = {label:{fontSize:"0.9rem", color:"black"}}
-  const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
+import TimebasePicker from "./components/TimebasePicker";
+import AnalyzerPicker from "./components/AnalyzerPicker";
+import VirtualChannelPicker from "./components/VirtualChannelPicker";
 
+export type FormSubmitType = {
+  timebase: string;
+  analyzer: string;
+  virtualChannel: string;
+  date: Date[]
+}
+
+const SidebarMenu = () => {
+
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  
   const form = useForm<any>({
       mode:"uncontrolled"
   })
-
-  type FormSubmitType = {
-    timebase: string;
-    analyzer: string;
-    virtualChannel: string;
-    date: Date[]
-  }
-  const formOnSubmit = (value: FormSubmitType) => {
-    console.log(value)
+  
+  const labelStyle = {label:{fontSize:"0.9rem", color:"black"}}
+  const formOnSubmit = (values: FormSubmitType) => {
+    console.log(values)
   }
 
   return (
@@ -41,40 +48,34 @@ const SidebarMenu = () => {
           <Divider label="Select Date" labelPosition="center" styles={labelStyle}/>
           <Flex direction="column" mx="xs" mb="sm">
             <DatePickerInput
-              type="range"
-              placeholder="Pick dates range"
-              value={value}
-              key={form.key('date')}
-              {...form.getInputProps('date')}
+              placeholder="Pick Start Date"
+              value={startDate}
+              key={form.key('startDate')}
+              onChange={(value) => {
+                setStartDate(value)
+                form.setFieldValue('startDate', value)
+              }}
+            />
+
+            <DatePickerInput
+              placeholder="Pick End Date"
+              value={endDate}
+              key={form.key('endDate')}
+              onChange={(value) => {
+                setEndDate(value)
+                form.setFieldValue('endDate', value)
+              }}
             />
           </Flex>
 
           <Divider label="Timebase" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="column" mx="xs" mb="sm">
-            <NativeSelect
-              data={['1 minute', '5 minutes']}
-              key={form.key('timebase')}
-              {...form.getInputProps('timebase')}
-            />
-          </Flex>
+          <TimebasePicker form={form}/>
 
           <Divider label="Analyzers" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="column" mx="xs" mb="sm">
-            <NativeSelect
-              data={['1 minute', '5 minutes']}
-              key={form.key('analyzer')}
-              {...form.getInputProps('analyzer')}
-            />
-          </Flex>
+          <AnalyzerPicker form={form} />
 
           <Divider label="Virtual Channels" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="column" mx="xs" mb="sm">
-            <NativeSelect
-              data={['1 minute', '5 minutes']}
-              key={form.key('virtualChannel')}
-              {...form.getInputProps('virtualChannel')}
-            />
-          </Flex>
+          <VirtualChannelPicker form={form}/>
         </form>
 
       </nav>
