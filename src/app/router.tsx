@@ -12,7 +12,7 @@ import AddAnalyzerPage from "@/pages/configurations/pages/add-analyzer/AddAnalyz
 import AccountSettings from "@/pages/account-settings";
 import UserLogs from "@/pages/user-logs";
 import DataHistory from "@/pages/data-history";
-import DataMonitoring from "@/pages/data-monitoring";
+import DataMonitoring from "@/pages/data-monitoring/DataMonitoringPage";
 
 const router = createBrowserRouter(
   [
