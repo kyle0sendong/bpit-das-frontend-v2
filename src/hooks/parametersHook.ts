@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import queryKeys from "./_queryKeys";
+
 import {
   getAllParameters,
   getParametersByAnalyzerId,
@@ -8,6 +9,9 @@ import {
   updateParameter,
   deleteParameter
 } from "@/api/parametersApi";
+
+import { UseFormReturnType } from "@mantine/form";
+import { ParametersType } from "@/types/parameters";
 
 export const useGetAllParameters = () => {
   return useQuery({
@@ -33,12 +37,13 @@ export const useInsertParameter = (id: number) => {
   });
 }
 
-export const useUpdateParameter = (id: number) => {
+export const useUpdateParameter = (id: number, form: UseFormReturnType<ParametersType>) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateParameter,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]});
+      form.reset();
     }
   });
 }
