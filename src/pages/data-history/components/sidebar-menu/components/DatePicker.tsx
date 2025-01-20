@@ -8,29 +8,30 @@ type TableRowsProps = {
 }
 
 const DatePicker = ({form}: TableRowsProps ) => {
+  const dateToday = new Date();
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [from, setFrom] = useState<Date | null>(dateToday);
+  const [to, setTo] = useState<Date | null>(null);
 
   return (
     <>
       <DatePickerInput
         placeholder="Pick Start Date"
-        value={startDate}
-        key={form.key('startDate')}
+        value={from}
+        key={form.key('from')}
         onChange={(value) => {
-          setStartDate(value)
-          form.setFieldValue('startDate', value)
+          setFrom(value)
+          form.setFieldValue('from', value)
         }}
       />
 
       <DatePickerInput
-        placeholder="Pick End Date"
-        value={endDate}
-        key={form.key('endDate')}
+        placeholder="Pick End Date (Optional)"
+        value={to}
+        key={form.key('to')}
         onChange={(value) => {
-          setEndDate(value)
-          form.setFieldValue('endDate', value)
+          setTo(value)
+          form.setFieldValue('to', value)
         }}
       />
     </>

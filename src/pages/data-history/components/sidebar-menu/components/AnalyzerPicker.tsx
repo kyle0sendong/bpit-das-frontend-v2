@@ -1,4 +1,4 @@
-import { Flex, NativeSelect, Loader } from "@mantine/core";
+import { NativeSelect, Loader } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { FormSubmitType } from "../SidebarMenu";
 

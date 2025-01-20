@@ -2,7 +2,7 @@
 import classes from "./SidebarMenu.module.css";
 import { Button, Divider, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
-
+import { DateValue } from "@mantine/dates";
 import DatePicker from "./components/DatePicker";
 import TimebasePicker from "./components/TimebasePicker";
 import AnalyzerPicker from "./components/AnalyzerPicker";
@@ -12,17 +12,18 @@ export type FormSubmitType = {
   timebase: string;
   analyzer: string;
   virtualChannel: string;
-  date: Date[]
+  from: DateValue,
+  to: DateValue
 }
 
 const SidebarMenu = () => {
 
-
+  
   const form = useForm<any>({
       mode:"uncontrolled",
       initialValues: {
-        timebase: 1,
-
+        timebase: '1',
+        from: new Date()
       },
       validate: (values) => ({
         analyzer: (values.analyzer === undefined && values.virtualChannel === undefined) && 'Please select an analyzer.',
