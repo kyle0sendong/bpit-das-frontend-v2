@@ -1,12 +1,12 @@
 import { Button, NumberInput, Flex } from "@mantine/core";
-import { useInsertParameter } from "@/hooks/tcpParametersHook";
+import { useInsertTcpParameter } from "@/hooks/tcpParametersHook";
 import { useForm } from "@mantine/form";
-import { InsertParameterType } from "@/types/tcpParameters";
+import { InsertTcpParameterType } from "@/types/tcpParameters";
 
 
 const AddParameterCard = ({id}: {id: string}) => {
 
-  const form = useForm<InsertParameterType>({
+  const form = useForm<InsertTcpParameterType>({
     mode:"uncontrolled",
     initialValues: {
       number: 1,
@@ -15,7 +15,7 @@ const AddParameterCard = ({id}: {id: string}) => {
     }
   });
   
-  const { mutate: insertParameter } = useInsertParameter(parseInt(id));
+  const { mutate: insertParameter } = useInsertTcpParameter(parseInt(id));
 
   return (
     <form onSubmit={

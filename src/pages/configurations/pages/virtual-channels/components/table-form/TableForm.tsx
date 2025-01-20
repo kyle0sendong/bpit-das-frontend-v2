@@ -11,7 +11,7 @@ import TableColumn from "./TableColumn";
 import modifyFormValues from "./modifyFormValues";
 
 import { useUpdateVirtualChannel, useGetAllVirtualChannels } from "@/hooks/virtualChannelsHook";
-import { useGetAllParameters } from "@/hooks/tcpParametersHook";
+import { useGetAllTcpParameters } from "@/hooks/tcpParametersHook";
 import { VirtualChannelsType } from "@/types/virtualChannels";
 
 const TableForm = () => {
@@ -23,7 +23,7 @@ const TableForm = () => {
     mode:"uncontrolled"
   });
 
-  const parameters = useGetAllParameters();
+  const parameters = useGetAllTcpParameters();
   const virtualChannels = useGetAllVirtualChannels();
 
   if(virtualChannels.isFetched && parameters.isFetched) {

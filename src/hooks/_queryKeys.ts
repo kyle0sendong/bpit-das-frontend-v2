@@ -2,8 +2,8 @@ const queryKeys = {
 
   useGetAllCurrentValues: () => 'allCurrentValues',
   useGetCurrentValuesByAnalyzerId: (id: number) => `currentValuesByAnalyzerId-${id}`,
-  useGetAllParameters: () => 'allParameters',
-  useGetParametersByAnalyzerId: (id: number) => `parameterByAnalyzerId-${id}`,
+  useGetAllTcpParameters: () => 'allParameters',
+  useGetTcpParametersByAnalyzerId: (id: number) => `parameterByAnalyzerId-${id}`,
   useGetAllStations: () => 'allStations',
   useGetAllTcpAnalyzers: () => 'allTcpAnalyzers',
   useGetTcpAnalyzerById: (id: number) => `tcpAnalyzerId-${id}`,

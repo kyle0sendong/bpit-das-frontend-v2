@@ -13,47 +13,47 @@ import {
 import { UseFormReturnType } from "@mantine/form";
 import { TcpParametersType } from "@/types/tcpParameters";
 
-export const useGetAllParameters = () => {
+export const useGetAllTcpParameters = () => {
   return useQuery({
-    queryKey: [queryKeys.useGetAllParameters()],
+    queryKey: [queryKeys.useGetAllTcpParameters()],
     queryFn: getAllTcpParameters
   });
 }
 
-export const useGetParametersByAnalyzerId = (id: number) => {
+export const useGetTcpParametersByAnalyzerId = (id: number) => {
   return useQuery({
-    queryKey: [queryKeys.useGetParametersByAnalyzerId(id)],
+    queryKey: [queryKeys.useGetTcpParametersByAnalyzerId(id)],
     queryFn: () => getTcpParametersByAnalyzerId(id)
   });
 }
 
-export const useInsertParameter = (id: number) => {
+export const useInsertTcpParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: insertTcpParameter,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetTcpParametersByAnalyzerId(id)]})
     }
   });
 }
 
-export const useUpdateParameter = (id: number, form: UseFormReturnType<TcpParametersType>) => {
+export const useUpdateTcpParameter = (id: number, form: UseFormReturnType<TcpParametersType>) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateTcpParameter,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]});
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetTcpParametersByAnalyzerId(id)]});
       form.reset();
     }
   });
 }
 
-export const useDeleteParameter = (id: number) => {
+export const useDeleteTcpParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteTcpParameter,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetTcpParametersByAnalyzerId(id)]})
     }
   });
 }

@@ -9,7 +9,7 @@ export type TcpParametersType = {
   start_register_address: number;
   register_count: number;
   formula: string;
-  tcp_analyzer_id: number;
+  analyzer_id: number;
 }
 
 export type InsertTcpParameterType = {

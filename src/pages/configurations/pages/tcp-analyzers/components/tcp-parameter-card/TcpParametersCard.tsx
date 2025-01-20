@@ -1,11 +1,11 @@
-import { useGetParametersByAnalyzerId } from "@/hooks/tcpParametersHook";
+import { useGetTcpParametersByAnalyzerId } from "@/hooks/tcpParametersHook";
 import TableForm from "./table-form/TableForm";
 
 import { TcpParametersType } from "@/types/tcpParameters";
 
 const TcpParametersCard = ({id}: {id:string}) => {
 
-  const parameters = useGetParametersByAnalyzerId(parseInt(id));
+  const parameters = useGetTcpParametersByAnalyzerId(parseInt(id));
 
   if(parameters.isFetched) {
     const parametersData: TcpParametersType[] = parameters.data;

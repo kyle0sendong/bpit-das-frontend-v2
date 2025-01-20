@@ -1,7 +1,6 @@
 export type VirtualChannelsType = {
   id: number;
   enable: boolean;
-  tcp_analyzer_id: number;
   name: string;
   unit: string;
   formula: string;

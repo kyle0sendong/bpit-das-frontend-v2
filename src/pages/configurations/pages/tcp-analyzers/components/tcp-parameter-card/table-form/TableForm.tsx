@@ -9,7 +9,7 @@ import cx from 'clsx';
 import TableRows from "./TableRows";
 import TableColumn from "./TableColumn";
 import modifyFormValues from "./modifyFormValues";
-import { useUpdateParameter } from "@/hooks/tcpParametersHook";
+import { useUpdateTcpParameter } from "@/hooks/tcpParametersHook";
 
 import { TcpParametersType } from "@/types/tcpParameters";
 
@@ -24,7 +24,7 @@ const TableForm = ({parametersData}: TableFormProps) => {
   });
 
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateParameter } = useUpdateParameter(parametersData[0]?.tcp_analyzer_id, form)
+  const { mutate: updateParameter } = useUpdateTcpParameter(parametersData[0]?.analyzer_id, form)
 
 
   return (

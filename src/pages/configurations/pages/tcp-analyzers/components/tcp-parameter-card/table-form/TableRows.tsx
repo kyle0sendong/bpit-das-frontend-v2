@@ -1,7 +1,7 @@
 import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput } from "@mantine/core"
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 
-import { useDeleteParameter } from "@/hooks/tcpParametersHook";
+import { useDeleteTcpParameter } from "@/hooks/tcpParametersHook";
 import { TcpParametersType } from "@/types/tcpParameters";
 
 import { UseFormReturnType } from "@mantine/form";
@@ -54,7 +54,7 @@ type TableRowsProps = {
 }
 
 const TableRows = ({parametersData, form}: TableRowsProps) => {
-  const {mutate: deleteParameter} = useDeleteParameter(parametersData[0]?.tcp_analyzer_id);
+  const {mutate: deleteParameter} = useDeleteTcpParameter(parametersData[0]?.analyzer_id);
 
   return parametersData.map( (parameter) => {
     return (
@@ -96,7 +96,7 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
           />
         </Table.Td>
       
-        {/* Request Inteval Selection */}
+        {/* Request Interval Selection */}
         <Table.Td>
           <NativeSelect
             size="xs"
