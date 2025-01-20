@@ -1,7 +1,7 @@
 import { Button, NumberInput, Flex } from "@mantine/core";
-import { useInsertParameter } from "@/hooks/parametersHook";
+import { useInsertParameter } from "@/hooks/tcpParametersHook";
 import { useForm } from "@mantine/form";
-import { InsertParameterType } from "@/types/parameters";
+import { InsertParameterType } from "@/types/tcpParameters";
 
 
 const AddParameterCard = ({id}: {id: string}) => {

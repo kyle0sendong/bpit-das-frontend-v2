@@ -1,9 +1,9 @@
-import { ParametersType } from "@/types/parameters";
+import { TcpParametersType } from "@/types/tcpParameters";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const modifyFormValues = (values: any) => {
 
-  const updateParameters: Partial<ParametersType>[] = []
+  const updateParameters: Partial<TcpParametersType>[] = []
   const objectKeys = Object.keys(values)
   for(let i = 0; i < objectKeys.length; i += 0) {
 
@@ -19,7 +19,7 @@ const modifyFormValues = (values: any) => {
     const register_count = values[`${id}-register_count`] ?? '';
     const formula = values[`${id}-formula`] ?? '';
 
-    const parameterObject: Partial<ParametersType> = {
+    const parameterObject: Partial<TcpParametersType> = {
       id: id
     }
 

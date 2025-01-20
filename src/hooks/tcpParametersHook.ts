@@ -3,44 +3,44 @@ import { useQueryClient } from "@tanstack/react-query";
 import queryKeys from "./_queryKeys";
 
 import {
-  getAllParameters,
-  getParametersByAnalyzerId,
-  insertParameter,
-  updateParameter,
-  deleteParameter
-} from "@/api/parametersApi";
+  getAllTcpParameters,
+  getTcpParametersByAnalyzerId,
+  insertTcpParameter,
+  updateTcpParameter,
+  deleteTcpParameter
+} from "@/api/tcpParametersApi";
 
 import { UseFormReturnType } from "@mantine/form";
-import { ParametersType } from "@/types/parameters";
+import { TcpParametersType } from "@/types/tcpParameters";
 
 export const useGetAllParameters = () => {
   return useQuery({
     queryKey: [queryKeys.useGetAllParameters()],
-    queryFn: getAllParameters
+    queryFn: getAllTcpParameters
   });
 }
 
 export const useGetParametersByAnalyzerId = (id: number) => {
   return useQuery({
     queryKey: [queryKeys.useGetParametersByAnalyzerId(id)],
-    queryFn: () => getParametersByAnalyzerId(id)
+    queryFn: () => getTcpParametersByAnalyzerId(id)
   });
 }
 
 export const useInsertParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: insertParameter,
+    mutationFn: insertTcpParameter,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
     }
   });
 }
 
-export const useUpdateParameter = (id: number, form: UseFormReturnType<ParametersType>) => {
+export const useUpdateParameter = (id: number, form: UseFormReturnType<TcpParametersType>) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: updateParameter,
+    mutationFn: updateTcpParameter,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]});
       form.reset();
@@ -51,7 +51,7 @@ export const useUpdateParameter = (id: number, form: UseFormReturnType<Parameter
 export const useDeleteParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: deleteParameter,
+    mutationFn: deleteTcpParameter,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [queryKeys.useGetParametersByAnalyzerId(id)]})
     }

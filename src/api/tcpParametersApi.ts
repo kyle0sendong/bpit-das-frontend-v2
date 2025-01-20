@@ -1,9 +1,9 @@
 import axios from "axios";
 import { bpitDasApiUrlV1 } from "./apiUrl";
-import { ParametersType, InsertParameterType } from "@/types/parameters";
-const url = `${bpitDasApiUrlV1}/parameters`;
+import { TcpParametersType, InsertTcpParameterType } from "@/types/tcpParameters";
+const url = `${bpitDasApiUrlV1}/tcp-parameters`;
 
-export const getAllParameters = async () => {
+export const getAllTcpParameters = async () => {
   try {
     const data = await axios.get(url);
     return data.data;
@@ -12,7 +12,7 @@ export const getAllParameters = async () => {
   }
 }
 
-export const getParametersByAnalyzerId = async (id: number) => {
+export const getTcpParametersByAnalyzerId = async (id: number) => {
   try {
     const data = await axios.get(url, {
       params: {
@@ -25,7 +25,7 @@ export const getParametersByAnalyzerId = async (id: number) => {
   }
 }
 
-export const insertParameter = async (data: InsertParameterType) => {
+export const insertTcpParameter = async (data: InsertTcpParameterType) => {
   try {
     return await axios.post(url, data)
   } catch(error) {
@@ -33,7 +33,7 @@ export const insertParameter = async (data: InsertParameterType) => {
   }
 }
 
-export const updateParameter = async (data: Partial<ParametersType>[]) => {
+export const updateTcpParameter = async (data: Partial<TcpParametersType>[]) => {
   try {
     return await axios.patch(url, data)
   } catch(error) {
@@ -41,7 +41,7 @@ export const updateParameter = async (data: Partial<ParametersType>[]) => {
   }
 }
 
-export const deleteParameter = async (id: number) => {
+export const deleteTcpParameter = async (id: number) => {
   try {
     return await axios.delete(url, {
       params: {

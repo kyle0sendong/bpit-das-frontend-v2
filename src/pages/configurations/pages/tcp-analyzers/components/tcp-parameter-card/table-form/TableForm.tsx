@@ -9,17 +9,17 @@ import cx from 'clsx';
 import TableRows from "./TableRows";
 import TableColumn from "./TableColumn";
 import modifyFormValues from "./modifyFormValues";
-import { useUpdateParameter } from "@/hooks/parametersHook";
+import { useUpdateParameter } from "@/hooks/tcpParametersHook";
 
-import { ParametersType } from "@/types/parameters";
+import { TcpParametersType } from "@/types/tcpParameters";
 
 type TableFormProps = {
-  parametersData: ParametersType[]
+  parametersData: TcpParametersType[]
 }
 
 const TableForm = ({parametersData}: TableFormProps) => {
 
-  const form = useForm<ParametersType>({
+  const form = useForm<TcpParametersType>({
     mode:"uncontrolled"
   });
 

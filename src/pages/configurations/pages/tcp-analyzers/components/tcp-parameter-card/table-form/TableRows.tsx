@@ -1,8 +1,8 @@
 import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput } from "@mantine/core"
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 
-import { useDeleteParameter } from "@/hooks/parametersHook";
-import { ParametersType } from "@/types/parameters";
+import { useDeleteParameter } from "@/hooks/tcpParametersHook";
+import { TcpParametersType } from "@/types/tcpParameters";
 
 import { UseFormReturnType } from "@mantine/form";
 
@@ -49,8 +49,8 @@ const xIcon = (
 );
 
 type TableRowsProps = {
-  parametersData: ParametersType[];
-  form: UseFormReturnType<ParametersType>;
+  parametersData: TcpParametersType[];
+  form: UseFormReturnType<TcpParametersType>;
 }
 
 const TableRows = ({parametersData, form}: TableRowsProps) => {

@@ -1,4 +1,4 @@
-export type ParametersType = {
+export type TcpParametersType = {
   id: number;
   name: string;
   unit: string;
@@ -12,7 +12,7 @@ export type ParametersType = {
   tcp_analyzer_id: number;
 }
 
-export type InsertParameterType = {
+export type InsertTcpParameterType = {
   id: number,
   number: number,
   name: string

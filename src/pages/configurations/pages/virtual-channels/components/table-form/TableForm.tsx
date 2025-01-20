@@ -11,7 +11,7 @@ import TableColumn from "./TableColumn";
 import modifyFormValues from "./modifyFormValues";
 
 import { useUpdateVirtualChannel, useGetAllVirtualChannels } from "@/hooks/virtualChannelsHook";
-import { useGetAllParameters } from "@/hooks/parametersHook";
+import { useGetAllParameters } from "@/hooks/tcpParametersHook";
 import { VirtualChannelsType } from "@/types/virtualChannels";
 
 const TableForm = () => {
