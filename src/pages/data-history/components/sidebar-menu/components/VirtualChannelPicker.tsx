@@ -31,7 +31,7 @@ const VirtualChannelPicker = ({form}: TableRowsProps ) => {
 
     return (
       <NativeSelect
-        data={dataMenu}
+        data={[{label:"Select Virtual Channel", value:"-999"}, ...dataMenu]}
         key={form.key('virtualChannel')}
         {...form.getInputProps('virtualChannel')}
       />

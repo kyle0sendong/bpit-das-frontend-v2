@@ -19,7 +19,15 @@ const SidebarMenu = () => {
 
 
   const form = useForm<any>({
-      mode:"uncontrolled"
+      mode:"uncontrolled",
+      initialValues: {
+        timebase: 1,
+
+      },
+      validate: (values) => ({
+        analyzer: (values.analyzer === undefined && values.virtualChannel === undefined) && 'Please select an analyzer.',
+        virtualChannel: (values.analyzer === undefined  && values.virtualChannel === undefined) && 'Please select an analyzer.'
+      })
   })
   
   const labelStyle = {label:{fontSize:"0.9rem", color:"black"}}

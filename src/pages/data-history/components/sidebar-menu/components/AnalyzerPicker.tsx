@@ -29,13 +29,11 @@ const AnalyzerPicker = ({form}: TableRowsProps ) => {
     })
 
     return (
-      <Flex direction="column" mx="xs" mb="sm">
-        <NativeSelect
-          data={dataMenu}
-          key={form.key('analyzer')}
-          {...form.getInputProps('analyzer')}
-        />
-      </Flex>
+      <NativeSelect
+        data={[{label:"Select Analyzer", value:"-999"}, ...dataMenu]}
+        key={form.key('analyzer')}
+        {...form.getInputProps('analyzer')}
+      />
     )
   }
 
