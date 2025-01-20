@@ -2,8 +2,8 @@ import { NativeSelect, Loader } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { FormSubmitType } from "../SidebarMenu";
 
-import { useGetAllParameters } from "@/hooks/parametersHook";
-import { ParametersType } from "@/types/parameters";
+import { useGetAllTcpAnalyzers } from "@/hooks/tcpAnalyzersHook";
+import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
 type TableRowsProps = {
   form: UseFormReturnType<Partial<FormSubmitType>>;
@@ -11,16 +11,16 @@ type TableRowsProps = {
 
 const AnalyzerPicker = ({form}: TableRowsProps ) => {
 
-  const parameters = useGetAllParameters();
+  const analyzers = useGetAllTcpAnalyzers();
 
-  if(parameters.isLoading) {
+  if(analyzers.isLoading) {
     return (
       <Loader size="lg" />
     )
   }
 
-  if(parameters.isFetched) {
-    const parameterData: ParametersType[] = parameters.data;
+  if(analyzers.isFetched) {
+    const parameterData: TcpAnalyzerType[] = analyzers.data;
     const dataMenu = parameterData.map( (data) => {
       return {
         label: data.name,
