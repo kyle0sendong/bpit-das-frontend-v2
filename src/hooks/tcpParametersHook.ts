@@ -23,7 +23,8 @@ export const useGetAllTcpParameters = () => {
 export const useGetTcpParametersByAnalyzerId = (id: number) => {
   return useQuery({
     queryKey: [queryKeys.useGetTcpParametersByAnalyzerId(id)],
-    queryFn: () => getTcpParametersByAnalyzerId(id)
+    queryFn: () => getTcpParametersByAnalyzerId(id),
+    enabled: id != 0
   });
 }
 
