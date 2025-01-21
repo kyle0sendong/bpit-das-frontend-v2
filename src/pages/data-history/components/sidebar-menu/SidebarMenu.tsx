@@ -1,39 +1,49 @@
 
 import classes from "./SidebarMenu.module.css";
+import { useSearchParams } from "react-router-dom";
+
 import { Button, Divider, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { DateValue } from "@mantine/dates";
+
 import DatePicker from "./components/DatePicker";
 import TimebasePicker from "./components/TimebasePicker";
 import AnalyzerPicker from "./components/AnalyzerPicker";
 import VirtualChannelPicker from "./components/VirtualChannelPicker";
+import { getCurrentDate } from "@/utils/dates";
 
 export type FormSubmitType = {
   timebase: string;
   analyzer: string;
   virtualChannel: string;
-  from: DateValue,
-  to: DateValue
+  from: string,
+  to: string
 }
 
 const SidebarMenu = () => {
 
-  
+  const [, setSearchParams] = useSearchParams();
+
   const form = useForm<any>({
-      mode:"uncontrolled",
-      initialValues: {
-        timebase: '1',
-        from: new Date()
-      },
-      validate: (values) => ({
-        analyzer: (values.analyzer === undefined && values.virtualChannel === undefined) && 'Please select an analyzer.',
-        virtualChannel: (values.analyzer === undefined  && values.virtualChannel === undefined) && 'Please select an analyzer.'
-      })
+    mode:"uncontrolled",
+    initialValues: {
+      timebase: '1',
+      from: getCurrentDate()
+    },
+    validate: (values) => ({
+      analyzer: (values.analyzer === undefined && values.virtualChannel === undefined) && 'Please select an analyzer.',
+      virtualChannel: (values.analyzer === undefined  && values.virtualChannel === undefined) && 'Please select an analyzer.'
+    })
   })
   
   const labelStyle = {label:{fontSize:"0.9rem", color:"black"}}
   const formOnSubmit = (values: FormSubmitType) => {
-    console.log(values)
+
+    setSearchParams({
+      timebase: values.timebase,
+      from: values.from,
+      ...(values.to && {to:values.to}),
+      ...(values.analyzer && {analyzer: values.analyzer})
+    })
   }
 
   return (
@@ -61,7 +71,7 @@ const SidebarMenu = () => {
             <TimebasePicker form={form}/>
           </Flex>
 
-          <Divider label="Analyzers" labelPosition="center" styles={labelStyle}/>
+          <Divider label="TCP Analyzers" labelPosition="center" styles={labelStyle}/>
           <Flex direction="column" mx="xs" mb="sm">
             <AnalyzerPicker form={form} />
           </Flex>

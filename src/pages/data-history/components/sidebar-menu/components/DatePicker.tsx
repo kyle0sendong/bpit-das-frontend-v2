@@ -3,6 +3,8 @@ import { UseFormReturnType } from "@mantine/form";
 import { FormSubmitType } from "../SidebarMenu";
 import { DatePickerInput } from '@mantine/dates';
 
+import { convertDateToString } from "@/utils/dates";
+
 type TableRowsProps = {
   form: UseFormReturnType<Partial<FormSubmitType>>;
 }
@@ -21,7 +23,7 @@ const DatePicker = ({form}: TableRowsProps ) => {
         key={form.key('from')}
         onChange={(value) => {
           setFrom(value)
-          form.setFieldValue('from', value)
+          form.setFieldValue('from', convertDateToString(value))
         }}
       />
 
@@ -31,7 +33,7 @@ const DatePicker = ({form}: TableRowsProps ) => {
         key={form.key('to')}
         onChange={(value) => {
           setTo(value)
-          form.setFieldValue('to', value)
+          form.setFieldValue('to', convertDateToString(value))
         }}
       />
     </>
