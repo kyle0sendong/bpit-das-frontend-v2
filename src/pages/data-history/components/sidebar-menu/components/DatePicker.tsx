@@ -2,8 +2,13 @@ import { useState } from "react";
 import { UseFormReturnType } from "@mantine/form";
 import { FormSubmitType } from "../SidebarMenu";
 import { DatePickerInput } from '@mantine/dates';
+import { DateValue } from "@mantine/dates";
 
-import { convertDateToString } from "@/utils/dates";
+const convertDateToString = (date: DateValue) => {
+  const month = date?.getMonth() ?? 1;
+  const convertedDate = `${date?.getFullYear()}-${month + 1}-${date?.getDate()}`
+  return convertedDate;
+}
 
 type TableRowsProps = {
   form: UseFormReturnType<Partial<FormSubmitType>>;
