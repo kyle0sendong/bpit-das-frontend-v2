@@ -4,6 +4,10 @@ import { FormSubmitType } from "../SidebarMenu";
 import { DatePickerInput } from '@mantine/dates';
 import { DateValue } from "@mantine/dates";
 
+import { useSearchParams } from "react-router-dom";
+
+import { getCurrentDate } from "@/utils/dates";
+
 const convertDateToString = (date: DateValue) => {
   const month = date?.getMonth() ?? 1;
   const convertedDate = `${date?.getFullYear()}-${month + 1}-${date?.getDate()}`
@@ -15,10 +19,13 @@ type TableRowsProps = {
 }
 
 const DatePicker = ({form}: TableRowsProps ) => {
-  const dateToday = new Date();
+  const [searchParams] = useSearchParams();
 
-  const [from, setFrom] = useState<Date | null>(dateToday);
-  const [to, setTo] = useState<Date | null>(null);
+  const paramsFrom = searchParams.get("from") ?? getCurrentDate();
+  const paramsTo = searchParams.get("to");
+
+  const [from, setFrom] = useState<Date | null>(new Date(paramsFrom));
+  const [to, setTo] = useState<Date | null>(paramsTo ? new Date(paramsTo) : null);
 
   return (
     <>

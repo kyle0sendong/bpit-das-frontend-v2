@@ -9,6 +9,7 @@ import DatePicker from "./components/DatePicker";
 import TimebasePicker from "./components/TimebasePicker";
 import AnalyzerPicker from "./components/AnalyzerPicker";
 import VirtualChannelPicker from "./components/VirtualChannelPicker";
+
 import { getCurrentDate } from "@/utils/dates";
 
 export type FormSubmitType = {
@@ -21,15 +22,23 @@ export type FormSubmitType = {
 
 const SidebarMenu = () => {
 
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const from = searchParams.get("from") ?? getCurrentDate();
+  const to = searchParams.get("from") ?? getCurrentDate();
+  const timebase = searchParams.get("timebase") ?? '1';
+  const tcp_analyzer = searchParams.get("tcp_analyzer");
 
   const form = useForm<any>({
     mode:"uncontrolled",
     initialValues: {
-      timebase: '1',
-      from: getCurrentDate()
+      timebase: timebase,
+      from: from,
+      ...( to && {to: to} ),
+      ...( tcp_analyzer && {tcp_analyzer: tcp_analyzer} )
     },
     validate: (values) => ({
+      from: (values.from === undefined) && 'Please select a date.',
       tcp_analyzer: (values.tcp_analyzer === undefined && values.virtualChannel === undefined) && 'Please select an analyzer.',
       virtualChannel: (values.tcp_analyzer === undefined  && values.virtualChannel === undefined) && 'Please select an analyzer.'
     })
@@ -37,7 +46,7 @@ const SidebarMenu = () => {
   
   const labelStyle = {label:{fontSize:"0.9rem", color:"black"}}
   const formOnSubmit = (values: FormSubmitType) => {
-
+    console.log(values)
     setSearchParams({
       timebase: values.timebase,
       from: values.from,
@@ -75,7 +84,6 @@ const SidebarMenu = () => {
           <Flex direction="column" mx="xs" mb="sm">
             <AnalyzerPicker form={form} />
           </Flex>
-          
 
           <Divider label="Virtual Channels" labelPosition="center" styles={labelStyle}/>
           <Flex direction="column" mx="xs" mb="sm">
