@@ -31,8 +31,8 @@ const AnalyzerPicker = ({form}: TableRowsProps ) => {
     return (
       <NativeSelect
         data={[{label:"Select Analyzer", value:"-999"}, ...dataMenu]}
-        key={form.key('analyzer')}
-        {...form.getInputProps('analyzer')}
+        key={form.key('tcp_analyzer')}
+        {...form.getInputProps('tcp_analyzer')}
       />
     )
   }

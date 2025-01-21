@@ -13,7 +13,7 @@ import { getCurrentDate } from "@/utils/dates";
 
 export type FormSubmitType = {
   timebase: string;
-  analyzer: string;
+  tcp_analyzer: string;
   virtualChannel: string;
   from: string,
   to: string
@@ -30,8 +30,8 @@ const SidebarMenu = () => {
       from: getCurrentDate()
     },
     validate: (values) => ({
-      analyzer: (values.analyzer === undefined && values.virtualChannel === undefined) && 'Please select an analyzer.',
-      virtualChannel: (values.analyzer === undefined  && values.virtualChannel === undefined) && 'Please select an analyzer.'
+      tcp_analyzer: (values.tcp_analyzer === undefined && values.virtualChannel === undefined) && 'Please select an analyzer.',
+      virtualChannel: (values.tcp_analyzer === undefined  && values.virtualChannel === undefined) && 'Please select an analyzer.'
     })
   })
   
@@ -42,7 +42,7 @@ const SidebarMenu = () => {
       timebase: values.timebase,
       from: values.from,
       ...(values.to && {to:values.to}),
-      ...(values.analyzer && {analyzer: values.analyzer})
+      ...(values.tcp_analyzer && {tcp_analyzer: values.tcp_analyzer})
     })
   }
 
