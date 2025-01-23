@@ -50,7 +50,7 @@ const SidebarMenu = () => {
       timebase: values.timebase,
       from: values.from,
       ...(values.to && {to:values.to}),
-      ...(values.tcp_analyzer && {tcp_analyzer: values.tcp_analyzer})
+      ...(values.tcp_analyzer && {tcp_analyzer: values.tcp_analyzer, analyzer_type: 'tcp'})
     })
   }
 
