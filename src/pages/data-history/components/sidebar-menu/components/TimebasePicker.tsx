@@ -19,7 +19,7 @@ const TimebasePicker = ({form}: TableRowsProps ) => {
       const suffix = data.timebase < 60 ? 'minute/s' : data.timebase >= 60 ? 'hour/s' : 'day/s'
       return {
         label: `${data.timebase} ${suffix}`,
-        value: data.id.toString()
+        value: data.timebase.toString()
       }
     })
     return (
