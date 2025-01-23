@@ -7,6 +7,7 @@ import queryKeys from "./_queryKeys";
 export const useGetAnalyzerData = (params: AnalyzerQueryType) => {
   return useQuery({
     queryKey: [queryKeys.useGetAnalyzerData(params)],
-    queryFn: () => getAnalyzerData(params)
+    queryFn: () => getAnalyzerData(params),
+    enabled: params.analyzer != '0'
   })
 }
