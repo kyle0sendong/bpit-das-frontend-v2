@@ -25,7 +25,7 @@ const SidebarMenu = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const from = searchParams.get("from") ?? getCurrentDate();
-  const to = searchParams.get("from") ?? getCurrentDate();
+  const to = searchParams.get("to");
   const timebase = searchParams.get("timebase") ?? '1';
   const tcp_analyzer = searchParams.get("tcp_analyzer");
 
@@ -46,7 +46,6 @@ const SidebarMenu = () => {
   
   const labelStyle = {label:{fontSize:"0.9rem", color:"black"}}
   const formOnSubmit = (values: FormSubmitType) => {
-    console.log(values)
     setSearchParams({
       timebase: values.timebase,
       from: values.from,
