@@ -1,5 +1,6 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import 'mantine-react-table/styles.css';
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
