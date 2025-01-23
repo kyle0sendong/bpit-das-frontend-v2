@@ -1,3 +1,5 @@
+import { AnalyzerQueryType } from "@/types/analyzerData";
+
 const queryKeys = {
 
   useGetAllCurrentValues: () => 'allCurrentValues',
@@ -10,7 +12,8 @@ const queryKeys = {
   useGetAllTimebases: () => 'allTimebases',
   useGetUserLogsByDate: (from: string, to: string) => `userLogFrom-${from}-${to}`,
   useGetLogDistinctDates: () => 'allDistinctDates',
-  useGetAllVirtualChannels: () => 'allVirtualChannels'
+  useGetAllVirtualChannels: () => 'allVirtualChannels',
+  useGetAnalyzerData: (params: AnalyzerQueryType) => `${params.from}-${params.to}-${params.analyzerType}${params.analyzer}`
   
 }
 
