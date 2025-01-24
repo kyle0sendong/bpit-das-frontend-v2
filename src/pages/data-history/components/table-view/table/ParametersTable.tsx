@@ -60,8 +60,8 @@ const ParametersTable = (props: ParametersTableProps) => {
     columnFilterDisplayMode: 'popover',
     paginationDisplayMode: 'pages',
     positionToolbarAlertBanner: 'bottom',
-    enableTopToolbar: false,
     enableColumnFilters:false,
+    enableToolbarInternalActions: false,
     initialState: { density: "xs"},
     renderTopToolbarCustomActions: ({ table }) => (
       <Box
