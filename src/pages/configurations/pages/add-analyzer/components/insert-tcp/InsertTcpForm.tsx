@@ -1,4 +1,4 @@
-import { Button, TextInput, Box, NativeSelect, Flex } from "@mantine/core";
+import { Button, TextInput, Box, NativeSelect, Flex, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
@@ -26,7 +26,11 @@ const InsertTcpForm = () => {
         console.log(value)
         insertTcpAnalyzer(value)
       })}>
-        <Box mb="1rem">
+        <Box>
+          <Title size="xl" ta="center">
+            Add Tcp Analyzer
+          </Title>
+
           <TextInput
             size="xs"
             label="Name"

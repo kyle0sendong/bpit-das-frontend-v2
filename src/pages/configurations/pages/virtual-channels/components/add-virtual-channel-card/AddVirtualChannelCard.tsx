@@ -31,7 +31,7 @@ const AddVirtualChannelCard = () => {
           key={form.key('number')}
           {...form.getInputProps('number')}
         />
-        <Button variant="outline" type="submit"> Save</Button>
+        <Button variant="outline" type="submit">Insert</Button>
       </Flex>
     </form>
 

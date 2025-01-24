@@ -39,7 +39,7 @@ const TableForm = () => {
           })
         }
       >
-        <ScrollArea h="70vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+        <ScrollArea h="55vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
           <Table highlightOnHover withColumnBorders withRowBorders={false} ta="center">
             <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
               <TableColumn />

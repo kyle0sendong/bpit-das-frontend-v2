@@ -6,11 +6,19 @@ const VirtualChannel = () => {
   return (
     <Box w="100%">
       <Flex justify="space-between" m="xs">
-        <Paper shadow="md"> <Title my="lg" mx="md">Virtual Channels</Title></Paper>
-        <Paper shadow="md"> <AddVirtualChannelCard /> </Paper>
+        
+        <Flex align="center">
+          <Paper shadow="md">
+            <Title my="xs" mx="xs">Virtual Channels</Title>
+          </Paper>
+        </Flex>
+
+        <Paper shadow="md"> 
+          <AddVirtualChannelCard />
+        </Paper>
       </Flex>
 
-      <Flex m="xs">
+      <Flex mx="xs">
         <Paper shadow="md" w="100%"><TableForm /></Paper>
       </Flex>
 

@@ -5,7 +5,7 @@ import InsertTcpForm from "./components/insert-tcp/InsertTcpForm";
 const AddAnalyzerPage = () => {
 
   return (
-    <Flex m="xs" w="100%">
+    <Flex mx="xs" mt="xs" w="100%">
       <Paper w="30%" shadow="md" p="md">
         <InsertTcpForm />
       </Paper>
