@@ -2,7 +2,7 @@
 import classes from "./SidebarMenu.module.css";
 import { useSearchParams } from "react-router-dom";
 
-import { Button, Divider, Flex } from "@mantine/core";
+import { Button, Divider, Flex, Paper } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import DatePicker from "./components/DatePicker";
@@ -55,7 +55,7 @@ const SidebarMenu = () => {
   }
 
   return (
-    <>
+    <Paper shadow="md">
       <nav className={classes.navbar}>
         <form onSubmit={ form.onSubmit(formOnSubmit)
           }>
@@ -91,7 +91,7 @@ const SidebarMenu = () => {
         </form>
 
       </nav>
-    </>
+    </Paper>
   )
 }
 
