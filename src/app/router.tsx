@@ -10,7 +10,7 @@ import VirtualChannel from "@/pages/configurations/pages/virtual-channels/Virtua
 import AddAnalyzerPage from "@/pages/configurations/pages/add-analyzer/AddAnalyzerPage";
 
 import AccountSettings from "@/pages/account-settings";
-import UserLogs from "@/pages/user-logs";
+import UserLogsPage from "@/pages/user-logs/UserLogsPage";
 import DataHistoryPage from "@/pages/data-history/DataHistoryPage";
 import DataMonitoring from "@/pages/data-monitoring/DataMonitoringPage";
 
@@ -60,7 +60,7 @@ const router = createBrowserRouter(
         },
         {
           path:`/user-logs`, // protected
-          element: <UserLogs />
+          element: <UserLogsPage />
         },
         {
           path:`/account-settings`, // protected

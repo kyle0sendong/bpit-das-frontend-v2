@@ -1,9 +1,8 @@
 import { Flex } from "@mantine/core";
 
-
 const DataMonitoringPage = () => {
   return (
-    <Flex w="100%" bd="1px solid red">
+    <Flex w="100%">
       Data Monitoring
     </Flex>
   )
