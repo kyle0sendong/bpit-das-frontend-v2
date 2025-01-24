@@ -7,7 +7,7 @@ import {
   type MRT_Row,
 } from 'mantine-react-table';
 
-import { Box, Button } from '@mantine/core';
+import { Flex, Button } from '@mantine/core';
 import { IconDownload } from '@tabler/icons-react';
 import { jsPDF } from 'jspdf'; //or use your library of choice here
 import autoTable from 'jspdf-autotable';
@@ -64,13 +64,9 @@ const ParametersTable = (props: ParametersTableProps) => {
     enableToolbarInternalActions: false,
     initialState: { density: "xs"},
     renderTopToolbarCustomActions: ({ table }) => (
-      <Box
-        style={{
-          display: 'flex',
-          gap: '16px',
-          padding: '8px',
-          flexWrap: 'wrap',
-        }}
+      <Flex
+        gap="xs"
+        wrap='wrap'
       >
         <Button
           disabled={table.getPrePaginationRowModel().rows.length === 0}
@@ -103,7 +99,7 @@ const ParametersTable = (props: ParametersTableProps) => {
         >
           Export Selected Rows
         </Button>
-      </Box>
+      </Flex>
     ),
   });
   return (
