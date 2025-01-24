@@ -1,18 +1,12 @@
-import { useState } from "react";
-import { UseFormReturnType } from "@mantine/form";
-import { FormSubmitType } from "../SidebarMenu";
-import { DatePickerInput } from '@mantine/dates';
-import { DateValue } from "@mantine/dates";
-
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { getCurrentDate } from "@/utils/dates";
+import { DatePickerInput } from '@mantine/dates';
+import { UseFormReturnType } from "@mantine/form";
 
-const convertDateToString = (date: DateValue) => {
-  const month = date?.getMonth() ?? 1;
-  const convertedDate = `${date?.getFullYear()}-${month + 1}-${date?.getDate()}`
-  return convertedDate;
-}
+import { getCurrentDate, convertDateToStringMantineDates } from "@/utils/dates";
+
+import { FormSubmitType } from "../SidebarMenu";
 
 type TableRowsProps = {
   form: UseFormReturnType<Partial<FormSubmitType>>;
@@ -22,31 +16,28 @@ const DatePicker = ({form}: TableRowsProps ) => {
   const [searchParams] = useSearchParams();
 
   const paramsFrom = searchParams.get("from") ?? getCurrentDate();
-  const paramsTo = searchParams.get("to");
+  const paramsTo = searchParams.get("to") ?? getCurrentDate();
 
-  const [from, setFrom] = useState<Date | null>(new Date(paramsFrom));
-  const [to, setTo] = useState<Date | null>(paramsTo ? new Date(paramsTo) : null);
+  const [value, setValue] = useState<[Date | null, Date | null]>([new Date(paramsFrom), new Date(paramsTo)]);
+
+  // Update search params whenever `value` changes
+  useEffect(() => {
+    if (value[0] && value[1]) {
+      form.setFieldValue('from', convertDateToStringMantineDates(value[0]))
+      form.setFieldValue('to', convertDateToStringMantineDates(value[1]))
+    }
+  }, [value, form]);
 
   return (
     <>
       <DatePickerInput
         placeholder="Pick Start Date"
-        value={from}
-        key={form.key('from')}
-        onChange={(value) => {
-          setFrom(value)
-          form.setFieldValue('from', convertDateToString(value))
-        }}
-      />
+        type="range"
+        value={value}
+        key={form.key('date-range')}
 
-      <DatePickerInput
-        placeholder="Pick End Date (Optional)"
-        value={to}
-        key={form.key('to')}
-        onChange={(value) => {
-          setTo(value)
-          form.setFieldValue('to', convertDateToString(value))
-        }}
+        onChange={(value) => setValue(value)}
+        withAsterisk
       />
     </>
   )
