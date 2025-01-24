@@ -1,4 +1,3 @@
-
 import { Paper } from "@mantine/core";
 import DatePickerMenu from "./components/DatePickerMenu";
 
@@ -11,7 +10,7 @@ const ToolboxMenu = () => {
 
   return (
     <>
-      <Paper shadow="xs" p="xs">
+      <Paper shadow="xs">
         <DatePickerMenu/>
       </Paper>
     </>
