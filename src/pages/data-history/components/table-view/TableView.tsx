@@ -53,9 +53,8 @@ const TableView = () => {
     const tcpParametersData: TcpParametersType[] = tcpParameters.data;
     const data: any[] = analyzerData.data;
 
-    console.log(data)
     return (
-      <Box bd="1px solid black" w="100%" p="1rem">
+      <Box w="100%" p="1rem">
         <ParametersTable 
           parameters={tcpParametersData}
           data={data}
@@ -68,7 +67,7 @@ const TableView = () => {
 
   if(tcpParameters.isLoading && analyzerData.isLoading) {
     return (
-      <Box bd="1px solid black" w="100%" p="1rem">
+      <Box w="100%" p="1rem">
         <MantineReactTable table={table} />
       </Box>
     )

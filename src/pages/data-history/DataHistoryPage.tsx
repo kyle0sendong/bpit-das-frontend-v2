@@ -4,7 +4,7 @@ import TableView from "./components/table-view/TableView";
 
 const DataHistoryPage = () => {
   return (
-    <Flex w="100%" bd="1px solid red">
+    <Flex w="100%">
       <SidebarMenu />
       <TableView />
     </Flex>
