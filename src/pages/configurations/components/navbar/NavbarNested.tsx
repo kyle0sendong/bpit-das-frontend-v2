@@ -19,7 +19,7 @@ export default function NavbarNested({linksData}: NavbarNestedProps) {
   const links = linksData.map((item) => <LinksGroup {...item} key={item.label} />);
 
   return (
-    <Paper shadow="md" mih="200px" w="20%" ml="xs" mt="xs">
+    <Paper shadow="md" mih="200px" w="20%">
       <nav className={classes.navbar}>
         <ScrollArea className={classes.links}>
           <div className={classes.linksInner}>{links}</div>
