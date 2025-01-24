@@ -60,6 +60,9 @@ const ParametersTable = (props: ParametersTableProps) => {
     columnFilterDisplayMode: 'popover',
     paginationDisplayMode: 'pages',
     positionToolbarAlertBanner: 'bottom',
+    enableTopToolbar: false,
+    enableColumnFilters:false,
+    initialState: { density: "xs"},
     renderTopToolbarCustomActions: ({ table }) => (
       <Box
         style={{
@@ -104,7 +107,7 @@ const ParametersTable = (props: ParametersTableProps) => {
     ),
   });
   return (
-    <MantineReactTable table={table} />
+    <MantineReactTable table={table}/>
   )
     
   
