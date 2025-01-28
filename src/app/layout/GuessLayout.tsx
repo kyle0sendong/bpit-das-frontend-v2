@@ -2,17 +2,8 @@ import { Outlet } from "react-router-dom";
 import { Flex, Box } from "@mantine/core";
 import HeaderMenu from "@/components/header/HeaderMenu";
 import Footer from "@/components/footer/Footer";
-import { useUser } from "@/contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 
-const DefaultLayout = () => {
-
-  const { user } = useUser();
-  const navigate = useNavigate();
-  
-  if(!user) {
-    navigate('/data-monitoring');
-  }
+const GuessLayout = () => {
 
   return (
     <>
@@ -27,4 +18,4 @@ const DefaultLayout = () => {
   )
 }
 
-export default DefaultLayout;
+export default GuessLayout;

@@ -1,8 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import DefaultLayout from "./layout/DefaultLayout";
+import GuessLayout from "./layout/GuessLayout";
 
-import Configurations from "@/pages/configurations/ConfigurationsLayout";
+import ConfigurationsLayout from "@/app/layout/ConfigurationsLayout";
 import Stations from "@/pages/configurations/pages/stations/Stations";
 import SerialAnalyzers from "@/pages/configurations/pages/serial-analyzers/SerialAnalyzers";
 import TcpAnalyzers from "@/pages/configurations/pages/tcp-analyzers/TcpAnalyzers";
@@ -18,6 +19,24 @@ const router = createBrowserRouter(
   [
     {
       path:"/",
+      element: <GuessLayout />,
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/data-monitoring" replace />, // Default path when visiting
+        },
+        {
+          path:`/data-monitoring`, // not protected
+          element: <DataMonitoring />
+        },
+        {
+          path:`/data-history`, // not protected
+          element: <DataHistoryPage />
+        },
+      ]
+    },
+    {
+      path:"/",
       element: <DefaultLayout />,
       children: [
         {
@@ -25,8 +44,16 @@ const router = createBrowserRouter(
           element: <Navigate to="/configurations/stations" replace />, // Default path when visiting
         },
         {
-          path:`/configurations`, // protected
-          element: <Configurations />,
+          path:`/user-logs`,
+          element: <UserLogsPage />
+        },
+        {
+          path:`/account-settings`,
+          element: <AccountSettings />
+        },
+        {
+          path:`/configurations`,
+          element: <ConfigurationsLayout />,
           children: [
             {
               path:`stations`,
@@ -49,22 +76,6 @@ const router = createBrowserRouter(
               element: <SerialAnalyzers />
             }
           ]
-        },
-        {
-          path:`/data-monitoring`, // not protected
-          element: <DataMonitoring />
-        },
-        {
-          path:`/data-history`, // not protected
-          element: <DataHistoryPage />
-        },
-        {
-          path:`/user-logs`, // protected
-          element: <UserLogsPage />
-        },
-        {
-          path:`/account-settings`, // protected
-          element: <AccountSettings />
         }
       ]
     }
