@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '@/contexts/UserContext';
 
 import {
   Box,
@@ -19,7 +20,7 @@ import {
 } from '@tabler/icons-react';
 import { Tooltip, UnstyledButton } from '@mantine/core';
 
-import LoginForm from './login-form/LoginForm';
+import Login from './login/Login';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
@@ -50,6 +51,7 @@ export default function HeaderMenu() {
   const [loginOpened, { toggle: toggleLogin, close: closeLogin }] = useDisclosure(false);
 
   const [active, setActive] = useState(10);
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const links = data.map((link, index) => (
@@ -68,7 +70,7 @@ export default function HeaderMenu() {
     <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          BPIT DAS
+          Hello {`${user?.firstName} ${user?.lastName}`}
 
           <Group h="100%" gap={0} visibleFrom="sm">
             {links}
@@ -76,7 +78,7 @@ export default function HeaderMenu() {
 
           <Group visibleFrom="sm">
             <Modal opened={loginOpened} onClose={closeLogin} title="Login">
-              <LoginForm />
+              <Login />
             </Modal>
             <Button onClick={toggleLogin}>
               Log in
