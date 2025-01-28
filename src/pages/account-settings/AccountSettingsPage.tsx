@@ -1,6 +1,6 @@
 import { Box } from "@mantine/core";
 
-const AccountSettings = () => {
+const AccountSettingsPage = () => {
   return (
     <Box>
       Account Settings
@@ -8,4 +8,4 @@ const AccountSettings = () => {
   )
 }
 
-export default AccountSettings;
+export default AccountSettingsPage;

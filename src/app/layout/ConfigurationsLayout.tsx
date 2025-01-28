@@ -24,7 +24,6 @@ const ConfigurationsLayout = () => {
     navigate('/data-monitoring');
   } else {
 
-
     if(tcpAnalyzers.isFetched) {
   
       const tcpAnalyzersData: TcpAnalyzerType[] = tcpAnalyzers.data;
@@ -67,9 +66,6 @@ const ConfigurationsLayout = () => {
       )
     }
   }
-
-
-  
 
 }
 
