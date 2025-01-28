@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import {
   Box,
   Burger,
@@ -6,6 +9,7 @@ import {
   Drawer,
   Group,
   ScrollArea,
+  Modal
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMenu.module.css';
@@ -14,8 +18,8 @@ import {
   IconHome2,
 } from '@tabler/icons-react';
 import { Tooltip, UnstyledButton } from '@mantine/core';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import LoginForm from './login-form/LoginForm';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
@@ -39,8 +43,12 @@ const data = [
   { icon: IconHome2, label: 'Data History', link: "data-history" },
   { icon: IconGauge, label: 'User Logs', link: "user-logs"},
 ];
+
 export default function HeaderMenu() {
+
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [loginOpened, { toggle: toggleLogin, close: closeLogin }] = useDisclosure(false);
+
   const [active, setActive] = useState(10);
   const navigate = useNavigate();
 
@@ -67,7 +75,12 @@ export default function HeaderMenu() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button>Log in</Button>
+            <Modal opened={loginOpened} onClose={closeLogin} title="Login">
+              <LoginForm />
+            </Modal>
+            <Button onClick={toggleLogin}>
+              Log in
+            </Button>
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
