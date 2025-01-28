@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client";
 import { MantineProvider } from "@mantine/core";
 import {theme, resolver} from "./theme"
 import { RouterProvider } from "react-router-dom";
+import { UserProvider } from "@/contexts/UserContext";
 import router from "./router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -19,7 +20,9 @@ createRoot(document.getElementById('root')!).render(
       cssVariablesResolver={resolver}
     >
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <UserProvider>
+          <RouterProvider router={router} />
+        </UserProvider>
       </QueryClientProvider>
     </MantineProvider>
   </StrictMode>
