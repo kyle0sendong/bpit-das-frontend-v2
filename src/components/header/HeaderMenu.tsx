@@ -21,6 +21,7 @@ import {
 import { Tooltip, UnstyledButton } from '@mantine/core';
 
 import Login from './login/Login';
+import { useUserLogout } from '@/hooks/usersHook';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
@@ -52,6 +53,8 @@ export default function HeaderMenu() {
 
   const [active, setActive] = useState(10);
   const { user } = useUser();
+  const {mutate: userLogout} = useUserLogout();
+
   const navigate = useNavigate();
 
   const links = data.map((link, index) => (
@@ -68,7 +71,10 @@ export default function HeaderMenu() {
 
   const helloMessage = user ? `Hello, ${user?.firstName} ${user?.lastName}!` : `Hello, Guest!`;
   const loginOroutButton = user ? (
-    <Button onClick={toggleLogin}>
+    <Button onClick={ () => {
+      const token = localStorage.getItem("token") ?? null;
+      userLogout(token);
+    }}>
       Log out
     </Button>
   ) : (
