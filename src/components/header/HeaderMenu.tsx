@@ -66,11 +66,23 @@ export default function HeaderMenu() {
     />
   ));
 
+  const helloMessage = user ? `Hello, ${user?.firstName} ${user?.lastName}!` : `Hello, Guest!`;
+  const loginOroutButton = user ? (
+    <Button onClick={toggleLogin}>
+      Log out
+    </Button>
+  ) : (
+    <Button onClick={toggleLogin}>
+      Log in
+    </Button>
+  );
+
   return (
     <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          Hello {`${user?.firstName} ${user?.lastName}`}
+
+          {helloMessage}
 
           <Group h="100%" gap={0} visibleFrom="sm">
             {links}
@@ -80,9 +92,7 @@ export default function HeaderMenu() {
             <Modal opened={loginOpened} onClose={closeLogin} title="Login">
               <Login />
             </Modal>
-            <Button onClick={toggleLogin}>
-              Log in
-            </Button>
+            {loginOroutButton}
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
