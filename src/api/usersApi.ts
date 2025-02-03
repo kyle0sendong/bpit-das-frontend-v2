@@ -26,6 +26,15 @@ export const logoutUser = async(token: string | null) => {
   }
 }
 
+export const getAllUsers = async() => {
+  const apiUrl = `${bpitDasApiUrlV1}/register`;
+  try {
+    const data = await axios.get(apiUrl);
+    return data.data;
+  } catch {
+    return -1;
+  }
+}
 export const insertUser = async(data: UserType) => {
   const apiUrl = `${bpitDasApiUrlV1}/register`;
 

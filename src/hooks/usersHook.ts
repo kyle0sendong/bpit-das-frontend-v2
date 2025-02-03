@@ -1,5 +1,7 @@
-import { loginUser, logoutUser, insertUser, updateUser, deleteUser } from "@/api/usersApi";
-import { useMutation } from "@tanstack/react-query";
+import { loginUser, logoutUser, getAllUsers, insertUser, updateUser, deleteUser } from "@/api/usersApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+import queryKeys from "./_queryKeys";
 import { useUser } from "@/contexts/UserContext";
 
 export const useUserLogin = () => {
@@ -33,20 +35,39 @@ export const useUserLogout = () => {
   }) 
 }
 
+export const useGetAllUsers = () => {
+  return useQuery({
+    queryKey: [queryKeys.useGetAllUsers()],
+    queryFn: getAllUsers
+  })
+}
+
 export const useRegisterUser = () => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: insertUser
+    mutationFn: insertUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllUsers()]})
+    }
   })
 }
 
 export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: updateUser
+    mutationFn: updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllUsers()]})
+    }
   })
 }
 
 export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: deleteUser
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllUsers()]})
+    }
   })
 }
