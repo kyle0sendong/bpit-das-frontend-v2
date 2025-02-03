@@ -3,7 +3,7 @@ import { Flex, Box } from "@mantine/core";
 import HeaderMenu from "@/components/header/HeaderMenu";
 import Footer from "@/components/footer/Footer";
 
-const GuessLayout = () => {
+const GuestLayout = () => {
 
   return (
     <>
@@ -18,4 +18,4 @@ const GuessLayout = () => {
   )
 }
 
-export default GuessLayout;
+export default GuestLayout;

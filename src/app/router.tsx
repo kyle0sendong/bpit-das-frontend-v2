@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import DefaultLayout from "./layout/DefaultLayout";
-import GuessLayout from "./layout/GuessLayout";
+import GuestLayout from "./layout/GuestLayout";
 
 import ConfigurationsLayout from "@/app/layout/ConfigurationsLayout";
 import Stations from "@/pages/configurations/pages/stations/Stations";
@@ -10,7 +10,6 @@ import TcpAnalyzers from "@/pages/configurations/pages/tcp-analyzers/TcpAnalyzer
 import VirtualChannel from "@/pages/configurations/pages/virtual-channels/VirtualChannel";
 import AddAnalyzerPage from "@/pages/configurations/pages/add-analyzer/AddAnalyzerPage";
 
-import AccountSettingsPage from "@/pages/account-settings/AccountSettingsPage";
 import UserLogsPage from "@/pages/user-logs/UserLogsPage";
 import DataHistoryPage from "@/pages/data-history/DataHistoryPage";
 import DataMonitoring from "@/pages/data-monitoring/DataMonitoringPage";
@@ -19,7 +18,7 @@ const router = createBrowserRouter(
   [
     {
       path:"/",
-      element: <GuessLayout />,
+      element: <GuestLayout />,
       children: [
         {
           index: true,
@@ -46,10 +45,6 @@ const router = createBrowserRouter(
         {
           path:`/user-logs`,
           element: <UserLogsPage />
-        },
-        {
-          path:`/account-settings`,
-          element: <AccountSettingsPage />
         },
         {
           path:`/configurations`,
