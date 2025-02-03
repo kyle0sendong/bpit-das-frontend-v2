@@ -1,21 +1,17 @@
-import { Button, Modal } from "@mantine/core";
+import { Button, Modal, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useUserLogout } from '@/hooks/usersHook';
 import { useUser } from "@/contexts/UserContext";
-import LoginForm from "./components/loginForm/LoginForm";
+import LoginForm from "./components/login-form/LoginForm";
+import DropdownMenu from "./components/dropdown-menu/DropdownMenu";
 
 const LoginButton = () => {
   const { user } = useUser();
   const [loginOpened, { toggle: toggleLogin, close: closeLogin }] = useDisclosure(false);
-  const {mutate: userLogout} = useUserLogout();
 
   const loginOroutButton = user ? (
-    <Button onClick={ () => {
-      const token = localStorage.getItem("token") ?? null;
-      userLogout(token);
-    }}>
-      Log out
-    </Button>
+    <UnstyledButton>
+      <DropdownMenu />
+    </UnstyledButton>
   ) : (
     <Button onClick={toggleLogin}>
       Log in

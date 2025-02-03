@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '@/contexts/UserContext';
-
 import {
   Box,
   Burger,
@@ -49,10 +47,7 @@ export default function HeaderMenu() {
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
-
   const [active, setActive] = useState(10);
-  const { user } = useUser();
-
 
   const navigate = useNavigate();
 
@@ -67,8 +62,6 @@ export default function HeaderMenu() {
       }}
     />
   ));
-
-  const helloMessage = user ? `Hello, ${user?.firstName} ${user?.lastName}!` : `Hello, Guest!`;
 
 
   return (
@@ -85,7 +78,6 @@ export default function HeaderMenu() {
           </Group>
 
           <Group visibleFrom="sm">
-            {helloMessage}
             <Login />
           </Group>
 
