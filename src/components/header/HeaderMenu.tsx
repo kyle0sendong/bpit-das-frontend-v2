@@ -9,7 +9,8 @@ import {
   Divider,
   Drawer,
   Group,
-  ScrollArea
+  ScrollArea,
+  Title
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMenu.module.css';
@@ -19,7 +20,7 @@ import {
 } from '@tabler/icons-react';
 import { Tooltip, UnstyledButton } from '@mantine/core';
 
-import Login from './login/Login';
+import Login from '../login/Login';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
@@ -75,15 +76,17 @@ export default function HeaderMenu() {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
 
-          {helloMessage}
+          <Title size="md">
+            BPIT DAS
+          </Title>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             {links}
           </Group>
 
           <Group visibleFrom="sm">
+            {helloMessage}
             <Login />
-
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
