@@ -1,4 +1,4 @@
-import { loginUser, logoutUser } from "@/api/usersApi";
+import { loginUser, logoutUser, insertUser, updateUser, deleteUser } from "@/api/usersApi";
 import { useMutation } from "@tanstack/react-query";
 import { useUser } from "@/contexts/UserContext";
 
@@ -31,4 +31,22 @@ export const useUserLogout = () => {
       logout()
     }
   }) 
+}
+
+export const useRegisterUser = () => {
+  return useMutation({
+    mutationFn: insertUser
+  })
+}
+
+export const useUpdateUser = () => {
+  return useMutation({
+    mutationFn: updateUser
+  })
+}
+
+export const useDeleteUser = () => {
+  return useMutation({
+    mutationFn: deleteUser
+  })
 }

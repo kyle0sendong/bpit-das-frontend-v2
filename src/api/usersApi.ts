@@ -1,5 +1,6 @@
 import axios from "axios";
 import { bpitDasApiUrlV1 } from "./apiUrl";
+import { UserType } from "@/types/users";
 
 export const loginUser = async (data: any) => {
   const apiUrl = `${bpitDasApiUrlV1}/login`;
@@ -20,6 +21,35 @@ export const logoutUser = async(token: string | null) => {
       }
     })
     return result
+  } catch {
+    return -1;
+  }
+}
+
+export const insertUser = async(data: UserType) => {
+  const apiUrl = `${bpitDasApiUrlV1}/register`;
+
+  try {
+    return await axios.post(apiUrl, data)
+  } catch {
+    return -1;
+  }
+}
+
+export const updateUser = async(data: UserType) => {
+  const apiUrl = `${bpitDasApiUrlV1}/register`;
+
+  try {
+    return await axios.patch(apiUrl, data)
+  } catch {
+    return -1;
+  }
+}
+
+export const deleteUser = async(data: UserType) => {
+  const apiUrl = `${bpitDasApiUrlV1}/user`;
+  try {
+    return await axios.delete(apiUrl, {data})
   } catch {
     return -1;
   }
