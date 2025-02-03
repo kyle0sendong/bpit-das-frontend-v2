@@ -9,8 +9,7 @@ import {
   Divider,
   Drawer,
   Group,
-  ScrollArea,
-  Modal
+  ScrollArea
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMenu.module.css';
@@ -21,7 +20,6 @@ import {
 import { Tooltip, UnstyledButton } from '@mantine/core';
 
 import Login from './login/Login';
-import { useUserLogout } from '@/hooks/usersHook';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
@@ -49,11 +47,11 @@ const data = [
 export default function HeaderMenu() {
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-  const [loginOpened, { toggle: toggleLogin, close: closeLogin }] = useDisclosure(false);
+
 
   const [active, setActive] = useState(10);
   const { user } = useUser();
-  const {mutate: userLogout} = useUserLogout();
+
 
   const navigate = useNavigate();
 
@@ -70,18 +68,7 @@ export default function HeaderMenu() {
   ));
 
   const helloMessage = user ? `Hello, ${user?.firstName} ${user?.lastName}!` : `Hello, Guest!`;
-  const loginOroutButton = user ? (
-    <Button onClick={ () => {
-      const token = localStorage.getItem("token") ?? null;
-      userLogout(token);
-    }}>
-      Log out
-    </Button>
-  ) : (
-    <Button onClick={toggleLogin}>
-      Log in
-    </Button>
-  );
+
 
   return (
     <Box>
@@ -95,10 +82,8 @@ export default function HeaderMenu() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Modal opened={loginOpened} onClose={closeLogin} title="Login">
-              <Login />
-            </Modal>
-            {loginOroutButton}
+            <Login />
+
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />

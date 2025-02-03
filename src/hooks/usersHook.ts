@@ -23,13 +23,12 @@ export const useUserLogout = () => {
   const { logout } = useUser();
   return useMutation({
     mutationFn: logoutUser,
-    onSuccess: (data) => {
-      if(data != -1) {
-        logout()
-      }
+    onSuccess: () => {
+      logout();
     },
     onError: (error) => {
       console.log(error.message);
+      logout()
     }
   }) 
 }
