@@ -1,4 +1,4 @@
-import { Button, Modal, UnstyledButton } from "@mantine/core";
+import { Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useUser } from "@/contexts/UserContext";
 import LoginForm from "./components/login-form/LoginForm";
@@ -9,9 +9,7 @@ const LoginButton = () => {
   const [loginOpened, { toggle: toggleLogin, close: closeLogin }] = useDisclosure(false);
 
   const loginOroutButton = user ? (
-    <UnstyledButton>
-      <DropdownMenu />
-    </UnstyledButton>
+    <DropdownMenu />
   ) : (
     <Button onClick={toggleLogin}>
       Log in
