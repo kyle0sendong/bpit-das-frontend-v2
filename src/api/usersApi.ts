@@ -27,7 +27,7 @@ export const logoutUser = async(token: string | null) => {
 }
 
 export const getAllUsers = async() => {
-  const apiUrl = `${bpitDasApiUrlV1}/register`;
+  const apiUrl = `${bpitDasApiUrlV1}/users`;
   try {
     const data = await axios.get(apiUrl);
     return data.data;
@@ -35,6 +35,7 @@ export const getAllUsers = async() => {
     return -1;
   }
 }
+
 export const insertUser = async(data: UserType) => {
   const apiUrl = `${bpitDasApiUrlV1}/register`;
 
