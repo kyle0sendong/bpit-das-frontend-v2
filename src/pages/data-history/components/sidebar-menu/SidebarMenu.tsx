@@ -60,7 +60,7 @@ const SidebarMenu = () => {
         <form onSubmit={ form.onSubmit(formOnSubmit)
           }>
           <Divider label="Views" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="row" gap="xs" mx="xs" mb="sm">
+          <Flex direction="row" gap="xs" mb="sm" justify="center">
             <Button color="black" variant="outline" type="submit">
               Table View
             </Button>
