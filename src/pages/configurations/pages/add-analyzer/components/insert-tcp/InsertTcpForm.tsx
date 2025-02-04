@@ -1,4 +1,4 @@
-import { Button, TextInput, Box, NativeSelect, Flex, Title } from "@mantine/core";
+import { Button, TextInput, NativeSelect, Flex, Title, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
@@ -6,6 +6,7 @@ import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 import { useInsertTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
 
 import { getDataSampling } from "../../../tcp-analyzers/utils/sampling";
+import classes from "./InsertTcpForm.module.css";
 
 const InsertTcpForm = () => {
 
@@ -23,57 +24,74 @@ const InsertTcpForm = () => {
   return (
     <>
       <form onSubmit={ form.onSubmit( (value) =>  {
-        console.log(value)
         insertTcpAnalyzer(value)
       })}>
-        <Box>
-          <Title size="xl" ta="center">
-            Add Tcp Analyzer
-          </Title>
 
-          <TextInput
-            size="xs"
-            label="Name"
-            placeholder="e.g. WISE RHTEMP"
-            key={form.key('name')}
-            {...form.getInputProps('name')}
-          />
+        <Title size="xl" ta="center" mb="md" >
+          Add Tcp Analyzer
+        </Title>
 
-          <TextInput
-            size="xs"
-            label="IP Address"
-            placeholder="e.g. 192.168.1.1"
-            key={form.key('host_address')}
-            {...form.getInputProps('host_address')}
-          />
+        <Flex direction="column" gap="lg">
 
-          <TextInput
-            size="xs"
-            label="Port"
-            key={form.key('port')}
-            {...form.getInputProps('port')}
-          />
+          <Flex className={classes.flexContainer}>
+            <Text className={classes.text}> Analyzer Name </Text>
+            <TextInput
+              className={classes.textInput}
+              size="xs"
+              placeholder="e.g. WISE RHTEMP"
+              key={form.key('name')}
+              {...form.getInputProps('name')}
+            />
+          </Flex>
 
-          <TextInput
-            size="xs"
-            label="Device Address"
-            key={form.key('device_address')}
-            {...form.getInputProps('device_address')}
-          />
+          <Flex className={classes.flexContainer}>
+            <Text className={classes.text}>IP Address</Text>
+            <TextInput
+              className={classes.textInput}
+              size="xs"
+              placeholder="e.g. 192.168.1.1"
+              key={form.key('host_address')}
+              {...form.getInputProps('host_address')}
+            />
+          </Flex>
 
-          <NativeSelect
-            size="xs"
-            label="Data Sampling"
-            data={getDataSampling}
-            key={form.key(`sampling`)}
-            {...form.getInputProps(`sampling`)}
-          />
-        </Box>
+          <Flex className={classes.flexContainer}>
+            <Text className={classes.text}>Port Number</Text>
+            <TextInput
+              className={classes.textInput}
+              size="xs"
+              key={form.key('port')}
+              {...form.getInputProps('port')}
+            />
+          </Flex>
 
-        <Flex justify="space-between">
-          <Button type="submit" color="dark.3">
-            Save
-          </Button>
+          <Flex className={classes.flexContainer}>
+            <Text className={classes.text}>Device Address</Text>
+            <TextInput
+              className={classes.textInput}
+              size="xs"
+              key={form.key('device_address')}
+              {...form.getInputProps('device_address')}
+            />
+          </Flex>
+
+          <Flex className={classes.flexContainer}>
+            <Text className={classes.text}>Data Sampling</Text>
+            <NativeSelect
+              className={classes.textInput}
+              size="xs"
+              data={getDataSampling}
+              key={form.key(`sampling`)}
+              {...form.getInputProps(`sampling`)}
+            />
+          </Flex>
+
+
+          <Flex mt="xs" justify="flex-end">
+            <Button type="submit" color="dark.3">
+              Save
+            </Button>
+          </Flex>
         </Flex>
 
       </form>

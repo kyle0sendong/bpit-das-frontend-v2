@@ -1,0 +1,18 @@
+.flexContainer {
+  align-items: center;
+  margin-bottom: 0.3rem;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.text {
+  font-size: 0.9rem;
+  text-align: right;
+  flex: 0.3;
+  min-width: 5rem;
+}
+
+.textInput {
+  margin-left: 1rem;
+  flex: 1;
+}
