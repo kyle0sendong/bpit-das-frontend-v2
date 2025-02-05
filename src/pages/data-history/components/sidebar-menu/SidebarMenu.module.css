@@ -2,5 +2,9 @@
   padding: var(--mantine-spacing-md);
   display: flex;
   flex-direction: column;
+  min-width: 20%;
+  max-height: fit-content;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
   border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
 }

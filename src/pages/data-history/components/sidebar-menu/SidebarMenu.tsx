@@ -2,7 +2,7 @@
 import classes from "./SidebarMenu.module.css";
 import { useSearchParams } from "react-router-dom";
 
-import { Button, Divider, Flex, Paper } from "@mantine/core";
+import { Button, Divider, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import DatePicker from "./components/DatePicker";
@@ -55,43 +55,40 @@ const SidebarMenu = () => {
   }
 
   return (
-    <Paper shadow="md">
-      <nav className={classes.navbar}>
-        <form onSubmit={ form.onSubmit(formOnSubmit)
-          }>
-          <Divider label="Views" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="row" gap="xs" mb="sm" justify="center">
-            <Button color="black" variant="outline" type="submit">
-              Table View
-            </Button>
-            <Button color="black" variant="outline" type="submit">
-              Graph View
-            </Button>
-          </Flex>
+    <nav className={classes.navbar}>
+      <form onSubmit={ form.onSubmit(formOnSubmit)
+        }>
+        <Divider label="Views" labelPosition="center" styles={labelStyle}/>
+        <Flex direction="row" gap="xs" mb="sm" justify="center">
+          <Button color="black" variant="outline" type="submit">
+            Table View
+          </Button>
+          <Button color="black" variant="outline" type="submit">
+            Graph View
+          </Button>
+        </Flex>
 
-          <Divider label="Select Date" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="column" mx="xs" mb="sm">
-            <DatePicker form={form}/>
-          </Flex>
+        <Divider label="Select Date" labelPosition="center" styles={labelStyle}/>
+        <Flex direction="column" mx="xs" mb="sm">
+          <DatePicker form={form}/>
+        </Flex>
 
-          <Divider label="Timebase" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="column" mx="xs" mb="sm">
-            <TimebasePicker form={form}/>
-          </Flex>
+        <Divider label="Timebase" labelPosition="center" styles={labelStyle}/>
+        <Flex direction="column" mx="xs" mb="sm">
+          <TimebasePicker form={form}/>
+        </Flex>
 
-          <Divider label="TCP Analyzers" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="column" mx="xs" mb="sm">
-            <AnalyzerPicker form={form} />
-          </Flex>
+        <Divider label="TCP Analyzers" labelPosition="center" styles={labelStyle}/>
+        <Flex direction="column" mx="xs" mb="sm">
+          <AnalyzerPicker form={form} />
+        </Flex>
 
-          <Divider label="Virtual Channels" labelPosition="center" styles={labelStyle}/>
-          <Flex direction="column" mx="xs" mb="sm">
-            <VirtualChannelPicker form={form}/>
-          </Flex>
-        </form>
-
-      </nav>
-    </Paper>
+        <Divider label="Virtual Channels" labelPosition="center" styles={labelStyle}/>
+        <Flex direction="column" mx="xs" mb="sm">
+          <VirtualChannelPicker form={form}/>
+        </Flex>
+      </form>
+    </nav>
   )
 }
 
