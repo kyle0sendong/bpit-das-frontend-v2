@@ -22,24 +22,23 @@ export default function NavbarNested() {
     const tcpAnalyzerLinks = tcpAnalyzersData.map( (data) => {
       return {
         label: data.name,
-        link: `tcp-data/id?id=${data.id}`
+        link: `?type=tcp&id=${data.id}`
       }
     })
-
     const linksData = [
-      { label: 'All Analyzers', icon: IconGauge, link: "analyzers-data" },
-      { label: 'Virtual Channels', icon: IconFileAnalytics, link: "virtual-channels-data"},
+      { label: 'All Analyzers', icon: IconGauge, link: "?type=all-analyzers" },
+      { label: 'Virtual Channels', icon: IconFileAnalytics, link: "?type=virtual-channels"},
       {
         label: 'TCP Analyzers',
         icon: IconNotes,
         link: "",
         initiallyOpened: true,
-        links: tcpAnalyzerLinks
+        links: [{label:"All TCP Analyzers", link:"?type=all-tcp-analyzers"}, ...tcpAnalyzerLinks]
       },
       {
         label: 'Serial Analyzers',
         icon: IconCalendarStats,
-        link: "serial-data"
+        link: "?type=serial-data"
       }
     ];
     
