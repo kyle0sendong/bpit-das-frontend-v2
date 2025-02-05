@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
   Burger,
@@ -20,22 +20,6 @@ import { Tooltip, UnstyledButton } from '@mantine/core';
 
 import Login from '../login/Login';
 
-interface NavbarLinkProps {
-  icon: typeof IconHome2;
-  label: string;
-  active?: boolean;
-  onClick?: () => void;
-}
-
-const NavbarLink = ({ icon: Icon, label, active, onClick }: NavbarLinkProps) => {
-  return (
-    <Tooltip label={label} position="bottom" >
-      <UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined}>
-        <Icon size={20} stroke={1.5} />
-      </UnstyledButton>
-    </Tooltip>
-  );
-}
 const data = [
   { icon: IconHome2, label: 'Configurations', link: "configurations" },
   { icon: IconGauge, label: 'Data Monitoring', link: "data-monitoring"},
@@ -44,23 +28,33 @@ const data = [
 ];
 
 export default function HeaderMenu() {
+  const location = useLocation();
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [active, setActive] = useState<string>();
 
-  const [active, setActive] = useState(10);
+  useEffect( () => {
+    setActive(location.pathname.substring(1))
+  }, [])
 
   const navigate = useNavigate();
 
-  const links = data.map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      active={index === active}
-      onClick={() => {
-        setActive(index)
-        navigate(link?.link)
-      }}
-    />
+  const links = data.map((item) => (
+    <Tooltip label={item.label} position="bottom" key={item.label} >
+      <UnstyledButton
+        key={item.label}
+        onClick={
+          () => {
+            setActive(item.link)
+            navigate(item?.link)
+        }}
+        className={classes.link}
+        data-active={item.link === active || undefined}
+      >
+        <item.icon size={20} stroke={1.5}/>
+        {item.label}
+      </UnstyledButton>
+    </Tooltip>
   ));
 
 

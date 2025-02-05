@@ -6,7 +6,8 @@
 }
 
 .link {
-  width: 50px;
+  margin-inline: 0.5rem;
+  padding: 1rem;
   height: 50px;
   border-radius: var(--mantine-radius-md);
   display: flex;
