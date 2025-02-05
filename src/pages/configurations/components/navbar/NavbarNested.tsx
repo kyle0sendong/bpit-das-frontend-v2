@@ -1,4 +1,4 @@
-import { ScrollArea, Paper } from '@mantine/core';
+import { ScrollArea } from '@mantine/core';
 import { LinksGroup } from "../links-group/NavbarLinksGroup";
 import classes from './NavbarNested.module.css';
 
@@ -19,13 +19,10 @@ export default function NavbarNested({linksData}: NavbarNestedProps) {
   const links = linksData.map((item) => <LinksGroup {...item} key={item.label} />);
 
   return (
-    <Paper shadow="md" mih="200px" w="20%">
-      <nav className={classes.navbar}>
-        <ScrollArea className={classes.links}>
-          <div className={classes.linksInner}>{links}</div>
-        </ScrollArea>
-      </nav>
-    </Paper>
-
+    <nav className={classes.navbar}>
+      <ScrollArea className={classes.links}>
+        <div className={classes.linksInner}>{links}</div>
+      </ScrollArea>
+    </nav>
   );
 }
