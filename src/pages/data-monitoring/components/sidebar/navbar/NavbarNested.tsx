@@ -15,7 +15,7 @@ import {
 
 export default function NavbarNested() {
 
-  const tcpAnalyzers = useGetAllTcpAnalyzers();
+  const tcpAnalyzers = useGetAllTcpAnalyzers(true);
 
   if(tcpAnalyzers.isFetched) {
     const tcpAnalyzersData: TcpAnalyzerType[] = tcpAnalyzers.data;

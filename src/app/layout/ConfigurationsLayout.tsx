@@ -19,7 +19,7 @@ const ConfigurationsLayout = () => {
 
   const { user } = useUser();
   const navigate = useNavigate();
-  const tcpAnalyzers = useGetAllTcpAnalyzers();
+  const tcpAnalyzers = useGetAllTcpAnalyzers(true);
   if(!user) {
     navigate('/data-monitoring');
   } else {

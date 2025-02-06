@@ -11,7 +11,7 @@ type TableRowsProps = {
 
 const AnalyzerPicker = ({form}: TableRowsProps ) => {
 
-  const analyzers = useGetAllTcpAnalyzers();
+  const analyzers = useGetAllTcpAnalyzers(true);
 
   if(analyzers.isLoading) {
     return (

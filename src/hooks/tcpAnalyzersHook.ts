@@ -9,10 +9,11 @@ import {
   deleteTcpAnalyzer
 } from "@/api/tcpAnalyzersApi";
 
-export const useGetAllTcpAnalyzers = () => {
+export const useGetAllTcpAnalyzers = (enabled: boolean) => {
   return useQuery({
     queryKey: [queryKeys.useGetAllTcpAnalyzers()],
-    queryFn: getAllTcpAnalyzers
+    queryFn: getAllTcpAnalyzers,
+    enabled: enabled
   })
 }
 
