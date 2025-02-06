@@ -17,10 +17,11 @@ export const useGetAllTcpAnalyzers = (enabled: boolean) => {
   })
 }
 
-export const useGetTcpAnalyzerById = (id: number) => {
+export const useGetTcpAnalyzerById = (id: number, enabled: boolean) => {
   return useQuery({
     queryKey: [queryKeys.useGetTcpAnalyzerById(id)],
-    queryFn: () => getTcpAnalyzerById(id)
+    queryFn: () => getTcpAnalyzerById(id),
+    enabled: enabled
   })
 }
 

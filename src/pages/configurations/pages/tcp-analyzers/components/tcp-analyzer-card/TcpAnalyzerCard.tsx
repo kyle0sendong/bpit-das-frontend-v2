@@ -7,7 +7,7 @@ import ModalForm from "./modal-form/ModalForm";
 
 const TcpAnalyzerCard = ({id}: {id: string}) => {
 
-  const tcpAnalyzer = useGetTcpAnalyzerById(parseInt(id));
+  const tcpAnalyzer = useGetTcpAnalyzerById(parseInt(id), true);
 
   if(tcpAnalyzer.isFetched) {
 
