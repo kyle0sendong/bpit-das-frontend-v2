@@ -25,13 +25,17 @@ const testData = [
    oneMinute: 2
  },
  
-
 ]
 
 type DataTableProps = {
-  title: string
+  title: string,
+  id: string,
+  type: string | null,
+  parameters: string[],
+  parameterData: any[]
 }
-const DataTable = ({title}: DataTableProps) => {
+
+const DataTable = ({title, id, type, parameters, parameterData}: Partial<DataTableProps>) => {
 
   const [scrolled, setScrolled] = useState(false);
   
@@ -42,6 +46,11 @@ const DataTable = ({title}: DataTableProps) => {
         <Table.Th ta="center" w={200}>Date & Time</Table.Th>
         <Table.Th ta="center" w={125}>Current Data</Table.Th>
         <Table.Th ta="center" w={125}>1 minute</Table.Th>
+        <Table.Th ta="center" w={125}>5 minute</Table.Th>
+        <Table.Th ta="center" w={125}>15 minute</Table.Th>
+        <Table.Th ta="center" w={125}>30 minute</Table.Th>
+        <Table.Th ta="center" w={125}>1 hour</Table.Th>
+        <Table.Th ta="center" w={125}>1 day</Table.Th>
       </Table.Tr>
     </Table.Thead>
   )
@@ -69,9 +78,7 @@ const DataTable = ({title}: DataTableProps) => {
         </Table>
       </ScrollArea>
     </Flex>
-
   )
-
 }
 
 export default DataTable;
