@@ -8,10 +8,11 @@ import {
   deleteVirtualChannel
 } from "@/api/virtualChannelsApi";
 
-export const useGetAllVirtualChannels = () => {
+export const useGetAllVirtualChannels = (enabled: boolean) => {
   return useQuery({
     queryKey: [queryKeys.useGetAllVirtualChannels()],
-    queryFn: getAllVirtualChannels
+    queryFn: getAllVirtualChannels,
+    enabled: enabled
   })
 }
 

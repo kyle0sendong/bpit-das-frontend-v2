@@ -24,7 +24,7 @@ const TableForm = () => {
   });
 
   const parameters = useGetAllTcpParameters();
-  const virtualChannels = useGetAllVirtualChannels();
+  const virtualChannels = useGetAllVirtualChannels(true);
 
   if(virtualChannels.isFetched && parameters.isFetched) {
     const virtualChannelsData = virtualChannels.data;

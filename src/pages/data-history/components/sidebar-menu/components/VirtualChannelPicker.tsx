@@ -11,7 +11,7 @@ type TableRowsProps = {
 
 const VirtualChannelPicker = ({form}: TableRowsProps ) => {
 
-  const virtualChannels = useGetAllVirtualChannels();
+  const virtualChannels = useGetAllVirtualChannels(true);
 
   if(virtualChannels.isLoading) {
     return (
