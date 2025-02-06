@@ -10,17 +10,17 @@ const testData = [
      oneMinute: 2
   },
   {
-    parameter: "testing", dateTime: "02/03/2025",
+    parameter: "testing", dateTime: "02/04/2025",
     currentData: 1,
     oneMinute: 2
   },
   {
-    parameter: "testing", dateTime: "02/02/2025",
+    parameter: "testing", dateTime: "02/03/2025",
     currentData: 1,
     oneMinute: 2
  },
  {
-   parameter: "testing", dateTime: "02/03/2025",
+   parameter: "testing", dateTime: "02/05/2025",
    currentData: 1,
    oneMinute: 2
  },
@@ -47,8 +47,8 @@ const DataTable = ({title}: DataTableProps) => {
   )
 
   const rows = testData.map( (data) => (
-    <Table.Tbody style={{fontSize:'0.8rem'}}>
-      <Table.Tr key={`${data.dateTime}-${data.oneMinute}`}>
+    <Table.Tbody style={{fontSize:'0.8rem'}} key={`${data.parameter}-${data.dateTime}-${data.oneMinute}`}>
+      <Table.Tr >
         <Table.Td>{data.parameter}</Table.Td>
         <Table.Td>{data.dateTime}</Table.Td>
         <Table.Td>{data.currentData}</Table.Td>
