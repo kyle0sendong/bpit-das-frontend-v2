@@ -15,7 +15,12 @@ export const getAllVirtualChannels = async () => {
 
 export const insertVirtualChannel = async (data: InsertVirtualChannelType) => {
   try {
-    return await axios.post(url, data);
+    const token = localStorage.getItem("token");
+    return await axios.post(url, data, {
+      headers: {
+        Authorization: token
+      }
+    });
   } catch(error) {
     console.error("Error: ", error);
   }
@@ -23,7 +28,12 @@ export const insertVirtualChannel = async (data: InsertVirtualChannelType) => {
 
 export const updateVirtualChannel = async (data: Partial<VirtualChannelsType>[]) => {
   try {
-    return await axios.patch(url, data);
+    const token = localStorage.getItem("token");
+    return await axios.patch(url, data, {
+      headers: {
+        Authorization: token
+      }
+    });
   } catch(error) {
     console.error("Error: ", error);
   }
@@ -31,9 +41,13 @@ export const updateVirtualChannel = async (data: Partial<VirtualChannelsType>[])
 
 export const deleteVirtualChannel = async (id: number) => {
   try {
+    const token = localStorage.getItem("token");
     return await axios.delete(url, {
       params: {
         id
+      },
+      headers: {
+        Authorization: token
       }
     });
   } catch(error) {

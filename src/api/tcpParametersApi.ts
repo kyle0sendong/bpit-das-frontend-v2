@@ -27,7 +27,12 @@ export const getTcpParametersByAnalyzerId = async (id: number) => {
 
 export const insertTcpParameter = async (data: InsertTcpParameterType) => {
   try {
-    return await axios.post(url, data)
+    const token = localStorage.getItem("token");
+    return await axios.post(url, data, {
+      headers: {
+        Authorization: token
+      }
+    });
   } catch(error) {
     console.error("Error: ", error)
   }
@@ -35,7 +40,13 @@ export const insertTcpParameter = async (data: InsertTcpParameterType) => {
 
 export const updateTcpParameter = async (data: Partial<TcpParametersType>[]) => {
   try {
-    return await axios.patch(url, data)
+    const token = localStorage.getItem("token");
+    return await axios.patch(url, data, {
+      headers: {
+        Authorization: token
+      }
+    }
+    )
   } catch(error) {
     console.error("Error: ", error)
   }
@@ -43,9 +54,13 @@ export const updateTcpParameter = async (data: Partial<TcpParametersType>[]) => 
 
 export const deleteTcpParameter = async (id: number) => {
   try {
+    const token = localStorage.getItem("token");
     return await axios.delete(url, {
       params: {
         id
+      },
+      headers: {
+        Authorization: token
       }
     })
   } catch(error) {
