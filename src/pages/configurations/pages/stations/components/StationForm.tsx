@@ -20,11 +20,10 @@ const StationForm = () => {
 
   if(stations.isFetched) {
     const stationsData: StationsType = stations.data[0];
-
+    form.setFieldValue("id", stationsData.id);
     return (
       <>
         <form onSubmit={ form.onSubmit( (value) =>  {
-          form.setFieldValue("id", stationsData.id)
           updateStation(value)
         })}>
 
