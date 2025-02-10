@@ -14,6 +14,5 @@ export type TcpParametersType = {
 
 export type InsertTcpParameterType = {
   id: number,
-  number: number,
-  name: string
+  number: number
 }

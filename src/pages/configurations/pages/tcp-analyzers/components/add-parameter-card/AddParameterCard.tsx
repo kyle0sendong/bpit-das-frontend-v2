@@ -9,8 +9,7 @@ const AddParameterCard = ({id}: {id: string}) => {
     mode:"uncontrolled",
     initialValues: {
       number: 1,
-      id: parseInt(id),
-      name: "Default"
+      id: parseInt(id)
     }
   });
   
