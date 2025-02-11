@@ -28,7 +28,7 @@ const DataMonitoringPage = () => {
   return (
     <Flex w="100%">
       <NavbarNested />
-      <Flex w="100%" direction="column" align="center" p="xs" bd="1px solid red">
+      <Flex w="100%" direction="column" align="center" p="xs">
         {dataTables}
       </Flex>
     </Flex>
