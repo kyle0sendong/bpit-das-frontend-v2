@@ -61,7 +61,6 @@ export const insertUser = async(data: UserType) => {
 }
 
 export const updateUser = async(data: Partial<UserType>) => {
-  console.log(data)
   const apiUrl = `${bpitDasApiUrlV1}/user`;
   const token = localStorage.getItem("token");
   try {
@@ -86,6 +85,22 @@ export const deleteUser = async(data: UserType) => {
         Authorization: token
       }
     })
+  } catch {
+    return -1;
+  }
+
+}
+
+export const getUserRoles = async() => {
+  const apiUrl = `${bpitDasApiUrlV1}/user-roles`;
+  const token = localStorage.getItem("token");
+  try {
+    const result = await axios.get(apiUrl, {
+      headers: {
+        Authorization: token
+      }
+    });
+    return result.data;
   } catch {
     return -1;
   }

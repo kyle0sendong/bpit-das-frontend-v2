@@ -14,7 +14,8 @@ const queryKeys = {
   useGetLogDistinctDates: () => 'allDistinctDates',
   useGetAllVirtualChannels: () => 'allVirtualChannels',
   useGetAnalyzerData: (params: AnalyzerQueryType) => `${params.from}-${params.to}-${params.analyzerType}${params.analyzer}`,
-  useGetAllUsers: () => `allUsers`
+  useGetAllUsers: () => `allUsers`,
+  useGetUserRoles: () => `allUserRoles`
 }
 
 export default queryKeys;

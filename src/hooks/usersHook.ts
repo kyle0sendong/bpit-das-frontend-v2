@@ -1,4 +1,4 @@
-import { loginUser, logoutUser, getAllUsers, insertUser, updateUser, deleteUser } from "@/api/usersApi";
+import { loginUser, logoutUser, getAllUsers, insertUser, updateUser, deleteUser, getUserRoles } from "@/api/usersApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import queryKeys from "./_queryKeys";
@@ -71,5 +71,12 @@ export const useDeleteUser = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllUsers()]})
     }
+  })
+}
+
+export const useGetUserRoles = () => {
+  return useQuery({
+    queryKey: [queryKeys.useGetUserRoles],
+    queryFn: getUserRoles
   })
 }
