@@ -53,11 +53,13 @@ export const useRegisterUser = () => {
 }
 
 export const useUpdateUser = () => {
-  const queryClient = useQueryClient();
+  const { update } = useUser();
   return useMutation({
     mutationFn: updateUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllUsers()]})
+    onSuccess: (data) => {
+      if(data != -1) {
+        update(data.data.user)
+      }
     }
   })
 }

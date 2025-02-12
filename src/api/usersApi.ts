@@ -60,15 +60,17 @@ export const insertUser = async(data: UserType) => {
   }
 }
 
-export const updateUser = async(data: UserType) => {
-  const apiUrl = `${bpitDasApiUrlV1}/register`;
+export const updateUser = async(data: Partial<UserType>) => {
+  console.log(data)
+  const apiUrl = `${bpitDasApiUrlV1}/user`;
   const token = localStorage.getItem("token");
   try {
-    return await axios.patch(apiUrl, data, {
+    const result = await axios.patch(apiUrl, data, {
       headers: {
         Authorization: token
       }
-    })
+    });
+    return result;
   } catch {
     return -1;
   }
