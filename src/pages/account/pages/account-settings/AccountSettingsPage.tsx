@@ -1,4 +1,4 @@
-import classes from './AccountSettings.module.css'
+import classes from '../Forms.module.css'
 
 import { Flex, Text, TextInput, Paper, Button, Avatar } from '@mantine/core';
 import { useForm } from '@mantine/form';

@@ -1,0 +1,16 @@
+.flexItem {
+  margin: var(--mantine-spacing-sm);
+  gap: var(--mantine-spacing-xl);
+  align-items: center;
+}
+
+.text {
+  font-size: var(--mantine-font-size-sm);
+  min-width: 7rem;
+  text-align: right;
+}
+
+.textInput {
+  flex: 1;
+}
+
