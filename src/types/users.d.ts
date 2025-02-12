@@ -1,4 +1,5 @@
 export type UserType = {
+  id: number;
   username: string;
   email: string;
   firstName: string,
@@ -9,5 +10,6 @@ export type UserType = {
 export type UserContextType = {
   user: UserType | null;
   login: (userData: UserType, token: string) => void;
+  update: (userData: UserType) => void;
   logout: () => void;
 }

@@ -37,6 +37,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setUser(userData);
   };
 
+  // Update user function
+  const update = (userData: UserType) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
+  }
+
   // Logout function
   const logout = () => {
     localStorage.removeItem('user');
@@ -45,7 +51,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, update, logout }}>
       {children}
     </UserContext.Provider>
   );
