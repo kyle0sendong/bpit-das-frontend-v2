@@ -1,13 +1,21 @@
+import classes from './AccountSettings.module.css'
+
 import { Flex, Text, TextInput, Paper, Button, Avatar } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-import classes from './AccountSettings.module.css'
+import { useUpdateUser } from '@/hooks/usersHook';
+import { useUser } from '@/contexts/UserContext';
 
 const AccountSettingsPage = () => {
+
+  const { mutate: updateUser } = useUpdateUser();
+  const { user } = useUser();
 
   const form = useForm({
     mode:'uncontrolled'
   });
+
+  form.setFieldValue("id", user?.id ?? 1);
 
   return (
     <Paper w='50%' m='auto' p='lg'>
@@ -15,7 +23,7 @@ const AccountSettingsPage = () => {
       <Flex gap='lg' direction='column' flex={1}>
 
         <form onSubmit={form.onSubmit((values) => {
-          console.log(values);
+          updateUser(values);
         })}>
 
           <Flex className={classes.flexItem}>
@@ -26,7 +34,8 @@ const AccountSettingsPage = () => {
 
           <Flex className={classes.flexItem}>
             <Text className={classes.text}> First Name </Text>
-            <TextInput 
+            <TextInput
+              placeholder={user?.firstName}
               className={classes.textInput}
               key={form.key('first_name')}
               {...form.getInputProps('first_name')}
@@ -35,7 +44,8 @@ const AccountSettingsPage = () => {
 
           <Flex className={classes.flexItem}>
             <Text className={classes.text}> Last Name </Text>
-            <TextInput 
+            <TextInput
+              placeholder={user?.lastName}
               className={classes.textInput}
               key={form.key('last_name')}
               {...form.getInputProps('last_name')}
@@ -44,7 +54,8 @@ const AccountSettingsPage = () => {
 
           <Flex className={classes.flexItem}>
             <Text className={classes.text}> Username </Text>
-            <TextInput 
+            <TextInput
+              placeholder={user?.username}
               className={classes.textInput}
               key={form.key('username')}
               {...form.getInputProps('username')}
@@ -53,7 +64,8 @@ const AccountSettingsPage = () => {
 
           <Flex className={classes.flexItem}>
             <Text className={classes.text}> Email </Text>
-            <TextInput 
+            <TextInput
+              placeholder={user?.email}
               className={classes.textInput}
               key={form.key('email')}
               {...form.getInputProps('email')} 
