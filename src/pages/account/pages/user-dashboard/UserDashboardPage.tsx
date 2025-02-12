@@ -1,26 +1,31 @@
-import { Box, Flex, Loader, Button, Paper } from "@mantine/core";
+import { Box, Flex, Loader, Button, Paper, Modal } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import UserTable from "./components/UserTable";
-import { useGetAllUsers } from "@/hooks/usersHook";
+import { useGetAllUsers, useGetUserRoles } from "@/hooks/usersHook";
+
+import RegisterUserForm from "./components/RegisterUserForm";
 
 const UserDashboardPage = () => {
 
-  const users = useGetAllUsers();
+  const [opened, {open, close}] = useDisclosure(false);
 
-  const table = users.isFetched ? 
-    <UserTable data={users.data} /> : 
-    <Loader />;
+  const users = useGetAllUsers();
+  const userRoles = useGetUserRoles();
 
   return (
     <Paper w="70%" m="auto" p="xs">
       <Flex direction="column" gap="xs">
+        <Modal opened={opened} onClose={close} title="Create User" >
+          {userRoles.isFetched ? <RegisterUserForm userRoles={userRoles.data}/> : <Loader />}
+        </Modal>
         <Box>
-          <Button>
-            Register a User
+          <Button onClick={open}>
+            Create User
           </Button>
         </Box>
 
         <Box>
-          {table}
+          {users.isFetched && userRoles.isFetched ? <UserTable data={users.data} /> : <Loader />}
         </Box>
 
       </Flex>

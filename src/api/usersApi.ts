@@ -46,7 +46,7 @@ export const getAllUsers = async() => {
   }
 }
 
-export const insertUser = async(data: UserType) => {
+export const insertUser = async(data: Partial<UserType>) => {
   const apiUrl = `${bpitDasApiUrlV1}/register`;
   const token = localStorage.getItem("token");
   try {

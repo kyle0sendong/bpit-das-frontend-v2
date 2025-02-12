@@ -13,3 +13,8 @@ export type UserContextType = {
   update: (userData: UserType) => void;
   logout: () => void;
 }
+
+export type UserRolesType = {
+  id: string;
+  role: string;
+}
