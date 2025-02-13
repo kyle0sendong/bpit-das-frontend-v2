@@ -75,6 +75,21 @@ export const updateUser = async(data: Partial<UserType>) => {
   }
 }
 
+export const updateOtherUser = async(data: Partial<UserType>) => {
+  const apiUrl = `${bpitDasApiUrlV1}/users`;
+  const token = localStorage.getItem("token");
+  try {
+    const result = await axios.patch(apiUrl, data, {
+      headers: {
+        Authorization: token
+      }
+    });
+    return result;
+  } catch {
+    return -1;
+  }
+}
+
 export const deleteUser = async(data: Partial<UserType>) => {
   const apiUrl = `${bpitDasApiUrlV1}/user`;
   const token = localStorage.getItem("token");

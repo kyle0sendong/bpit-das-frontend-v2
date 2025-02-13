@@ -5,10 +5,10 @@ export type UserType = {
   firstName: string,
   lastName: string;
   role: number;
-  roleId: number;
+  roleId: number | string;
   first_name: string,
   last_name: string;
-  role_id: number;
+  role_id: number | string;
 }
 
 export type UserContextType = {

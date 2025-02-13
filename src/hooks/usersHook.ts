@@ -1,4 +1,4 @@
-import { loginUser, logoutUser, getAllUsers, insertUser, updateUser, deleteUser, getUserRoles } from "@/api/usersApi";
+import { loginUser, logoutUser, getAllUsers, insertUser, updateUser, deleteUser, getUserRoles, updateOtherUser } from "@/api/usersApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import queryKeys from "./_queryKeys";
@@ -11,7 +11,6 @@ export const useUserLogin = () => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       if(data != -1) {
-        console.log(data)
         login(data.data.user, data.data.token)
       }
     },
@@ -60,6 +59,16 @@ export const useUpdateUser = () => {
       if(data != -1) {
         update(data.data.user)
       }
+    }
+  })
+}
+
+export const useUpdateOtherUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateOtherUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.useGetAllUsers()]})
     }
   })
 }

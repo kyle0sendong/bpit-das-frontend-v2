@@ -3,6 +3,7 @@ import { useForm } from "@mantine/form";
 import { Flex, Text, TextInput, NativeSelect, Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { UserType, UserRolesType } from "@/types/users";
+import { useUpdateOtherUser } from "@/hooks/usersHook";
 
 type EditUserFormProps = {
   userData: UserType;
@@ -11,25 +12,25 @@ type EditUserFormProps = {
 
 const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
 
+  const { mutate: updateOtherUser } = useUpdateOtherUser();
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
       id: userData.id,
-      role: userData.roleId
+      role_id: userData.roleId.toString()
     }
   });
 
   const userRoleSelection = userRoles.map( (data) => { 
     return {
       label: data.role,
-      value: data.id
+      value: data.id.toString()
     }
   })
 
   const [openedEdit, {open: openEdit, close: closeEdit}] = useDisclosure(false);
 
   return (
-
     <>
       <Modal
         opened={openedEdit} 
@@ -41,7 +42,7 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
         }}
       >
         <form onSubmit={form.onSubmit((values) => {
-          console.log(values)
+          updateOtherUser(values)
         })}>
 
           <Flex className={classes.flexItem}>
@@ -49,9 +50,8 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
             <TextInput
               placeholder={userData.firstName}
               className={classes.textInput}
-              key={form.key('firstName')}
-              {...form.getInputProps('firstName')}
-              required
+              key={form.key('first_name')}
+              {...form.getInputProps('first_name')}
             />
           </Flex>
 
@@ -60,9 +60,9 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
             <TextInput
               placeholder={userData.lastName}
               className={classes.textInput}
-              key={form.key('lastName')}
-              {...form.getInputProps('lastName')}
-              required
+              key={form.key('last_name')}
+              {...form.getInputProps('last_name')}
+              
             />
           </Flex>
 
@@ -73,7 +73,6 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
               className={classes.textInput}
               key={form.key('username')}
               {...form.getInputProps('username')}
-              required
             />
           </Flex>
 
@@ -84,7 +83,6 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
               className={classes.textInput}
               key={form.key('email')}
               {...form.getInputProps('email')}
-              required
             />
           </Flex>
 
@@ -93,13 +91,13 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
             <NativeSelect
               size="xs"
               data={userRoleSelection}
-              key={form.key(`role`)}
-              {...form.getInputProps(`role`)}
+              key={form.key(`role_id`)}
+              {...form.getInputProps(`role_id`)}
             />
           </Flex>
 
           <Flex justify='flex-end'>
-            <Button type="submit">
+            <Button type="submit" onClick={closeEdit}>
               Save
             </Button>
           </Flex>
