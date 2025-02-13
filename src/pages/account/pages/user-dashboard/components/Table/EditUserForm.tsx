@@ -104,10 +104,10 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
             </Button>
           </Flex>
         </form>
-        
+
       </Modal>
       
-      <Button variant="default" onClick={openEdit}>
+      <Button size="xs" variant="default" onClick={openEdit}>
         Edit
       </Button>
 

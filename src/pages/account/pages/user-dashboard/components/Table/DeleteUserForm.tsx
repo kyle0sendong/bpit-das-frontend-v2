@@ -1,27 +1,55 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { Modal, Button, Flex, Text } from "@mantine/core";
 
 type DeleteUserProps = {
   id: number;
+  name: string;
 }
-const DeleteUserForm = ({id}: DeleteUserProps) => {
+
+const DeleteUserForm = ({id, name}: DeleteUserProps) => {
+
+  const form = useForm({
+    mode:"uncontrolled",
+    initialValues: {
+      id: id.toString()
+    }
+  })
 
   const [openedDelete, {open: openDelete, close: closeDelete}] = useDisclosure(false);
 
   return (
-    <>
+
+      <>
       <Modal 
         opened={openedDelete} 
         onClose={closeDelete} 
-        title={`Delete User`}
+        title={`Are you sure you want to delete this user?`}
         overlayProps={{
           backgroundOpacity: 0.25,
           blur: 0.5
         }}
       >
-        
+        <form onSubmit={form.onSubmit((values) => {
+          console.log(values)
+        })}>
+          <Flex direction="column" gap="md">
+            <Text>
+              Are you sure you want to delete <i>{name}</i>? This action cannot be undone.
+            </Text>
+            <Flex justify="flex-end" gap="md">
+              <Button variant="default" onClick={closeDelete}>
+                Cancel
+              </Button>
+              <Button bg="red" type="submit">
+                Delete
+              </Button>
+            </Flex>
+          </Flex>
+        </form>
+
       </Modal>
-      <Button bg="red" variant="filled" onClick={openDelete}>
+      <Button size="xs" bg="red" variant="filled" onClick={openDelete}>
         Delete
       </Button>
     </>

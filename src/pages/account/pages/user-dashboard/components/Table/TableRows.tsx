@@ -53,7 +53,7 @@ const TableRows = () => {
           <Table.Td>
             <Flex justify="space-evenly">
               <EditUserForm userData={user} userRoles={userRolesData}/>
-              <DeleteUserForm id={user.id}/>
+              <DeleteUserForm id={user.id} name={`${user.firstName} ${user.lastName}`}/>
             </Flex>
           </Table.Td>
         </Table.Tr>

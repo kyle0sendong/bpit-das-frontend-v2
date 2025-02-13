@@ -5,6 +5,7 @@ export type UserType = {
   firstName: string,
   lastName: string;
   role: string;
+  roleId: number;
 }
 
 export type UserContextType = {
