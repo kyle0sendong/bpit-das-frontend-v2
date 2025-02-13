@@ -83,10 +83,6 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
           </Box>
 
           <Flex justify="space-between">
-            <Button type="submit" color="dark.3">
-              Save
-            </Button>
-
             <Popover position="bottom" withArrow shadow="md">
               <Popover.Target>
                 <Button 
@@ -116,6 +112,10 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
 
               </Popover.Dropdown>
             </Popover>
+
+            <Button type="submit" color="dark.3" onClick={close}>
+              Save
+            </Button>
           </Flex>
 
         </form>
