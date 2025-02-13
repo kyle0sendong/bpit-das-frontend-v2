@@ -75,7 +75,7 @@ export const updateUser = async(data: Partial<UserType>) => {
   }
 }
 
-export const deleteUser = async(data: UserType) => {
+export const deleteUser = async(data: Partial<UserType>) => {
   const apiUrl = `${bpitDasApiUrlV1}/user`;
   const token = localStorage.getItem("token");
   try {

@@ -4,8 +4,11 @@ export type UserType = {
   email: string;
   firstName: string,
   lastName: string;
-  role: string;
+  role: number;
   roleId: number;
+  first_name: string,
+  last_name: string;
+  role_id: number;
 }
 
 export type UserContextType = {
@@ -16,6 +19,6 @@ export type UserContextType = {
 }
 
 export type UserRolesType = {
-  id: string;
+  id: number;
   role: string;
 }

@@ -1,6 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import { Modal, Button, Flex, Text } from "@mantine/core";
+import { useDeleteUser } from "@/hooks/usersHook";
 
 type DeleteUserProps = {
   id: number;
@@ -9,18 +10,19 @@ type DeleteUserProps = {
 
 const DeleteUserForm = ({id, name}: DeleteUserProps) => {
 
+  const {mutate: deleteUser} = useDeleteUser();
+
   const form = useForm({
     mode:"uncontrolled",
     initialValues: {
-      id: id.toString()
+      id: id
     }
-  })
-
+  });
+  
   const [openedDelete, {open: openDelete, close: closeDelete}] = useDisclosure(false);
 
   return (
-
-      <>
+    <>
       <Modal 
         opened={openedDelete} 
         onClose={closeDelete} 
@@ -32,6 +34,7 @@ const DeleteUserForm = ({id, name}: DeleteUserProps) => {
       >
         <form onSubmit={form.onSubmit((values) => {
           console.log(values)
+          deleteUser(values)
         })}>
           <Flex direction="column" gap="md">
             <Text>
