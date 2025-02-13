@@ -1,15 +1,16 @@
 import { Box, Flex, Loader, Button, Paper, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import UserTable from "./components/UserTable";
-import { useGetAllUsers, useGetUserRoles } from "@/hooks/usersHook";
+
+import { useGetUserRoles } from "@/hooks/usersHook";
 
 import RegisterUserForm from "./components/RegisterUserForm";
+
+import UsersTable from "./components/Table/UsersTable";
 
 const UserDashboardPage = () => {
 
   const [opened, {open, close}] = useDisclosure(false);
 
-  const users = useGetAllUsers();
   const userRoles = useGetUserRoles();
 
   return (
@@ -25,7 +26,7 @@ const UserDashboardPage = () => {
         </Box>
 
         <Box>
-          {users.isFetched && userRoles.isFetched ? <UserTable data={users.data} /> : <Loader />}
+          <UsersTable />
         </Box>
 
       </Flex>
