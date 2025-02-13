@@ -3,12 +3,15 @@ import { UserType, UserRolesType } from "@/types/users";
 import EditUserForm from "./EditUserForm";
 import DeleteUserForm from "./DeleteUserForm";
 
+import { useUser } from "@/contexts/UserContext";
+
 import { useGetAllUsers, useGetUserRoles } from "@/hooks/usersHook";
 
 const TableRows = () => {
 
   const users = useGetAllUsers();
   const userRoles = useGetUserRoles();
+  const { user } = useUser();
 
   if(users.isLoading || userRoles.isLoading) {
     return (
@@ -22,38 +25,39 @@ const TableRows = () => {
 
   if(users.isFetched && userRoles.isFetched) {
 
-    const userData: UserType[] = users.data;
+    const usersData: UserType[] = users.data;
     const userRolesData: UserRolesType[] = userRoles.data
+    const filteredUsers = usersData.filter( (userData) => userData.username != user?.username)
 
-    return userData.map( (user) => {
+    return filteredUsers.map( (userData) => {
       return (
-        <Table.Tr key={`${user.id}${user.username}`} >
+        <Table.Tr key={`${userData.id}${userData.username}`} >
   
           {/* Username */}
           <Table.Td>
-            {user.username}
+            {userData.username}
           </Table.Td>
   
           {/* Name */}
           <Table.Td>
-            {`${user.firstName} ${user.lastName}`}
+            {`${userData.firstName} ${userData.lastName}`}
           </Table.Td>
         
           {/* Email */}
           <Table.Td>
-            {user.email}
+            {userData.email}
           </Table.Td>
   
           {/* Role */}
           <Table.Td>
-            {user.role}
+            {userData.role}
           </Table.Td>
   
           {/* Actions */}
           <Table.Td>
             <Flex justify="space-evenly">
-              <EditUserForm userData={user} userRoles={userRolesData}/>
-              <DeleteUserForm id={user.id} name={`${user.firstName} ${user.lastName}`}/>
+              <EditUserForm userData={userData} userRoles={userRolesData}/>
+              <DeleteUserForm id={userData.id} name={`${userData.firstName} ${userData.lastName}`}/>
             </Flex>
           </Table.Td>
         </Table.Tr>
