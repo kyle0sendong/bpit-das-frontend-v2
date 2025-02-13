@@ -15,14 +15,14 @@ const RegisterUserForm = ({userRoles}: RegisterUserFormProps) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      role: "2"
+      roleId: 2
     }
   });
   
   const userRoleSelection = userRoles.map( (data) => { 
     return {
       label: data.role,
-      value: data.id
+      value: data.id.toString()
     }
   })
 
@@ -103,8 +103,8 @@ const RegisterUserForm = ({userRoles}: RegisterUserFormProps) => {
           <NativeSelect
             size="xs"
             data={userRoleSelection}
-            key={form.key(`role`)}
-            {...form.getInputProps(`role`)}
+            key={form.key(`roleId`)}
+            {...form.getInputProps(`roleId`)}
           />
         </Flex>
 
