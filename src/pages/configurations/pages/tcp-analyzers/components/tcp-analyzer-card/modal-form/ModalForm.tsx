@@ -1,7 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group } from "@mantine/core";
+import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
@@ -13,9 +13,8 @@ import { getDataSampling } from "../../../utils/sampling";
 const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
 
   const [opened, { open, close }] = useDisclosure(false);
-  const navigate = useNavigate();
-  const { mutate: updateTcpAnalyzer } = useUpdateTcpAnalyzer(tcpAnalyzerData.id);
-  const { mutate: deleteTcpAnalyzer } = useDeleteTcpAnalyzer(tcpAnalyzerData.id);
+  const { mutate: updateTcpAnalyzer, isPending: isPendingUpdate } = useUpdateTcpAnalyzer(tcpAnalyzerData.id);
+  const { mutate: deleteTcpAnalyzer, isPending: isPendingDelete, isSuccess } = useDeleteTcpAnalyzer(tcpAnalyzerData.id);
   
   const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
@@ -86,7 +85,6 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
             <Popover position="bottom" withArrow shadow="md">
               <Popover.Target>
                 <Button 
-                  fz="0.6rem"
                   rightSection={<IconTrash size="1rem" />} 
                   variant="filled"
                   color="red"  
@@ -96,26 +94,47 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
               </Popover.Target>
               <Popover.Dropdown>
                 <Group>
-                  <Button 
-                    justify="center"
-                    fz="0.6rem"
-                    rightSection={<IconCheck size="1rem" />} 
-                    variant="default"
-                    onClick={ () => {
-                      navigate('/configurations')
-                      deleteTcpAnalyzer(tcpAnalyzerData.id)
-                    }}
-                  >
-                    Yes
-                  </Button>
-                </Group>
 
+                {
+                  isPendingDelete ?                 
+                    <Button
+                      disabled
+                      variant="default"
+                      color="red"  
+                    >
+                        <Loader size="sm"/>
+                    </Button>
+                  :
+                    <Button 
+                      justify="center"
+                      rightSection={<IconCheck size="1rem" />} 
+                      variant="default"
+                      onClick={ () => {
+                        
+                        deleteTcpAnalyzer(tcpAnalyzerData.id)
+                      }}
+                    >
+                      Yes
+                    </Button>
+                }
+
+                { isSuccess && <Navigate to={'/configurations'} />}
+
+                </Group>
               </Popover.Dropdown>
             </Popover>
+          
+            {
+              isPendingUpdate ? 
+                <Button color="dark.3" disabled>
+                  <Loader size="sm"/>
+                </Button>
+              : 
+                <Button type="submit" color="dark.3">
+                  Save
+                </Button>
+            }
 
-            <Button type="submit" color="dark.3" onClick={close}>
-              Save
-            </Button>
           </Flex>
 
         </form>
