@@ -7,7 +7,7 @@ import modifyTimebaseFormValues from "./modifyTimebaseFormValues";
 const TimebaseForm = () => {
 
   const timebases = useGetAllTimebases();
-  const { mutate: updateTimebase } = useUpdateTimebases();
+  const { mutate: updateTimebase, isPending } = useUpdateTimebases();
   const form = useForm<any>({
     mode:"uncontrolled"
   });
@@ -23,7 +23,6 @@ const TimebaseForm = () => {
     const timebaseData: TimebasesType[] = timebases.data
 
     form.setFieldValue('timebase_5', timebaseData.find((data) => data.timebase == 5)?.enable)
-
     form.setFieldValue('timebase_10', timebaseData.find((data) => data.timebase == 10)?.enable)
     form.setFieldValue('timebase_15', timebaseData.find((data) => data.timebase == 15)?.enable)
     form.setFieldValue('timebase_30', timebaseData.find((data) => data.timebase == 30)?.enable)
@@ -98,9 +97,17 @@ const TimebaseForm = () => {
             </Grid>
 
             <Flex justify="flex-end" w="100%" pt="xs">
-              <Button type="submit" color="dark.3">
-                Save Timebase
-              </Button>
+              {
+                isPending ? 
+                  <Button color="dark.3" disabled>
+                    Save Timebase 
+                    <Loader size="sm"/>
+                  </Button>
+                : 
+                  <Button type="submit" color="dark.3">
+                    Save Timebase
+                  </Button>
+              }
             </Flex>
           </Paper>
         </form>
