@@ -1,4 +1,4 @@
-import { Button, NumberInput, Flex } from "@mantine/core";
+import { Button, NumberInput, Flex, Loader } from "@mantine/core";
 import { useInsertTcpParameter } from "@/hooks/tcpParametersHook";
 import { useForm } from "@mantine/form";
 import { InsertTcpParameterType } from "@/types/tcpParameters";
@@ -13,7 +13,7 @@ const AddParameterCard = ({id}: {id: string}) => {
     }
   });
   
-  const { mutate: insertParameter } = useInsertTcpParameter(parseInt(id));
+  const { mutate: insertParameter, isPending } = useInsertTcpParameter(parseInt(id));
 
   return (
     <form onSubmit={
@@ -29,7 +29,17 @@ const AddParameterCard = ({id}: {id: string}) => {
           key={form.key('number')}
           {...form.getInputProps('number')}
         />
-        <Button variant="outline" type="submit" onClick={() => form.setFieldValue("id", parseInt(id))}> Save</Button>
+        {
+          isPending ?  
+            <Button variant="outline" disabled> 
+              <Loader size="sm" />
+            </Button>
+          : 
+            <Button variant="outline" type="submit" onClick={() => form.setFieldValue("id", parseInt(id))}>
+              Save
+            </Button>
+        }
+        
       </Flex>
     </form>
 

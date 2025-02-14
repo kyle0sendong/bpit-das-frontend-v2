@@ -1,4 +1,4 @@
-import { Button, NumberInput, Flex } from "@mantine/core";
+import { Button, NumberInput, Flex, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { useInsertVirtualChannel } from "@/hooks/virtualChannelsHook";
@@ -14,7 +14,7 @@ const AddVirtualChannelCard = () => {
     }
   });
   
-  const { mutate: insertVirtualChannel } = useInsertVirtualChannel();
+  const { mutate: insertVirtualChannel, isPending } = useInsertVirtualChannel();
 
   return (
     <form onSubmit={
@@ -31,7 +31,16 @@ const AddVirtualChannelCard = () => {
           key={form.key('number')}
           {...form.getInputProps('number')}
         />
-        <Button variant="outline" type="submit">Insert</Button>
+        {
+          isPending ?  
+            <Button variant="outline" disabled> 
+              <Loader size="sm" />
+            </Button>
+          : 
+            <Button variant="outline" type="submit">
+              Insert
+            </Button>
+        }
       </Flex>
     </form>
 
