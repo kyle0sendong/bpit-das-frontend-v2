@@ -6,7 +6,7 @@ import { StationsType } from "@/types/stations";
 const StationForm = () => {
 
   const stations = useGetAllStations();
-  const { mutate: updateStation } = useUpdateStations();
+  const { mutate: updateStation, isPending } = useUpdateStations();
 
   const form = useForm<any>({
     mode:"uncontrolled"
@@ -24,7 +24,8 @@ const StationForm = () => {
     return (
       <>
         <form onSubmit={ form.onSubmit( (value) =>  {
-          updateStation(value)
+          form.reset();
+          updateStation(value);
         })}>
 
           <Paper m="xs" p="xs">
@@ -45,9 +46,16 @@ const StationForm = () => {
             />
             
             <Flex justify="flex-end" pt="xs">
-              <Button type="submit" color="dark.3">
-                Save Station
-              </Button>
+              {
+                isPending ? 
+                  <Button color="dark.3" disabled>
+                    <Loader size="sm"/>
+                  </Button>
+                : 
+                  <Button type="submit" color="dark.3">
+                    Save Station
+                  </Button>
+              }
             </Flex>
           </Paper>
         </form>
