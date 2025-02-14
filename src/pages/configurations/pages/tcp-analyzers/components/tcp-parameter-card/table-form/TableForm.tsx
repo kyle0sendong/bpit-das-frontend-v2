@@ -1,7 +1,7 @@
 import { useState } from "react";
 import classes from './css/TableForm.module.css';
 
-import { Table, Button,  ScrollArea, Group,  } from "@mantine/core";
+import { Table, Button,  ScrollArea, Group, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import cx from 'clsx';
@@ -24,8 +24,7 @@ const TableForm = ({parametersData}: TableFormProps) => {
   });
 
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateParameter } = useUpdateTcpParameter(parametersData[0]?.analyzer_id, form)
-
+  const { mutate: updateParameter, isPending } = useUpdateTcpParameter(parametersData[0]?.analyzer_id, form)
 
   return (
 
@@ -48,9 +47,20 @@ const TableForm = ({parametersData}: TableFormProps) => {
       </ScrollArea>
 
       <Group justify="flex-end" mx="lg" my="md">
-        <Button type="submit" color="dark.3">
-          Save
-        </Button>
+        {
+          isPending ? 
+            <Button
+              color="dark.3"
+              disabled
+            >
+              <Loader size="xs"/>
+            </Button>
+          :         
+            <Button type="submit" color="dark.3">
+              Save
+            </Button>
+        }
+
       </Group>
     </form>
   )

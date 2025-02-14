@@ -1,7 +1,7 @@
 import { useState } from "react";
 import classes from './css/TableForm.module.css';
 
-import { Table, Button,  ScrollArea, Group,  } from "@mantine/core";
+import { Table, Button,  ScrollArea, Group, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import cx from 'clsx';
@@ -17,7 +17,7 @@ import { VirtualChannelsType } from "@/types/virtualChannels";
 const TableForm = () => {
   
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateVirtualChannel } = useUpdateVirtualChannel()
+  const { mutate: updateVirtualChannel, isPending } = useUpdateVirtualChannel()
 
   const form = useForm<VirtualChannelsType>({
     mode:"uncontrolled"
@@ -51,9 +51,19 @@ const TableForm = () => {
         </ScrollArea>
   
         <Group justify="flex-end" mx="lg" my="md">
-          <Button type="submit" color="dark.3">
-            Save
-          </Button>
+        {
+          isPending ? 
+            <Button
+              color="dark.3"
+              disabled
+            >
+              <Loader size="xs"/>
+            </Button>
+          :         
+            <Button type="submit" color="dark.3">
+              Save
+            </Button>
+        }
         </Group>
       </form>
     )
