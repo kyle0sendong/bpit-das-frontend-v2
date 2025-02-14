@@ -1,4 +1,4 @@
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput } from "@mantine/core"
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 
 import { useDeleteTcpParameter } from "@/hooks/tcpParametersHook";
@@ -54,7 +54,7 @@ type TableRowsProps = {
 }
 
 const TableRows = ({parametersData, form}: TableRowsProps) => {
-  const {mutate: deleteParameter} = useDeleteTcpParameter(parametersData[0]?.analyzer_id);
+  const {mutate: deleteParameter, isPending} = useDeleteTcpParameter(parametersData[0]?.analyzer_id);
 
   return parametersData.map( (parameter) => {
     return (
@@ -163,15 +163,26 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
         <Table.Td>
           <Popover position="bottom" withArrow shadow="md">
             <Popover.Target>
-              <Button 
-                size="compact-sm"
-                fz="0.6rem"
-                rightSection={<IconTrash size="1rem" />} 
-                variant="filled"
-                color="red"  
-              >
+            {
+              isPending ?  
+                <Button 
+                  size="compact-sm" 
+                  variant="filled"
+                  color="red"  
+                  disabled>
+                  <Loader size="sm" />
+                </Button>
+              :
+                <Button 
+                  size="compact-sm"
+                  fz="0.6rem"
+                  rightSection={<IconTrash size="1rem" />} 
+                  variant="filled"
+                  color="red"
+                >
                   Delete
-              </Button>
+                </Button>
+            }
             </Popover.Target>
             <Popover.Dropdown>
               <Group>

@@ -1,4 +1,4 @@
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover } from "@mantine/core"
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, Loader } from "@mantine/core"
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 
 import { useDeleteVirtualChannel } from "@/hooks/virtualChannelsHook";
@@ -61,7 +61,7 @@ type TableRowsProps = {
 }
 
 const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) => {
-  const {mutate: deleteVirtualChannel} = useDeleteVirtualChannel();
+  const {mutate: deleteVirtualChannel, isPending} = useDeleteVirtualChannel();
 
   return virtualChannelsData.map( (virtualChannel) => {
     return (
@@ -178,15 +178,27 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
         <Table.Td>
           <Popover position="bottom" withArrow shadow="md">
             <Popover.Target>
-              <Button 
-                size="compact-sm"
-                fz="0.6rem"
-                rightSection={<IconTrash size="1rem" />} 
-                variant="filled"
-                color="red"  
-              >
+            {
+              isPending ?  
+                <Button 
+                  size="compact-sm" 
+                  variant="filled"
+                  color="red"  
+                  disabled>
+                  <Loader size="sm" />
+                </Button>
+              :
+                <Button 
+                  size="compact-sm"
+                  fz="0.6rem"
+                  rightSection={<IconTrash size="1rem" />} 
+                  variant="filled"
+                  color="red"
+                >
                   Delete
-              </Button>
+                </Button>
+            }
+
             </Popover.Target>
             <Popover.Dropdown>
               <Group>
