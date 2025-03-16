@@ -1,4 +1,4 @@
-import { TcpParametersType } from '@/types/tcpParameters';
+import { ParameterType } from '@/types/parameters';
 
 import {
   MantineReactTable,
@@ -15,7 +15,7 @@ import autoTable from 'jspdf-autotable';
 import { toSnakeCase } from '@/utils/strings';
 
 type ParametersTableProps = {
-  parameters: TcpParametersType[],
+  parameters: ParameterType[],
   data: any[],
   analyzerType: string,
   tcpAnalyzerId: string

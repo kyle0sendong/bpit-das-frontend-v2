@@ -1,9 +1,9 @@
-import { TcpParametersType } from "@/types/tcpParameters";
+import { ParameterType } from "@/types/parameters";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const modifyFormValues = (values: any) => {
 
-  const updateParameters: Partial<TcpParametersType>[] = []
+  const updateParameters: Partial<ParameterType>[] = []
   const objectKeys = Object.keys(values)
   for(let i = 0; i < objectKeys.length; i += 0) {
 
@@ -17,9 +17,10 @@ const modifyFormValues = (values: any) => {
     const function_code = values[`${id}-function_code`] ?? '';
     const start_register_address = values[`${id}-start_register_address`] ?? '';
     const register_count = values[`${id}-register_count`] ?? '';
+    const ascii_command = values[`${id}-ascii_command`] ?? '';
     const formula = values[`${id}-formula`] ?? '';
 
-    const parameterObject: Partial<TcpParametersType> = {
+    const parameterObject: Partial<ParameterType> = {
       id: id
     }
 
@@ -62,6 +63,11 @@ const modifyFormValues = (values: any) => {
     if (register_count !== '') {
       i++;
       parameterObject.register_count = register_count;
+      pushObject = true;
+    }
+    if (ascii_command !== '') {
+      i++;
+      parameterObject.ascii_command = ascii_command;
       pushObject = true;
     }
     if (formula !== '') {

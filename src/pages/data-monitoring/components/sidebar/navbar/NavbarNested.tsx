@@ -29,11 +29,11 @@ export default function NavbarNested() {
       { label: 'All Analyzers', icon: IconGauge, link: "?type=all-analyzers" },
       { label: 'Virtual Channels', icon: IconFileAnalytics, link: "?type=virtual-channels"},
       {
-        label: 'TCP Analyzers',
+        label: 'Modbus TCP Analyzers',
         icon: IconNotes,
         link: "",
         initiallyOpened: true,
-        links: [{label:"All TCP Analyzers", link:"?type=all-tcp-analyzers"}, ...tcpAnalyzerLinks]
+        links: [{label:"All Modbus TCP Analyzers", link:"?type=all-tcp-analyzers"}, ...tcpAnalyzerLinks]
       },
       {
         label: 'Serial Analyzers',

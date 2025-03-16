@@ -8,42 +8,42 @@ import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 import { useUpdateTcpAnalyzer, useDeleteTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
 import { IconCheck, IconTrash } from "@tabler/icons-react";
 
-import { getDataSampling } from "../../../utils/sampling";
+import { getDataSampling } from "@/utils/analyzers"
 
-const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
+const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
 
   const [opened, { open, close }] = useDisclosure(false);
-  const { mutate: updateTcpAnalyzer, isPending: isPendingUpdate } = useUpdateTcpAnalyzer(tcpAnalyzerData.id);
-  const { mutate: deleteTcpAnalyzer, isPending: isPendingDelete, isSuccess } = useDeleteTcpAnalyzer(tcpAnalyzerData.id);
+  const { mutate: updateTcpAnalyzer, isPending: isPendingUpdate } = useUpdateTcpAnalyzer(analyzerData.id);
+  const { mutate: deleteTcpAnalyzer, isPending: isPendingDelete, isSuccess } = useDeleteTcpAnalyzer(analyzerData.id);
   
   const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
     initialValues: {
-      id: tcpAnalyzerData.id
+      id: analyzerData.id
     }
   });
 
   return (
     <>
       <Button h="100%" p="sm" variant="default" onClick={open} style={{fontSize:"1.3rem"}}>
-        {tcpAnalyzerData.name}
+        {analyzerData.name}
       </Button>
 
       <Modal
         opened={opened}
         onClose={close}
-        title={`Edit ${tcpAnalyzerData.name}`}
+        title={`Edit ${analyzerData.name}`}
         centered
       >
         <form onSubmit={ form.onSubmit( (value) =>  {
-          form.setFieldValue('id', tcpAnalyzerData.id);
+          form.setFieldValue('id', analyzerData.id);
           updateTcpAnalyzer(value)
         })}>
           <Box mb="1rem">
             <TextInput
               size="xs"
               label="Name"
-              placeholder={tcpAnalyzerData.name}
+              placeholder={analyzerData.name}
               key={form.key('name')}
               {...form.getInputProps('name')}
             />
@@ -51,7 +51,7 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
             <TextInput
               size="xs"
               label="IP Address"
-              placeholder={tcpAnalyzerData.host_address}
+              placeholder={analyzerData.host_address}
               key={form.key('host_address')}
               {...form.getInputProps('host_address')}
             />
@@ -59,7 +59,7 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
             <TextInput
               size="xs"
               label="Port"
-              placeholder={tcpAnalyzerData.port.toString()}
+              placeholder={analyzerData.port.toString()}
               key={form.key('port')}
               {...form.getInputProps('port')}
             />
@@ -67,7 +67,7 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
             <TextInput
               size="xs"
               label="Device Address"
-              placeholder={tcpAnalyzerData.device_address.toString()}
+              placeholder={analyzerData.device_address.toString()}
               key={form.key('device_address')}
               {...form.getInputProps('device_address')}
             />
@@ -111,7 +111,7 @@ const ModalForm = ({tcpAnalyzerData}: {tcpAnalyzerData: TcpAnalyzerType}) => {
                       variant="default"
                       onClick={ () => {
                         
-                        deleteTcpAnalyzer(tcpAnalyzerData.id)
+                        deleteTcpAnalyzer(analyzerData.id)
                       }}
                     >
                       Yes

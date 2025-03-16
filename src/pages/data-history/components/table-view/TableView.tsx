@@ -4,7 +4,7 @@ import { useGetTcpParametersByAnalyzerId } from "@/hooks/tcpParametersHook";
 import { useGetAnalyzerData } from '@/hooks/analyzerDataHook';
 
 import ParametersTable from './table/ParametersTable';
-import { TcpParametersType } from '@/types/tcpParameters';
+import { ParameterType } from '@/types/parameters';
 import { Box } from '@mantine/core';
 
 import {
@@ -50,7 +50,7 @@ const TableView = () => {
   const tcpParameters = useGetTcpParametersByAnalyzerId(parseInt(tcp_analyzer));
 
   if(tcpParameters.isFetched && analyzerData.isFetched) {
-    const tcpParametersData: TcpParametersType[] = tcpParameters.data;
+    const tcpParametersData: ParameterType[] = tcpParameters.data;
     const data: any[] = analyzerData.data;
 
     return (

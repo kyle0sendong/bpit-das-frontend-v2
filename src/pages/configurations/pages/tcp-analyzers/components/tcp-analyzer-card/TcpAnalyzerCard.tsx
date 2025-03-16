@@ -11,23 +11,23 @@ const TcpAnalyzerCard = ({id}: {id: string}) => {
 
   if(tcpAnalyzer.isFetched) {
 
-    const tcpAnalyzerData: TcpAnalyzerType = tcpAnalyzer.data[0];
+    const analyzerData: TcpAnalyzerType = tcpAnalyzer.data[0];
 
     return (
 
       <Flex gap={14} h="100%" p="md">
         <Paper shadow="md">
-          <ModalForm tcpAnalyzerData={tcpAnalyzerData}/>
+          <ModalForm analyzerData={analyzerData}/>
         </Paper>
 
         <Flex direction="column" gap="xs" my="auto">
-          <Text size="0.9rem"> <b>IP Address:</b> {tcpAnalyzerData.host_address}</Text>
-          <Text size="0.9rem"> <b>Port:</b> {tcpAnalyzerData.port}</Text>
+          <Text size="0.9rem"> <b>IP Address:</b> {analyzerData.host_address}</Text>
+          <Text size="0.9rem"> <b>Port:</b> {analyzerData.port}</Text>
         </Flex>
 
         <Flex direction="column" gap="xs" my="auto">
-          <Text size="0.9rem"> <b>Device Address:</b> {tcpAnalyzerData.device_address}</Text>
-          <Text size="0.9rem"> <b>Data Threshold:</b> {tcpAnalyzerData.sampling}%</Text>
+          <Text size="0.9rem"> <b>Device Address:</b> {analyzerData.device_address}</Text>
+          <Text size="0.9rem"> <b>Data Threshold:</b> {analyzerData.sampling}%</Text>
         </Flex>
       </Flex>
 

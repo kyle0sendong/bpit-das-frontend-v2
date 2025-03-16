@@ -5,8 +5,8 @@ import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
 import { useInsertTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
 
-import { getDataSampling } from "../../../tcp-analyzers/utils/sampling";
-import classes from "./InsertTcpForm.module.css";
+import { getDataSampling } from "@/utils/analyzers"
+import classes from "../../InsertForm.module.css";
 
 const InsertTcpForm = () => {
 
@@ -28,7 +28,7 @@ const InsertTcpForm = () => {
       })}>
 
         <Title size="xl" ta="center" mb="md" >
-          Add Tcp Analyzer
+          Add Modbus Tcp Analyzer
         </Title>
 
         <Flex direction="column" gap="lg">

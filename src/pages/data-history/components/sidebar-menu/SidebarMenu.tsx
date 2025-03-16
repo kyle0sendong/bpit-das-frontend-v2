@@ -78,7 +78,7 @@ const SidebarMenu = () => {
           <TimebasePicker form={form}/>
         </Flex>
 
-        <Divider label="TCP Analyzers" labelPosition="center" styles={labelStyle}/>
+        <Divider label="Modbus TCP Analyzers" labelPosition="center" styles={labelStyle}/>
         <Flex direction="column" mx="xs" mb="sm">
           <AnalyzerPicker form={form} />
         </Flex>

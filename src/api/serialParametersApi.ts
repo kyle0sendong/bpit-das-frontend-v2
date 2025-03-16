@@ -1,9 +1,9 @@
 import axios from "axios";
 import { bpitDasApiUrlV1 } from "./apiUrl";
 import { ParameterType, InsertParameterType } from "@/types/parameters";
-const url = `${bpitDasApiUrlV1}/tcp-parameters`;
+const url = `${bpitDasApiUrlV1}/serial-parameters`;
 
-export const getAllTcpParameters = async () => {
+export const getAllSerialParameters = async () => {
   try {
     const data = await axios.get(url);
     return data.data;
@@ -12,7 +12,7 @@ export const getAllTcpParameters = async () => {
   }
 }
 
-export const getTcpParametersByAnalyzerId = async (id: number) => {
+export const getSerialParametersByAnalyzerId = async (id: number) => {
   try {
     const data = await axios.get(url, {
       params: {
@@ -25,7 +25,7 @@ export const getTcpParametersByAnalyzerId = async (id: number) => {
   }
 }
 
-export const insertTcpParameter = async (data: InsertParameterType) => {
+export const insertSerialParameter = async (data: InsertParameterType) => {
   try {
     const token = localStorage.getItem("token");
     return await axios.post(url, data, {
@@ -38,7 +38,7 @@ export const insertTcpParameter = async (data: InsertParameterType) => {
   }
 }
 
-export const updateTcpParameter = async (data: Partial<ParameterType>[]) => {
+export const updateSerialParameter = async (data: Partial<ParameterType>[]) => {
   try {
     const token = localStorage.getItem("token");
     return await axios.patch(url, data, {
@@ -52,7 +52,7 @@ export const updateTcpParameter = async (data: Partial<ParameterType>[]) => {
   }
 }
 
-export const deleteTcpParameter = async (id: number) => {
+export const deleteSerialParameter = async (id: number) => {
   try {
     const token = localStorage.getItem("token");
     return await axios.delete(url, {

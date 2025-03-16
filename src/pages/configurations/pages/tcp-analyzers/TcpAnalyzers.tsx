@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import TcpAnalyzerCard from "./components/tcp-analyzer-card/TcpAnalyzerCard"
 import AddParameterCard from "./components/add-parameter-card/AddParameterCard";
-import TcpParametersCard from "./components/tcp-parameter-card/TcpParametersCard";
+import TcpParametersTable from "./components/tcp-parameter-table/TcpParametersTable";
 const TcpAnalyzers = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id") ?? '0';
@@ -15,7 +15,7 @@ const TcpAnalyzers = () => {
         <Paper shadow="md"> <AddParameterCard id={id} /></Paper>
       </Flex>
       <Flex mx="xs">
-        <Paper shadow="md" w="100%"> <TcpParametersCard id={id}/> </Paper>
+        <Paper shadow="md" w="100%"> <TcpParametersTable id={id}/> </Paper>
       </Flex>
     </Box>
   )

@@ -11,7 +11,7 @@ import {
 } from "@/api/tcpParametersApi";
 
 import { UseFormReturnType } from "@mantine/form";
-import { TcpParametersType } from "@/types/tcpParameters";
+import { ParameterType } from "@/types/parameters";
 
 export const useGetAllTcpParameters = () => {
   return useQuery({
@@ -38,7 +38,7 @@ export const useInsertTcpParameter = (id: number) => {
   });
 }
 
-export const useUpdateTcpParameter = (id: number, form: UseFormReturnType<TcpParametersType>) => {
+export const useUpdateTcpParameter = (id: number, form: UseFormReturnType<ParameterType>) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateTcpParameter,

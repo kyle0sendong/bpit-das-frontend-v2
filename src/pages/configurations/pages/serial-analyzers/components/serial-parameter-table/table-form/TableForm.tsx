@@ -9,22 +9,24 @@ import cx from 'clsx';
 import TableRows from "./TableRows";
 import TableColumn from "./TableColumn";
 import modifyFormValues from "./modifyFormValues";
-import { useUpdateTcpParameter } from "@/hooks/tcpParametersHook";
 
-import { TcpParametersType } from "@/types/tcpParameters";
+import { useUpdateSerialParameter } from "@/hooks/serialParametersHook";
+import { ParameterType } from "@/types/parameters";
+import { SerialAnalyzerType } from "@/types/serialAnalyzers";
 
 type TableFormProps = {
-  parametersData: TcpParametersType[]
+  parametersData: ParameterType[],
+  analyzerData: SerialAnalyzerType
 }
 
-const TableForm = ({parametersData}: TableFormProps) => {
+const TableForm = ({parametersData, analyzerData}: TableFormProps) => {
 
-  const form = useForm<TcpParametersType>({
+  const form = useForm<ParameterType>({
     mode:"uncontrolled"
   });
 
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateParameter, isPending } = useUpdateTcpParameter(parametersData[0]?.analyzer_id, form)
+  const { mutate: updateParameter, isPending } = useUpdateSerialParameter(parametersData[0]?.analyzer_id, form)
 
   return (
 
@@ -35,13 +37,14 @@ const TableForm = ({parametersData}: TableFormProps) => {
         })
       }
     >
+
       <ScrollArea h="55vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
         <Table highlightOnHover withColumnBorders withRowBorders={false} ta="center">
           <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
-            <TableColumn />
+            <TableColumn mode={analyzerData.mode}/>
           </Table.Thead>
           <Table.Tbody style={{fontSize:'0.8rem'}}>
-            <TableRows parametersData={parametersData} form={form}/>
+            <TableRows parametersData={parametersData} form={form} mode={analyzerData.mode}/>
           </Table.Tbody>
         </Table>
       </ScrollArea>

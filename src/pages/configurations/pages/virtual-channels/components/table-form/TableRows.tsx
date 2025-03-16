@@ -4,10 +4,10 @@ import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 import { useDeleteVirtualChannel } from "@/hooks/virtualChannelsHook";
 
 import { VirtualChannelsType } from "@/types/virtualChannels";
-import { TcpParametersType } from "@/types/tcpParameters";
+import { ParameterType } from "@/types/parameters";
 import { UseFormReturnType } from "@mantine/form";
 
-const getSelectDataMenu = (parametersData: TcpParametersType[], selectedId: number) => {
+const getSelectDataMenu = (parametersData: ParameterType[], selectedId: number) => {
   const selectData: {
     label: string,
     value: string
@@ -34,7 +34,7 @@ const getSelectDataMenu = (parametersData: TcpParametersType[], selectedId: numb
       value: parameterData.id.toString()
     })
   }
-  selectedIndex > -1 && selectData.splice(selectedIndex+1, 1);
+
   return selectData;
 }
 
@@ -56,7 +56,7 @@ const xIcon = (
 
 type TableRowsProps = {
   virtualChannelsData: VirtualChannelsType[];
-  parametersData: TcpParametersType[];
+  parametersData: ParameterType[];
   form: UseFormReturnType<VirtualChannelsType>;
 }
 

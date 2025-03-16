@@ -1,8 +1,8 @@
 import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 
-import { useDeleteTcpParameter } from "@/hooks/tcpParametersHook";
-import { TcpParametersType } from "@/types/tcpParameters";
+import { useDeleteSerialParameter } from "@/hooks/serialParametersHook";
+import { ParameterType } from "@/types/parameters";
 
 import { UseFormReturnType } from "@mantine/form";
 
@@ -49,12 +49,13 @@ const xIcon = (
 );
 
 type TableRowsProps = {
-  parametersData: TcpParametersType[];
-  form: UseFormReturnType<TcpParametersType>;
+  parametersData: ParameterType[];
+  form: UseFormReturnType<ParameterType>;
+  mode: string;
 }
 
-const TableRows = ({parametersData, form}: TableRowsProps) => {
-  const {mutate: deleteParameter, isPending} = useDeleteTcpParameter(parametersData[0]?.analyzer_id);
+const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
+  const {mutate: deleteParameter, isPending} = useDeleteSerialParameter(parametersData[0]?.analyzer_id);
 
   return parametersData.map( (parameter) => {
     return (
@@ -148,6 +149,21 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
           />
         </Table.Td>
 
+        {/* ASCII Command Input */}
+        {
+          mode === "ascii" && (
+            <Table.Td>
+              <TextInput
+                placeholder={parameter.ascii_command}
+                radius="md"
+                size="xs"
+                key={form.key(`${parameter.id}-ascii_command`)}
+                {...form.getInputProps(`${parameter.id}-ascii_command`)}
+              />
+            </Table.Td>
+          )
+        }
+
         {/* Formula Input */}
         <Table.Td>
           <TextInput
@@ -158,7 +174,7 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
             {...form.getInputProps(`${parameter.id}-formula`)}
           />
         </Table.Td>
-        
+
         {/* Delete Button */}
         <Table.Td>
           <Popover position="bottom" withArrow shadow="md">

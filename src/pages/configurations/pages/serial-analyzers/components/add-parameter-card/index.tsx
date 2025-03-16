@@ -1,5 +1,5 @@
 import { Button, NumberInput, Flex, Loader } from "@mantine/core";
-import { useInsertTcpParameter } from "@/hooks/tcpParametersHook";
+import { useInsertSerialParameter } from "@/hooks/serialParametersHook";
 import { useForm } from "@mantine/form";
 import { InsertParameterType } from "@/types/parameters";
 
@@ -13,7 +13,7 @@ const AddParameterCard = ({id}: {id: string}) => {
     }
   });
   
-  const { mutate: insertParameter, isPending } = useInsertTcpParameter(parseInt(id));
+  const { mutate: insertParameter, isPending } = useInsertSerialParameter(parseInt(id));
 
   return (
     <form onSubmit={

@@ -6,10 +6,10 @@ import GuestLayout from "./layout/GuestLayout";
 // protected routes
 import ConfigurationsLayout from "@/app/layout/ConfigurationsLayout";
 import Stations from "@/pages/configurations/pages/stations/Stations";
-import SerialAnalyzers from "@/pages/configurations/pages/serial-analyzers/SerialAnalyzers";
+import SerialAnalyzers from "@/pages/configurations/pages/serial-analyzers";
 import TcpAnalyzers from "@/pages/configurations/pages/tcp-analyzers/TcpAnalyzers";
 import VirtualChannel from "@/pages/configurations/pages/virtual-channels/VirtualChannel";
-import AddAnalyzerPage from "@/pages/configurations/pages/add-analyzer/AddAnalyzerPage";
+import AddAnalyzerPage from "@/pages/configurations/pages/add-analyzer";
 import UserDashboardPage from "@/pages/account/pages/user-dashboard/UserDashboardPage";
 import AccountSettingsPage from "@/pages/account/pages/account-settings/AccountSettingsPage";
 
@@ -75,11 +75,11 @@ const router = createBrowserRouter(
               element: <TcpAnalyzers />
             },
             {
-              path: 'add-tcp-analyzer',
+              path: 'add-analyzer',
               element: <AddAnalyzerPage />
             },
             {
-              path:`serial-analyzers`,
+              path:`serial-analyzers/:id`,
               element: <SerialAnalyzers />
             }
           ]
