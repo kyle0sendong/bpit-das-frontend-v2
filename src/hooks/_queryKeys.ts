@@ -3,11 +3,11 @@ import { AnalyzerQueryType } from "@/types/analyzerData";
 const queryKeys = {
 
   useGetAllCurrentValues: () => 'allCurrentValues',
-  useGetCurrentValuesByAnalyzerId: (id: number) => `currentValuesByAnalyzerId-${id}`,
-  useGetAllTcpParameters: () => 'allParameters',
-  useGetTcpParametersByAnalyzerId: (id: number) => `parameterByAnalyzerId-${id}`,
-  useGetAllSerialParameters: () => 'allParameters',
-  useGetSerialParametersByAnalyzerId: (id: number) => `parameterByAnalyzerId-${id}`,
+  useGetCurrentValuesByAnalyzerId: (id: number, type: string) => `currentValuesByAnalyzerId-${type}${id}`,
+  useGetAllTcpParameters: () => 'allTcpParameters',
+  useGetTcpParametersByAnalyzerId: (id: number) => `tcpParameterByAnalyzerId-${id}`,
+  useGetAllSerialParameters: () => 'allSerialParameters',
+  useGetSerialParametersByAnalyzerId: (id: number) => `serialParameterByAnalyzerId-${id}`,
   useGetAllStations: () => 'allStations',
   useGetAllTcpAnalyzers: () => 'allTcpAnalyzers',
   useGetTcpAnalyzerById: (id: number) => `tcpAnalyzerId-${id}`,

@@ -12,11 +12,12 @@ export const getAllCurrentValues = async () => {
   }
 }
 
-export const getCurrentValuesByAnalyzerId = async (id: number) => {
+export const getCurrentValuesByAnalyzerId = async (id: number, type: string) => {
   try {
     const data = await axios.get(url, {
       params: {
-        id
+        id,
+        type
       }
     });
     return data.data;

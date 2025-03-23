@@ -12,6 +12,7 @@ import modifyFormValues from "./modifyFormValues";
 
 import { useUpdateVirtualChannel, useGetAllVirtualChannels } from "@/hooks/virtualChannelsHook";
 import { useGetAllTcpParameters } from "@/hooks/tcpParametersHook";
+import { useGetAllSerialParameters } from "@/hooks/serialParametersHook";
 import { VirtualChannelsType } from "@/types/virtualChannels";
 
 const TableForm = () => {
@@ -23,20 +24,20 @@ const TableForm = () => {
     mode:"uncontrolled"
   });
 
-  const parameters = useGetAllTcpParameters();
+  const tcpParameters = useGetAllTcpParameters();
+  const serialParameters = useGetAllSerialParameters();
   const virtualChannels = useGetAllVirtualChannels(true);
 
-  if(virtualChannels.isFetched && parameters.isFetched) {
+  if(virtualChannels.isFetched && tcpParameters.isFetched && serialParameters.isFetched) {
     const virtualChannelsData = virtualChannels.data;
-    const parametersData = parameters.data;
+    const parametersData = [...tcpParameters.data, ...serialParameters.data];
 
     return (
 
       <form 
         onSubmit={ 
-          form.onSubmit( (values) => {
-            updateVirtualChannel(modifyFormValues(values))
-          })
+          form.onSubmit( (values) => updateVirtualChannel(modifyFormValues(values))
+          )
         }
       >
         <ScrollArea h="55vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>

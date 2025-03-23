@@ -10,9 +10,6 @@ import {
   deleteSerialParameter
 } from "@/api/serialParametersApi";
 
-import { UseFormReturnType } from "@mantine/form";
-import { ParameterType } from "@/types/parameters";
-
 export const useGetAllSerialParameters = () => {
   return useQuery({
     queryKey: [queryKeys.useGetAllSerialParameters()],
@@ -38,13 +35,12 @@ export const useInsertSerialParameter = (id: number) => {
   });
 }
 
-export const useUpdateSerialParameter = (id: number, form: UseFormReturnType<ParameterType>) => {
+export const useUpdateSerialParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateSerialParameter,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [queryKeys.useGetSerialParametersByAnalyzerId(id)]});
-      form.reset();
     }
   });
 }

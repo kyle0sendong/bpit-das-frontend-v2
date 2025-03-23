@@ -52,12 +52,14 @@ const ConfigurationsLayout = () => {
           label: 'Modbus TCP Analyzers',
           icon: IconNotes,
           link: "",
+          initiallyOpened: true,
           links: [{label: "Add Modbus TCP Analyzer", link:"add-analyzer?type=tcp"}, ...tcpAnalyzerLinks]
         },
         {
           label: 'Serial Analyzers',
           icon: IconCalendarStats,
           link: "",
+          initiallyOpened: true,
           links: [{label: "Add Serial Analyzer", link:"add-analyzer?type=serial"}, ...serialAnalyzerLinks]
         }
       ];

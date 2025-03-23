@@ -45,8 +45,7 @@ export const updateTcpParameter = async (data: Partial<ParameterType>[]) => {
       headers: {
         Authorization: token
       }
-    }
-    )
+    })
   } catch(error) {
     console.error("Error: ", error)
   }

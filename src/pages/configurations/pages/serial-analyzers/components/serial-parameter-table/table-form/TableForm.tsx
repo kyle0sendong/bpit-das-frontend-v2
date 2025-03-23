@@ -21,20 +21,18 @@ type TableFormProps = {
 
 const TableForm = ({parametersData, analyzerData}: TableFormProps) => {
 
-  const form = useForm<ParameterType>({
+  const form = useForm<any>({
     mode:"uncontrolled"
   });
 
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateParameter, isPending } = useUpdateSerialParameter(parametersData[0]?.analyzer_id, form)
+  const { mutate: updateParameter, isPending } = useUpdateSerialParameter(parametersData[0]?.analyzer_id)
 
   return (
 
     <form 
       onSubmit={ 
-        form.onSubmit( (values) => {
-          updateParameter(modifyFormValues(values))
-        })
+        form.onSubmit((values) => updateParameter(modifyFormValues(values)))
       }
     >
 

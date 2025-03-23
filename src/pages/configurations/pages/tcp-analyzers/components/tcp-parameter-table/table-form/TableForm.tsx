@@ -19,20 +19,18 @@ type TableFormProps = {
 
 const TableForm = ({parametersData}: TableFormProps) => {
 
-  const form = useForm<ParameterType>({
+  const form = useForm<any>({
     mode:"uncontrolled"
   });
 
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateParameter, isPending } = useUpdateTcpParameter(parametersData[0]?.analyzer_id, form)
+  const { mutate: updateParameter, isPending } = useUpdateTcpParameter(parametersData[0]?.analyzer_id)
 
   return (
 
-    <form 
+    <form
       onSubmit={ 
-        form.onSubmit( (values) => {
-          updateParameter(modifyFormValues(values))
-        })
+        form.onSubmit((values) => updateParameter(modifyFormValues(values)))
       }
     >
       <ScrollArea h="55vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
@@ -60,7 +58,6 @@ const TableForm = ({parametersData}: TableFormProps) => {
               Save
             </Button>
         }
-
       </Group>
     </form>
   )

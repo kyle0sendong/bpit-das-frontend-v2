@@ -10,9 +10,6 @@ import {
   deleteTcpParameter
 } from "@/api/tcpParametersApi";
 
-import { UseFormReturnType } from "@mantine/form";
-import { ParameterType } from "@/types/parameters";
-
 export const useGetAllTcpParameters = () => {
   return useQuery({
     queryKey: [queryKeys.useGetAllTcpParameters()],
@@ -38,13 +35,12 @@ export const useInsertTcpParameter = (id: number) => {
   });
 }
 
-export const useUpdateTcpParameter = (id: number, form: UseFormReturnType<ParameterType>) => {
+export const useUpdateTcpParameter = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateTcpParameter,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [queryKeys.useGetTcpParametersByAnalyzerId(id)]});
-      form.reset();
     }
   });
 }

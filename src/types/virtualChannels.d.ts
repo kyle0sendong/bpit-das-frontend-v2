@@ -4,12 +4,12 @@ export type VirtualChannelsType = {
   name: string;
   unit: string;
   formula: string;
-  a: number;
-  b: number;
-  c: number;
-  x: number;
-  y: number;
-  z: number;
+  a: string;
+  b: string;
+  c: string;
+  x: string;
+  y: string;
+  z: string;
 }
 
 export type InsertVirtualChannelType = {

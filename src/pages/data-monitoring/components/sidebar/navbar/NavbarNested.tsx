@@ -3,21 +3,23 @@ import { LinksGroup } from "../links-group/NavbarLinksGroup";
 import classes from './NavbarNested.module.css';
 
 import { useGetAllTcpAnalyzers } from '@/hooks/tcpAnalyzersHook';
+import { useGetAllSerialAnalyzers } from '@/hooks/serialAnalyzersHook';
+import { SerialAnalyzerType } from '@/types/serialAnalyzers';
 import { TcpAnalyzerType } from '@/types/tcpAnalyzers';
 import { Loader } from '@mantine/core';
 
 import {
   IconCalendarStats,
   IconFileAnalytics,
-  IconGauge,
   IconNotes
 } from '@tabler/icons-react';
 
 export default function NavbarNested() {
 
   const tcpAnalyzers = useGetAllTcpAnalyzers(true);
+  const serialAnalyzers = useGetAllSerialAnalyzers(true);
 
-  if(tcpAnalyzers.isFetched) {
+  if(tcpAnalyzers.isFetched && serialAnalyzers.isFetched) {
     const tcpAnalyzersData: TcpAnalyzerType[] = tcpAnalyzers.data;
     const tcpAnalyzerLinks = tcpAnalyzersData.map( (data) => {
       return {
@@ -25,8 +27,16 @@ export default function NavbarNested() {
         link: `?type=tcp&id=${data.id}`
       }
     })
+
+    const serialAnalyzersData: SerialAnalyzerType[] = serialAnalyzers.data;
+    const serialAnalyzerLinks = serialAnalyzersData.map( (data) => {
+      return {
+        label: data.name,
+        link: `?type=serial&id=${data.id}`
+      }
+    })
+
     const linksData = [
-      { label: 'All Analyzers', icon: IconGauge, link: "?type=all-analyzers" },
       { label: 'Virtual Channels', icon: IconFileAnalytics, link: "?type=virtual-channels"},
       {
         label: 'Modbus TCP Analyzers',
@@ -38,7 +48,9 @@ export default function NavbarNested() {
       {
         label: 'Serial Analyzers',
         icon: IconCalendarStats,
-        link: "?type=serial-data"
+        link: "",
+        initiallyOpened: true,
+        links: [{label:"All Serial Analyzers", link:"?type=all-serial-analyzers"}, ...serialAnalyzerLinks]
       }
     ];
     

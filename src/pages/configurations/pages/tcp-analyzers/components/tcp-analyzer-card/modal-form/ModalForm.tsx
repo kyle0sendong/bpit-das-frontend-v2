@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -18,10 +19,23 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
   
   const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
-    initialValues: {
-      id: analyzerData.id
-    }
+    validate: (values) => ({
+      name: values.name == undefined && "Analyzer Name is required",
+      host_address: values.host_address == undefined && "IP Address is required",
+      port: values.port == undefined && "Port is required",
+      device_address: values.device_address == undefined && "Device Address is required",
+      sampling: values.sampling == undefined && "Sampling is required"
+    })
   });
+
+  useEffect( () => {
+    form.setFieldValue("id", analyzerData.id);
+    form.setFieldValue("name", analyzerData.name);
+    form.setFieldValue("host_address", analyzerData.host_address);
+    form.setFieldValue("port", analyzerData.port);
+    form.setFieldValue("device_address", analyzerData.device_address);
+    form.setFieldValue("sampling", analyzerData.sampling);
+  }, [analyzerData, form])
 
   return (
     <>
@@ -35,9 +49,13 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
         title={`Edit ${analyzerData.name}`}
         centered
       >
-        <form onSubmit={ form.onSubmit( (value) =>  {
-          form.setFieldValue('id', analyzerData.id);
-          updateTcpAnalyzer(value)
+        <form key={`tcp-${analyzerData.id}`} onSubmit={ form.onSubmit( (values) =>  {
+          updateTcpAnalyzer(values, {
+            onSuccess: () => {
+              form.setValues(values);
+              close();
+            }
+          });
         })}>
           <Box mb="1rem">
             <TextInput

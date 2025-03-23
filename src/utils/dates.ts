@@ -23,3 +23,21 @@ export const convertDateToStringMantineDates = (date: DateValue) => {
   const convertedDate = `${date?.getFullYear()}-${month + 1}-${date?.getDate()}`
   return convertedDate;
 }
+
+export const convertDateTimeToString = (datetime: string | null) => {
+
+  if(datetime) {
+    const convertedDateTime = new Date(datetime).toLocaleString('en-SG', { 
+      timeZone: 'Asia/Singapore',
+      hour12: false, // Use 24-hour format
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    return convertedDateTime;
+  }
+  return 'N/A';
+}
+

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, Loader } from "@mantine/core"
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 
@@ -7,34 +8,70 @@ import { VirtualChannelsType } from "@/types/virtualChannels";
 import { ParameterType } from "@/types/parameters";
 import { UseFormReturnType } from "@mantine/form";
 
-const getSelectDataMenu = (parametersData: ParameterType[], selectedId: number) => {
+const getSelectDataMenu = (parametersData: ParameterType[], selected: string) => {
+  
+
   const selectData: {
     label: string,
     value: string
   }[] = []
 
-  const selectedIndex = parametersData.findIndex((parameterData) => parameterData.id === selectedId) ?? 0;
-  const value = parametersData[selectedIndex]?.id ?? 'N/A';
+  if (selected && selected !== 'none') {
 
-  if(selectedIndex > -1) {
-    selectData.push({
-      label: `${parametersData[selectedIndex].name}`,
-      value: value.toString()
-    })
-  } else {
+    for(const parameterData of parametersData) {
+      const [selectedType, selectedId] = selected.split("-");
+      const selectedNumericId = parseInt(selectedId);
+
+      // Check if TCP
+      if (
+        selectedType === "tcp" &&
+        !("ascii_command" in parameterData) &&
+        parameterData.id === selectedNumericId
+      ) {
+        selectData.push({
+          label: `${parameterData.name} (TCP)`,
+          value: `tcp-${parameterData.id}`
+        });
+        break;
+      }
+
+      // Check if Serial
+      if (
+        selectedType === "serial" &&
+        "ascii_command" in parameterData &&
+        parameterData.id === selectedNumericId
+      ) {
+        selectData.push({
+          label: `${parameterData.name} (Serial)`,
+          value: `serial-${parameterData.id}`
+        });
+        break;
+      }
+    }
+  }
+  else {
     selectData.push({
       label: `NA`,
-      value: '-1'
+      value: 'none'
     })
   }
+
 
   for(const parameterData of parametersData) {
-    selectData.push({
-      label: `${parameterData.name}`,
-      value: parameterData.id.toString()
-    })
+    let type = 'TCP'
+    if ("ascii_command" in parameterData) type = 'Serial'
+
+    const selectItem = {
+      label: `${parameterData.name} (${type})`,
+      value: `${type.toLowerCase()}-${parameterData.id}`
+    }
+
+    if(selectData[0].label === selectItem.label) continue;
+
+    selectData.push(selectItem)
   }
 
+  if(selectData[0].label !== 'NA') selectData.push({label: `NA`, value: 'none'});
   return selectData;
 }
 
@@ -63,6 +100,22 @@ type TableRowsProps = {
 const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) => {
   const {mutate: deleteVirtualChannel, isPending} = useDeleteVirtualChannel();
 
+  // Use useEffect to set form values once after mounting or when parametersData changes
+  useEffect(() => {
+    for(const virtualChannel of virtualChannelsData) {
+      form.setFieldValue(`enable_${virtualChannel.id}`, virtualChannel.enable);
+      form.setFieldValue(`name_${virtualChannel.id}`, virtualChannel.name);
+      form.setFieldValue(`unit_${virtualChannel.id}`, virtualChannel.unit);
+      form.setFieldValue(`formula_${virtualChannel.id}`, virtualChannel.formula);
+      form.setFieldValue(`x_${virtualChannel.id}`, virtualChannel.x);
+      form.setFieldValue(`y_${virtualChannel.id}`, virtualChannel.y);
+      form.setFieldValue(`z_${virtualChannel.id}`, virtualChannel.z);
+      form.setFieldValue(`a_${virtualChannel.id}`, virtualChannel.a);
+      form.setFieldValue(`b_${virtualChannel.id}`, virtualChannel.b);
+      form.setFieldValue(`c_${virtualChannel.id}`, virtualChannel.c);
+    }
+  }, [virtualChannelsData]);
+
   return virtualChannelsData.map( (virtualChannel) => {
     return (
       <Table.Tr key={`${virtualChannel.name}${virtualChannel.id}`}  style={{fontSize:"0.7rem"}}>
@@ -75,8 +128,8 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
               onLabel={checkIcon}
               offLabel={xIcon}
               color="dark.4"
-              key={form.key(`${virtualChannel.id}-enable`)}
-              {...form.getInputProps(`${virtualChannel.id}-enable`)}
+              key={form.key(`enable_${virtualChannel.id}`)}
+              {...form.getInputProps(`enable_${virtualChannel.id}`)}
             />
           </Group>
         </Table.Td>
@@ -87,8 +140,8 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
             placeholder={virtualChannel.name}
             radius="md"
             size="xs"
-            key={form.key(`${virtualChannel.id}-name`)}
-            {...form.getInputProps(`${virtualChannel.id}-name`)}
+            key={form.key(`name_${virtualChannel.id}`)}
+            {...form.getInputProps(`name_${virtualChannel.id}`)}
           />
         </Table.Td>
 
@@ -98,8 +151,8 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
             placeholder={virtualChannel.unit ?? ''}
             radius="md"
             size="xs"
-            key={form.key(`${virtualChannel.id}-unit`)}
-            {...form.getInputProps(`${virtualChannel.id}-unit`)}
+            key={form.key(`unit_${virtualChannel.id}`)}
+            {...form.getInputProps(`unit_${virtualChannel.id}`)}
           />
         </Table.Td>
 
@@ -109,8 +162,8 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
             placeholder={virtualChannel.formula}
             radius="md"
             size="xs"
-            key={form.key(`${virtualChannel.id}-formula`)}
-            {...form.getInputProps(`${virtualChannel.id}-formula`)}
+            key={form.key(`formula_${virtualChannel.id}`)}
+            {...form.getInputProps(`formula_${virtualChannel.id}`)}
           />
         </Table.Td>
         
@@ -118,9 +171,9 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
         <Table.Td>
           <NativeSelect
             size="xs"
-            data={getSelectDataMenu(parametersData, virtualChannel.x ?? 0)}
-            key={form.key(`${virtualChannel.id}-x`)}
-            {...form.getInputProps(`${virtualChannel.id}-x`)}
+            data={getSelectDataMenu(parametersData, virtualChannel.x)}
+            key={form.key(`x_${virtualChannel.id}`)}
+            {...form.getInputProps(`x_${virtualChannel.id}`)}
           />
         </Table.Td>
 
@@ -128,9 +181,9 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
         <Table.Td>
           <NativeSelect
             size="xs"
-            data={getSelectDataMenu(parametersData, virtualChannel.y ?? 0)}
-            key={form.key(`${virtualChannel.id}-y`)}
-            {...form.getInputProps(`${virtualChannel.id}-y`)}
+            data={getSelectDataMenu(parametersData, virtualChannel.y)}
+            key={form.key(`y_${virtualChannel.id}`)}
+            {...form.getInputProps(`y_${virtualChannel.id}`)}
           />
         </Table.Td>
 
@@ -138,9 +191,9 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
         <Table.Td>
           <NativeSelect
             size="xs"
-            data={getSelectDataMenu(parametersData, virtualChannel.z ?? 0)}
-            key={form.key(`${virtualChannel.id}-z`)}
-            {...form.getInputProps(`${virtualChannel.id}-z`)}
+            data={getSelectDataMenu(parametersData, virtualChannel.z)}
+            key={form.key(`z_${virtualChannel.id}`)}
+            {...form.getInputProps(`z_${virtualChannel.id}`)}
           />
         </Table.Td>
 
@@ -148,9 +201,9 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
         <Table.Td>
           <NativeSelect
             size="xs"
-            data={getSelectDataMenu(parametersData, virtualChannel.a ?? 0)}
-            key={form.key(`${virtualChannel.id}-a`)}
-            {...form.getInputProps(`${virtualChannel.id}-a`)}
+            data={getSelectDataMenu(parametersData, virtualChannel.a)}
+            key={form.key(`a_${virtualChannel.id}`)}
+            {...form.getInputProps(`a_${virtualChannel.id}`)}
           />
         </Table.Td>
 
@@ -158,9 +211,9 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
         <Table.Td>
           <NativeSelect
             size="xs"
-            data={getSelectDataMenu(parametersData, virtualChannel.b ?? 0)}
-            key={form.key(`${virtualChannel.id}-b`)}
-            {...form.getInputProps(`${virtualChannel.id}-b`)}
+            data={getSelectDataMenu(parametersData, virtualChannel.b)}
+            key={form.key(`b_${virtualChannel.id}`)}
+            {...form.getInputProps(`b_${virtualChannel.id}`)}
           />
         </Table.Td>
 
@@ -168,9 +221,9 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
         <Table.Td>
           <NativeSelect
             size="xs"
-            data={getSelectDataMenu(parametersData, virtualChannel.c ?? 0)}
-            key={form.key(`${virtualChannel.id}-c`)}
-            {...form.getInputProps(`${virtualChannel.id}-c`)}
+            data={getSelectDataMenu(parametersData, virtualChannel.c)}
+            key={form.key(`c_${virtualChannel.id}`)}
+            {...form.getInputProps(`c_${virtualChannel.id}`)}
           />
         </Table.Td>
 

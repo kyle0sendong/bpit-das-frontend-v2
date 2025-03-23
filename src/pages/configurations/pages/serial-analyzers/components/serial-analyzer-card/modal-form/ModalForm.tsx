@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader, Text, NumberInput } from "@mantine/core";
+import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader, NumberInput } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
 import { Navigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import { SerialAnalyzerType } from "@/types/serialAnalyzers";
 import { useUpdateSerialAnalyzer, useDeleteSerialAnalyzer } from "@/hooks/serialAnalyzersHook";
 
 const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
-
+ 
   const [opened, { open, close }] = useDisclosure(false);
   const { mutate: updateSerialAnalyzer, isPending: isPendingUpdate } = useUpdateSerialAnalyzer(analyzerData.id);
   const { mutate: deleteSerialAnalyzer, isPending: isPendingDelete, isSuccess } = useDeleteSerialAnalyzer(analyzerData.id);
@@ -34,24 +34,21 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
     })
   });
 
-  // Set initial values with new analyzer data
-  useEffect(() => {
-    form.setValues({
-      id: analyzerData.id,
-      name: analyzerData.name,
-      port_name: analyzerData.port_name,
-      mode: analyzerData.mode,
-      ascii_command: analyzerData.ascii_command ?? 'asd',
-      device_address: analyzerData.device_address,
-      sampling: analyzerData.sampling,
-      baud_rate: analyzerData.baud_rate,
-      parity: analyzerData.parity,
-      data_bits: analyzerData.data_bits,
-      stop_bits: analyzerData.stop_bits,
-      flow_control: analyzerData.flow_control
-    });
-  }, [analyzerData]);
-
+  useEffect( () => {
+    form.setFieldValue("id", analyzerData.id);
+    form.setFieldValue("name", analyzerData.name);
+    form.setFieldValue("port_name", analyzerData.port_name);
+    form.setFieldValue("mode", analyzerData.mode);
+    form.setFieldValue("ascii_command", analyzerData.ascii_command);
+    form.setFieldValue("device_address", analyzerData.device_address);
+    form.setFieldValue("sampling", analyzerData.sampling);
+    form.setFieldValue("baud_rate", analyzerData.baud_rate);
+    form.setFieldValue("parity", analyzerData.parity);
+    form.setFieldValue("data_bits", analyzerData.data_bits);
+    form.setFieldValue("stop_bits", analyzerData.stop_bits);
+    form.setFieldValue("flow_control", analyzerData.flow_control);
+  }, [analyzerData, form])
+  
   return (
     <>
       <Button h="100%" p="sm" variant="default" onClick={open} style={{fontSize:"1.3rem"}}>
@@ -65,9 +62,13 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
         title={`Edit ${analyzerData.name}`}
         centered
       >
-        <form onSubmit={ form.onSubmit( (value) =>  {
-          form.setFieldValue('id', analyzerData.id);
-          updateSerialAnalyzer(value)
+        <form key={`serial${analyzerData.id}`} onSubmit={ form.onSubmit( (values) =>  {
+          updateSerialAnalyzer(values, {
+            onSuccess: () => {
+              form.setValues(values);
+              close();
+            }
+          });
         })}>
           <Box mb="1rem">
 

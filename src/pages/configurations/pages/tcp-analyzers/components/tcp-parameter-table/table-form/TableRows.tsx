@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 
@@ -5,32 +7,7 @@ import { useDeleteTcpParameter } from "@/hooks/tcpParametersHook";
 import { ParameterType } from "@/types/parameters";
 
 import { UseFormReturnType } from "@mantine/form";
-
-const requestIntervalsMenu = [
-  { label: "5 seconds", value: "5" },
-  { label: "10 seconds", value: "10" },
-  { label: "30 seconds", value: "30" },
-  { label: "1 minute", value: "60" },
-]
-
-const dataFormatMenu = [
-  { label: "16-bit", value: "16-bit" },
-  { label: "32-bit", value: "32-bit Signed Big-Endian" },
-  { label: "32-bit Inverse", value: "32-bit Signed Big-Endian byte swap" },
-  { label: "64-bit", value: "64-bit Signed Big-Endian" },
-  { label: "64-bit Inverse", value: "64-bit Signed Big-Endian byte swap" },
-  { label: "Float", value: "32-bit Float Big-Endian" },
-  { label: "Float Inverse", value: "32-bit Float Big-Endian byte swap" },
-  { label: "Double", value: "64-bit Double Big-Endian" },
-  { label: "Double Inverse", value: "64-bit Double Big-Endian byte swap" },
-]
-
-const functionCodesMenu = [
-  { label: "0x01 Read Coils", value: "0x01 Read Coils" },
-  { label: "0x02 Read Discrete Inputs", value: "0x02 Read Discrete Inputs" },
-  { label: "0x03 Read Holding Register", value: "0x03 Read Holding Register" },
-  { label: "0x04 Read Input Register", value: "0x04 Read Input Register" },
-]
+import { dataFormatMenu, requestIntervalsMenu, functionCodesMenu } from "@/utils/constants"
 
 const checkIcon = (
   <IconCheck
@@ -50,13 +27,52 @@ const xIcon = (
 
 type TableRowsProps = {
   parametersData: ParameterType[];
-  form: UseFormReturnType<ParameterType>;
+  form: UseFormReturnType<any>;
 }
 
 const TableRows = ({parametersData, form}: TableRowsProps) => {
   const {mutate: deleteParameter, isPending} = useDeleteTcpParameter(parametersData[0]?.analyzer_id);
 
+  // Use useEffect to set form values once after mounting or when parametersData changes
+  useEffect(() => {
+    for(const parameter of parametersData) {
+      form.setFieldValue(`enable_${parameter.id}`, parameter.enable);
+      form.setFieldValue(`name_${parameter.id}`, parameter.name);
+      form.setFieldValue(`unit_${parameter.id}`, parameter.unit);
+      form.setFieldValue(`start_register_address_${parameter.id}`, parameter.start_register_address);
+      form.setFieldValue(`register_count_${parameter.id}`, parameter.register_count);
+      form.setFieldValue(`formula_${parameter.id}`, parameter.formula);
+      form.setFieldValue(`request_interval_${parameter.id}`, parameter.request_interval);
+      form.setFieldValue(`format_${parameter.id}`, parameter.format);
+      form.setFieldValue(`function_code_${parameter.id}`, parameter.function_code);
+    }
+  }, [parametersData]);
+
+  // Function to determine register count
+  const handleRegisterCount = (format: string) => {
+    const bit = format.split(" ")[0];
+    switch (bit) {
+      case "16-bit":
+        return 1;
+      case "32-bit":
+        return 2;
+      case "64-bit":
+        return 4;
+      default:
+        return 1; // Fallback
+    }
+  };
+
+  const [registerCounts, setRegisterCounts] = useState<{ [key: string]: number }>(
+    () =>
+      parametersData.reduce((acc, param) => {
+        acc[param.id] = handleRegisterCount(param.format); // Initialize with format-based value
+        return acc;
+      }, {} as { [key: string]: number })
+  );
+
   return parametersData.map( (parameter) => {
+
     return (
       <Table.Tr key={`${parameter.name}${parameter.id}`}  style={{fontSize:"0.7rem"}}>
 
@@ -68,8 +84,8 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
               onLabel={checkIcon}
               offLabel={xIcon}
               color="dark.4"
-              key={form.key(`${parameter.id}-enable`)}
-              {...form.getInputProps(`${parameter.id}-enable`)}
+              key={form.key(`enable_${parameter.id}`)}
+              {...form.getInputProps(`enable_${parameter.id}`)}
             />
           </Group>
         </Table.Td>
@@ -80,8 +96,8 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
             placeholder={parameter.name}
             radius="md"
             size="xs"
-            key={form.key(`${parameter.id}-name`)}
-            {...form.getInputProps(`${parameter.id}-name`)}
+            key={form.key(`name_${parameter.id}`)}
+            {...form.getInputProps(`name_${parameter.id}`)}
           />
         </Table.Td>
 
@@ -91,8 +107,8 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
             placeholder={parameter.unit ?? ''}
             radius="md"
             size="xs"
-            key={form.key(`${parameter.id}-unit`)}
-            {...form.getInputProps(`${parameter.id}-unit`)}
+            key={form.key(`unit_${parameter.id}`)}
+            {...form.getInputProps(`unit_${parameter.id}`)}
           />
         </Table.Td>
       
@@ -101,28 +117,39 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
           <NativeSelect
             size="xs"
             data={requestIntervalsMenu}
-            key={form.key(`${parameter.id}-request_interval`)}
-            {...form.getInputProps(`${parameter.id}-request_interval`)}
+            key={form.key(`request_interval_${parameter.id}`)}
+            {...form.getInputProps(`request_interval_${parameter.id}`)}
           />
         </Table.Td>
 
         {/* Data Format Selection */}
         <Table.Td>
-          <NativeSelect
-            size="xs"
-            data={dataFormatMenu}
-            key={form.key(`${parameter.id}-format`)}
-            {...form.getInputProps(`${parameter.id}-format`)}
-          />
-        </Table.Td>
+        <NativeSelect
+          size="xs"
+          data={dataFormatMenu}
+          key={form.key(`format_${parameter.id}`)}
+          defaultValue={parameter.format} // Set initial value
+          {...form.getInputProps(`format_${parameter.id}`)}
+          onChange={(event) => {
+            const selectedFormat = event.target.value;
+            console.log("Selected Format:", selectedFormat); // Debugging
+            form.setFieldValue(`format_${parameter.id}`, selectedFormat);
+            console.log(form.getValues())
+            setRegisterCounts((prev) => ({
+              ...prev,
+              [parameter.id]: handleRegisterCount(selectedFormat),
+            }));
+          }}
+        />
+      </Table.Td>
 
         {/* Function Codes Selection */}
         <Table.Td>
           <NativeSelect
             size="xs"
             data={functionCodesMenu}
-            key={form.key(`${parameter.id}-function_code`)}
-            {...form.getInputProps(`${parameter.id}-function_code`)}
+            key={form.key(`function_code_${parameter.id}`)}
+            {...form.getInputProps(`function_code_${parameter.id}`)}
           />
         </Table.Td>
 
@@ -132,19 +159,20 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
             placeholder={parameter.start_register_address.toString()}
             radius="md"
             size="xs"
-            key={form.key(`${parameter.id}-start_register_address`)}
-            {...form.getInputProps(`${parameter.id}-start_register_address`)}
+            key={form.key(`start_register_address_${parameter.id}`)}
+            {...form.getInputProps(`start_register_address_${parameter.id}`)}
           />
         </Table.Td>
 
         {/* Register Count Input */}
         <Table.Td>
           <NumberInput
-            placeholder={parameter.register_count.toString()}
+            value={registerCounts[parameter.id]} // Controlled by state, not form
             radius="md"
             size="xs"
-            key={form.key(`${parameter.id}-register_count`)}
-            {...form.getInputProps(`${parameter.id}-register_count`)}
+            disabled // Prevent user changes
+            key={form.key(`register_count_${parameter.id}`)}
+            {...form.getInputProps(`register_count_${parameter.id}`)}
           />
         </Table.Td>
 
@@ -154,8 +182,8 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
             placeholder={parameter.formula}
             radius="md"
             size="xs"
-            key={form.key(`${parameter.id}-formula`)}
-            {...form.getInputProps(`${parameter.id}-formula`)}
+            key={form.key(`formula_${parameter.id}`)}
+            {...form.getInputProps(`formula_${parameter.id}`)}
           />
         </Table.Td>
         
