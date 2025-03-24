@@ -37,6 +37,7 @@ export default function NavbarNested() {
     })
 
     const linksData = [
+      { label: 'All Analyzers & VC', icon: IconFileAnalytics, link: "?type=all"},
       { label: 'Virtual Channels', icon: IconFileAnalytics, link: "?type=virtual-channels"},
       {
         label: 'Modbus TCP Analyzers',

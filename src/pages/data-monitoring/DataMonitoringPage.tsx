@@ -14,30 +14,38 @@ const DataMonitoringPage = () => {
   const monitorType = searchParams.get("type") ?? 'all-analyzers';
   const id = searchParams.get("id") ?? '0';
 
-  const allTcpAnalyzers = useGetAllTcpAnalyzers(monitorType == "all-analyzers");
-  const tcpAnalyzer = useGetTcpAnalyzerById(parseInt(id), monitorType=="tcp");
-  const allSerialAnalyzers = useGetAllSerialAnalyzers(monitorType == "all-analyzers");
+  const allTcpAnalyzers = useGetAllTcpAnalyzers(monitorType == "all-analyzers" || monitorType == "all");
+  const tcpAnalyzer = useGetTcpAnalyzerById(parseInt(id), monitorType == "tcp");
+  const allSerialAnalyzers = useGetAllSerialAnalyzers(monitorType == "all-analyzers" || monitorType == "all");
   const serialAnalyzer = useGetSerialAnalyzerById(parseInt(id), monitorType=="serial");
-  let dataTables = <></>;
+  let dataTables: JSX.Element[] | JSX.Element = <></>;
 
+  if(monitorType == 'all' && allTcpAnalyzers.isFetched && allSerialAnalyzers.isFetched) {
+    dataTables = [
+      ...allTcpAnalyzers.data.map((item: TcpAnalyzerType) => <DataTable key={`tcp-${item.id}`} id={item.id} title={`${item.name} (TCP)`} type='tcp'/>),
+      ...allSerialAnalyzers.data.map((item: SerialAnalyzerType) => <DataTable key={`serial-${item.id}`} id={item.id} title={`${item.name} (Serial)`} type='serial'/>),
+      <DataTable key="virtual-channels" title="Virtual Channels" type="vc"/>
+    ]
+  }
+  
   if(monitorType == 'all-tcp-analyzers' && allTcpAnalyzers.isFetched) {
-    dataTables = allTcpAnalyzers.data.map((item: TcpAnalyzerType) => <DataTable id={item.id} title={item.name} type='tcp'/>);
+    dataTables = allTcpAnalyzers.data.map((item: TcpAnalyzerType) => <DataTable key={`tcp-${item.id}`} id={item.id} title={item.name} type='tcp'/>);
   }
 
   if(monitorType == 'tcp' && tcpAnalyzer.isFetched) {
-    dataTables = <DataTable id={tcpAnalyzer.data[0].id} title={tcpAnalyzer.data[0].name} type='tcp'/>;
+    dataTables = <DataTable key={`tcp-${tcpAnalyzer.data[0].id}`} id={tcpAnalyzer.data[0].id} title={tcpAnalyzer.data[0].name} type='tcp'/>;
   }
 
   if(monitorType == 'all-serial-analyzers' && allSerialAnalyzers.isFetched) {
-    dataTables = allSerialAnalyzers.data.map((item: SerialAnalyzerType) => <DataTable id={item.id} title={item.name} type='serial'/>);
+    dataTables = allSerialAnalyzers.data.map((item: SerialAnalyzerType) => <DataTable key={`serial-${item.id}`} id={item.id} title={item.name} type='serial'/>);
   }
 
   if(monitorType == 'serial' && serialAnalyzer.isFetched) {
-    dataTables = <DataTable id={serialAnalyzer.data[0].id} title={serialAnalyzer.data[0].name} type='serial'/>;
+    dataTables = <DataTable key={`serial-${serialAnalyzer.data[0].id}`} id={serialAnalyzer.data[0].id} title={serialAnalyzer.data[0].name} type='serial'/>;
   }
 
   if(monitorType == 'virtual-channels') {
-    dataTables = <DataTable title="Virtual Channels" type="vc"/>;
+    dataTables = <DataTable  key="virtual-channels" title="Virtual Channels" type="vc"/>;
   }
 
   return (

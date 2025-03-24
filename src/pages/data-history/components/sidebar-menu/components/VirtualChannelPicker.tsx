@@ -1,12 +1,10 @@
 import { NativeSelect, Loader } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import { FormSubmitType } from "../SidebarMenu";
-
 import { useGetAllVirtualChannels } from "@/hooks/virtualChannelsHook";
-import { VirtualChannelsType } from "@/types/virtualChannels";
+// import { VirtualChannelsType } from "@/types/virtualChannels";
 
 type TableRowsProps = {
-  form: UseFormReturnType<Partial<FormSubmitType>>;
+  form: UseFormReturnType<any>;
 }
 
 const VirtualChannelPicker = ({form}: TableRowsProps ) => {
@@ -20,18 +18,21 @@ const VirtualChannelPicker = ({form}: TableRowsProps ) => {
   }
 
   if(virtualChannels.isFetched) {
-    const virtualChannelsData: VirtualChannelsType[] = virtualChannels.data;
+    // const virtualChannelsData: VirtualChannelsType[] = virtualChannels.data;
     
-    const dataMenu = virtualChannelsData.map((data) => {
-      return {
-        label: data.name,
-        value: data.id.toString()
-      }
-    })
+    // const dataMenu = virtualChannelsData.map((data) => {
+    //   return {
+    //     label: data.name,
+    //     value: data.id.toString()
+    //   }
+    // })
 
     return (
       <NativeSelect
-        data={[{label:"Select Virtual Channel", value:"-999"}, ...dataMenu]}
+        data={[
+          {label:"Select Virtual Channel", value:"-999"}, 
+          {label:"All Virtual Channels", value:"all"}, 
+        ]}
         key={form.key('virtualChannel')}
         {...form.getInputProps('virtualChannel')}
       />

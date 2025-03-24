@@ -1,11 +1,10 @@
 import { NativeSelect } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import { FormSubmitType } from "../SidebarMenu";
 import { useGetAllTimebases } from "@/hooks/timebasesHook";
 import { TimebasesType } from "@/types/timebases";
 
 type TableRowsProps = {
-  form: UseFormReturnType<Partial<FormSubmitType>>;
+  form: UseFormReturnType<any>;
 }
 
 const TimebasePicker = ({form}: TableRowsProps ) => {
@@ -15,13 +14,21 @@ const TimebasePicker = ({form}: TableRowsProps ) => {
   if(timebases.isFetched) {
 
     const timebaseData: TimebasesType[] = timebases.data;
-    const dataMenu = timebaseData.map( (data) => {
-      const suffix = data.timebase < 60 ? 'minute/s' : data.timebase >= 60 ? 'hour/s' : 'day/s'
-      return {
-        label: `${data.timebase} ${suffix}`,
-        value: data.timebase.toString()
+
+    const dataMenu: {label: string, value: string}[] = [];
+
+    for(const data of timebaseData) {
+      if(data.timebase > 0) {
+        const timebase = data.timebase < 60 ? data.timebase : data.timebase >= 60 && data.timebase < 1440 ? data.timebase/60 : data.timebase/1440
+        const suffix = data.timebase < 60 ? 'min.' : data.timebase >= 60 && data.timebase < 1440 ? 'hr.' : 'day/s'
+
+        dataMenu.push({
+          label: `${timebase} ${suffix}`,
+          value: data.timebase.toString()
+        })
       }
-    })
+    }
+
     return (
       <NativeSelect
         data={dataMenu}

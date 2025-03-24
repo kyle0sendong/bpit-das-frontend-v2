@@ -1,5 +1,5 @@
 import { ParameterType } from '@/types/parameters';
-
+import { VirtualChannelsType } from '@/types/virtualChannels';
 import {
   MantineReactTable,
   useMantineReactTable,
@@ -15,10 +15,10 @@ import autoTable from 'jspdf-autotable';
 import { toSnakeCase } from '@/utils/strings';
 
 type ParametersTableProps = {
-  parameters: ParameterType[],
+  parameters: ParameterType[] | VirtualChannelsType[],
   data: any[],
   analyzerType: string,
-  tcpAnalyzerId: string
+  analyzerId: string
 }
 
 type Testing = {
@@ -34,8 +34,11 @@ const ParametersTable = (props: ParametersTableProps) => {
       size: 100
     },
     ...props.parameters.map((parameter) => {
+      let accessorKey = `${props.analyzerType}${props.analyzerId}_${toSnakeCase(parameter.name)}`;
+      if(props.analyzerType === 'vc') accessorKey = `${props.analyzerType}_${toSnakeCase(parameter.name)}`
+
       return {
-        accessorKey: `${toSnakeCase(parameter.name)}_${props.analyzerType}${props.tcpAnalyzerId}`,
+        accessorKey: accessorKey,
         header: parameter.name,
         size: 100
       }
@@ -61,7 +64,7 @@ const ParametersTable = (props: ParametersTableProps) => {
     paginationDisplayMode: 'pages',
     positionToolbarAlertBanner: 'bottom',
     enableColumnFilters:false,
-    enableToolbarInternalActions: false,
+
     initialState: { density: "xs"},
     renderTopToolbarCustomActions: ({ table }) => (
       <Flex

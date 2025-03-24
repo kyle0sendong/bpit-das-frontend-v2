@@ -3,5 +3,5 @@ export type AnalyzerQueryType = {
   from: string | null,
   to: string | null,
   analyzer?: string | null,
-  analyzerType: string | null
+  analyzerType?: string | null
 }

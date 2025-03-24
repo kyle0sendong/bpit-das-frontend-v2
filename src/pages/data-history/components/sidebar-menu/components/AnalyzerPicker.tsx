@@ -1,17 +1,17 @@
 import { NativeSelect, Loader } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import { FormSubmitType } from "../SidebarMenu";
 
-import { useGetAllTcpAnalyzers } from "@/hooks/tcpAnalyzersHook";
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
+import { SerialAnalyzerType } from "@/types/serialAnalyzers";
+import { UseQueryResult } from "@tanstack/react-query";
 
 type TableRowsProps = {
-  form: UseFormReturnType<Partial<FormSubmitType>>;
+  form: UseFormReturnType<any>;
+  analyzers: UseQueryResult<TcpAnalyzerType[]> | UseQueryResult<SerialAnalyzerType[]>
+  type: string
 }
 
-const AnalyzerPicker = ({form}: TableRowsProps ) => {
-
-  const analyzers = useGetAllTcpAnalyzers(true);
+const AnalyzerPicker = ({form, analyzers, type}: TableRowsProps ) => {
 
   if(analyzers.isLoading) {
     return (
@@ -20,21 +20,30 @@ const AnalyzerPicker = ({form}: TableRowsProps ) => {
   }
 
   if(analyzers.isFetched) {
-    const parameterData: TcpAnalyzerType[] = analyzers.data;
-    const dataMenu = parameterData.map( (data) => {
-      return {
-        label: data.name,
-        value: data.id.toString()
-      }
-    })
-
-    return (
+    const analyzerData = analyzers.data;
+    if(analyzerData) {
+      const dataMenu = analyzerData.map( (data) => {
+        return {
+          label: data.name,
+          value: `${type}-${data.id.toString()}`
+        }
+      })
+  
+      return (
+        <NativeSelect
+          data={[{label:"Select Analyzer", value:"0"}, ...dataMenu]}
+          key={form.key(`analyzer`)}
+          {...form.getInputProps(`analyzer`)}
+        />
+      )
+    } else {
       <NativeSelect
-        data={[{label:"Select Analyzer", value:"-999"}, ...dataMenu]}
-        key={form.key('tcp_analyzer')}
-        {...form.getInputProps('tcp_analyzer')}
+        data={[{label:"No Analyzer Detected", value:"0"}]}
+        key={form.key(`analyzer`)}
+        {...form.getInputProps(`analyzer`)}
       />
-    )
+    }
+
   }
 
 }

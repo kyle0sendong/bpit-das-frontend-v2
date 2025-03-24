@@ -6,10 +6,8 @@ import { UseFormReturnType } from "@mantine/form";
 
 import { getCurrentDate, convertDateToStringMantineDates } from "@/utils/dates";
 
-import { FormSubmitType } from "../SidebarMenu";
-
 type TableRowsProps = {
-  form: UseFormReturnType<Partial<FormSubmitType>>;
+  form: UseFormReturnType<any>;
 }
 
 const DatePicker = ({form}: TableRowsProps ) => {

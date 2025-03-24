@@ -1,10 +1,13 @@
 import { useSearchParams } from 'react-router-dom';
 
 import { useGetTcpParametersByAnalyzerId } from "@/hooks/tcpParametersHook";
-import { useGetAnalyzerData } from '@/hooks/analyzerDataHook';
+import { useGetSerialParametersByAnalyzerId } from '@/hooks/serialParametersHook';
+import { useGetAllVirtualChannels } from '@/hooks/virtualChannelsHook';
+import { useGetAnalyzerData, useGetVirtualChannelsData } from '@/hooks/analyzerDataHook';
 
 import ParametersTable from './table/ParametersTable';
 import { ParameterType } from '@/types/parameters';
+import { VirtualChannelsType } from '@/types/virtualChannels';
 import { Box } from '@mantine/core';
 
 import {
@@ -27,11 +30,12 @@ const data: any[] = []
 const TableView = () => {
 
   const [ searchParams ] = useSearchParams()
-  const timebase = searchParams.get("timebase") ?? '1';
-  const from = searchParams.get("from") ;
-  const to = searchParams.get("to");
-  const tcp_analyzer = searchParams.get("tcp_analyzer") ?? '0';
-  const analyzer_type = searchParams.get("analyzer_type") ?? 'tcp';
+  const queryTimebase = searchParams.get("timebase") ?? '1';
+  const queryFrom = searchParams.get("from") ;
+  const queryTo = searchParams.get("to");
+  const queryAnalyzerType = searchParams.get("analyzerType") ?? 'vc';
+  const queryAnalyzerId = searchParams.get("analyzerId") ?? '0';
+  const queryVirtualChannel = searchParams.get("virtualChannel") ?? '0';
 
   const table = useMantineReactTable({
     columns,
@@ -40,26 +44,46 @@ const TableView = () => {
   });
 
   const analyzerData = useGetAnalyzerData({
-    timebase: timebase,
-    from: from,
-    to: to,
-    analyzer: tcp_analyzer,
-    analyzerType: analyzer_type
+    timebase: queryTimebase,
+    from: queryFrom,
+    to: queryTo,
+    analyzer: queryAnalyzerId,
+    analyzerType: queryAnalyzerType
   })
-  
-  const tcpParameters = useGetTcpParametersByAnalyzerId(parseInt(tcp_analyzer));
 
-  if(tcpParameters.isFetched && analyzerData.isFetched) {
-    const tcpParametersData: ParameterType[] = tcpParameters.data;
-    const data: any[] = analyzerData.data;
+  const virtualChannelsData = useGetVirtualChannelsData({
+    timebase: queryTimebase,
+    from: queryFrom,
+    to: queryTo,
+    analyzer: queryVirtualChannel
+  })
+
+  const tcpParameters = useGetTcpParametersByAnalyzerId(queryAnalyzerType === "tcp" ? parseInt(queryAnalyzerId) : 0);
+  const serialParameters = useGetSerialParametersByAnalyzerId(queryAnalyzerType === "serial" ? parseInt(queryAnalyzerId) : 0);
+  const virtualChannels = useGetAllVirtualChannels(queryVirtualChannel === "all");
+
+  if((tcpParameters.isFetched || serialParameters.isFetched || virtualChannels.isFetched)
+    && (analyzerData.isFetched || virtualChannelsData.isFetched)) {
+
+    let parametersData: ParameterType[] | VirtualChannelsType[] = tcpParameters.data;
+    let data: any[] = analyzerData.data;
+
+    if(queryAnalyzerType === "serial") {
+      parametersData = serialParameters.data;
+    }
+
+    if(queryVirtualChannel === "all") {
+      parametersData = virtualChannels.data;
+      data = virtualChannelsData.data;
+    }
 
     return (
       <Box w="100%" p="1rem">
         <ParametersTable 
-          parameters={tcpParametersData}
+          parameters={parametersData}
           data={data}
-          analyzerType={analyzer_type}
-          tcpAnalyzerId={tcp_analyzer}
+          analyzerType={queryAnalyzerType}
+          analyzerId={queryAnalyzerId ?? ''}
         />
       </Box>
     )
