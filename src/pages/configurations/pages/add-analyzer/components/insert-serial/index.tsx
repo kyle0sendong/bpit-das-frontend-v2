@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { Button, TextInput, NativeSelect, Flex, Title, Text, NumberInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { useState, useEffect } from 'react';
 
+import { Button, TextInput, NativeSelect, Flex, Title, Text, NumberInput, Loader } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { showNotification } from '@mantine/notifications';
 import { SerialAnalyzerType } from '@/types/serialAnalyzers';
 
+import { useGetSerialPorts } from '@/hooks/serialAnalyzersHook';
 import { useInsertSerialAnalyzer } from '@/hooks/serialAnalyzersHook';
 
 import { getDataSampling, getSerialMode, getBaudRates, getParity, getDataBits, getStopBits, getFlowControl } from '@/utils/analyzers'
@@ -12,6 +14,9 @@ import classes from '../../InsertForm.module.css';
 const InsertSerialForm = () => {
 
   const [serialMode, setSerialMode] = useState("rtu");
+  const [errorState, setErrorState] = useState(false);
+
+  const serialPorts = useGetSerialPorts();
 
   const form = useForm<Partial<SerialAnalyzerType>>({
     mode:'uncontrolled',
@@ -40,17 +45,63 @@ const InsertSerialForm = () => {
     })
   });
 
-  const { mutate: insertAnalyzer } = useInsertSerialAnalyzer(form);
+  const { mutate: insertAnalyzer, isPending, isError } = useInsertSerialAnalyzer(form);
+
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+        form.reset()
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  const handleSubmit = (values: any) => {
+    insertAnalyzer(values, {
+      onError: () => {
+        showNotification({
+          title: "Insert Failed",
+          message: "An error occurred while inserting a TCP Analyzer.",
+          color: "red",
+          autoClose: 5000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Insert Successful",
+          message: "Inserting TCP Analyzer successful!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
+
+
+  if(!serialPorts.isFetched) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    )
+  }
+
+  const serialPortsData = serialPorts.data;
+  const serialPortsMenu = serialPortsData.map((port: any) => {
+    return {
+      label: `${port.friendlyName}`,
+      value: port.path
+    }
+  })
 
   return (
     <>
-      <form onSubmit={ form.onSubmit( (value) =>  {
-        setSerialMode("rtu")
-        insertAnalyzer(value)
-      })}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
 
         <Title size='xl' ta='center' mb='md' >
-          Add Serial Analyzer {serialMode}
+          Add Serial Analyzer {serialMode.toUpperCase()}
         </Title>
 
         <Flex direction='column' gap='lg'>
@@ -67,10 +118,10 @@ const InsertSerialForm = () => {
 
           <Flex className={classes.flexContainer}>
             <Text className={classes.text}>Port Name</Text>
-            <TextInput
+            <NativeSelect
               className={classes.textInput}
               size='xs'
-              placeholder='e.g. COM1'
+              data={serialPortsMenu}
               key={form.key('port_name')}
               {...form.getInputProps('port_name')}
             />
@@ -186,9 +237,19 @@ const InsertSerialForm = () => {
 
 
           <Flex mt='xs' justify='flex-end'>
-            <Button type='submit' color='dark.3'>
-              Save
-            </Button>
+            {isPending ? (
+              <Button color="dark.3" disabled>
+                <Loader size="xs" />
+              </Button>
+            ) : errorState ? (
+              <Button color="red" disabled>
+                Insert Failed
+              </Button>
+            ) : (
+              <Button type="submit" color="dark.3">
+                Save
+              </Button>
+            )}
           </Flex>
         </Flex>
 

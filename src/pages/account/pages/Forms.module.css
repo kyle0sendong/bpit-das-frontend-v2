@@ -6,7 +6,7 @@
 
 .text {
   font-size: var(--mantine-font-size-sm);
-  min-width: 7rem;
+  min-width: 120px;
   text-align: right;
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, NumberInput, Flex, Loader } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { useInsertSerialParameter } from "@/hooks/serialParametersHook";
+import { useInsertTcpParameter } from "@/hooks/tcpParametersHook";
 import { useForm } from "@mantine/form";
 import { InsertParameterType } from "@/types/parameters";
 
@@ -16,7 +16,7 @@ const AddParameterCard = ({id}: {id: string}) => {
   });
 
   const [errorState, setErrorState] = useState(false);
-  const { mutate: insertParameter, isPending, isError } = useInsertSerialParameter(parseInt(id));
+  const { mutate: insertParameter, isPending, isError } = useInsertTcpParameter(parseInt(id));
 
   useEffect(() => {
     if (isError) {
@@ -67,7 +67,7 @@ const AddParameterCard = ({id}: {id: string}) => {
               <Loader size="xs" />
             </Button>
           ) : (
-            <Button 
+            <Button
               variant="outline"
               type="submit"
               disabled={errorState}

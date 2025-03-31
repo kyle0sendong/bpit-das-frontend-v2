@@ -1,20 +1,30 @@
 import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+
 import { useDisclosure } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
 import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader, NumberInput } from "@mantine/core";
 
-import { useForm } from "@mantine/form";
-import { Navigate } from "react-router-dom";
 import { IconCheck, IconTrash } from "@tabler/icons-react";
 
+import { useGetSerialPorts } from "@/hooks/serialAnalyzersHook";
 import { getDataSampling, getSerialMode, getBaudRates, getParity, getDataBits, getStopBits } from '@/utils/analyzers'
+
 import { SerialAnalyzerType } from "@/types/serialAnalyzers";
 import { useUpdateSerialAnalyzer, useDeleteSerialAnalyzer } from "@/hooks/serialAnalyzersHook";
 
 const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
- 
+
+  const [errorUpdateState, setErrorUpdateState] = useState(false);
+  const [errorDeleteState, setErrorDeleteState] = useState(false);
+
+  const [popoverOpened, setPopoverOpened] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-  const { mutate: updateSerialAnalyzer, isPending: isPendingUpdate } = useUpdateSerialAnalyzer(analyzerData.id);
-  const { mutate: deleteSerialAnalyzer, isPending: isPendingDelete, isSuccess } = useDeleteSerialAnalyzer(analyzerData.id);
+
+  const serialPorts = useGetSerialPorts();
+  const { mutate: updateSerialAnalyzer, isPending: isPendingUpdate, isError: isErrorUpdate } = useUpdateSerialAnalyzer(analyzerData.id);
+  const { mutate: deleteSerialAnalyzer, isPending: isPendingDelete, isError: isErrorDelete, isSuccess } = useDeleteSerialAnalyzer(analyzerData.id);
   
   const [serialMode, setSerialMode] = useState("rtu");
 
@@ -22,7 +32,7 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
     mode:'uncontrolled',
     validate: (values) => ({
       name: values.name == undefined && "Analyzer Name is required",
-      port_name: values.port_name == undefined && "Port Name is required",
+      port_name: values.port_name == undefined || values.port_name == '' && "Port Name is required",
       mode: values.mode == undefined && "Mode is required",
       device_address: values.device_address == undefined && "Device Address is required",
       sampling: values.sampling == undefined && "Sampling is required",
@@ -47,8 +57,92 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
     form.setFieldValue("data_bits", analyzerData.data_bits);
     form.setFieldValue("stop_bits", analyzerData.stop_bits);
     form.setFieldValue("flow_control", analyzerData.flow_control);
-  }, [analyzerData, form])
+  }, [analyzerData])
   
+
+  useEffect(() => {
+    if (isErrorUpdate) {
+      setErrorUpdateState(true);
+      const timer = setTimeout(() => {
+        setErrorUpdateState(false)
+        form.reset()
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isErrorUpdate]);
+
+  useEffect(() => {
+    if (isErrorDelete) {
+      setErrorDeleteState(true);
+      const timer = setTimeout(() => {
+        setErrorDeleteState(false)
+        form.reset()
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isErrorDelete]);
+
+  const handleUpdate = (values: any) => {
+    updateSerialAnalyzer(values, {
+      onError: () => {
+        showNotification({
+          title: "Update Failed",
+          message: "An error occurred while updating.",
+          color: "red",
+          autoClose: 3000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        form.setValues(values);
+        showNotification({
+          title: "Update Successful",
+          message: "Update successful!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
+
+  const handleDelete = (id: number) => {
+    setPopoverOpened(false);
+    deleteSerialAnalyzer(id, {
+      onError: () => {
+        showNotification({
+          title: "Delete Failed",
+          message: "An error occurred while deleting.",
+          color: "red",
+          autoClose: 3000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Delete Successful",
+          message: "Deleting successful!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
+
+  if(!serialPorts.isFetched) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    )
+  }
+
+  const serialPortsData = serialPorts.data;
+  const serialPortsMenu = serialPortsData.map((port: any) => {
+    return {
+      label: `${port.friendlyName}`,
+      value: port.path
+    }
+  })
+
+
   return (
     <>
       <Button h="100%" p="sm" variant="default" onClick={open} style={{fontSize:"1.3rem"}}>
@@ -56,20 +150,15 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
       </Button>
 
       <Modal
-        miw="40rem"
         opened={opened}
         onClose={close}
         title={`Edit ${analyzerData.name}`}
         centered
       >
-        <form key={`serial${analyzerData.id}`} onSubmit={ form.onSubmit( (values) =>  {
-          updateSerialAnalyzer(values, {
-            onSuccess: () => {
-              form.setValues(values);
-              close();
-            }
-          });
-        })}>
+        <form
+          key={`serial${analyzerData.id}`}
+          onSubmit={ form.onSubmit(handleUpdate)}
+        >
           <Box mb="1rem">
 
             <TextInput
@@ -80,14 +169,13 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
               {...form.getInputProps('name')}
             />
 
-            <TextInput
+            <NativeSelect
               label="Port Name"
               size='xs'
-              placeholder='e.g. COM1'
+              data={serialPortsMenu}
               key={form.key('port_name')}
               {...form.getInputProps('port_name')}
             />
-
 
             <NumberInput
               label="Device Address"
@@ -103,7 +191,8 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
               size='xs'
               data={getSerialMode}
               key={form.key('mode')}
-              value={serialMode}
+              defaultValue={serialMode}
+              {...form.getInputProps('mode')}
               onChange={(e) => {
                 setSerialMode(e.target.value)
                 form.setFieldValue('mode', e.target.value)
@@ -172,15 +261,29 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
           </Box>
 
           <Flex justify="space-between">
-            <Popover position="bottom" withArrow shadow="md">
+            <Popover
+              position="bottom"
+              withArrow
+              shadow="md"
+              opened={popoverOpened}
+              onChange={() => setPopoverOpened(true)}
+            >
               <Popover.Target>
-                <Button 
-                  rightSection={<IconTrash size="1rem" />} 
-                  variant="filled"
-                  color="red"  
-                >
+                {isPendingDelete ? (
+                  <Button color="dark.3" disabled>
+                    <Loader size="xs" />
+                  </Button>
+                ) : (
+                  <Button 
+                    rightSection={<IconTrash size="1rem" />} 
+                    variant="filled"
+                    color="red"
+                    disabled={errorDeleteState}
+                    onClick={() => setPopoverOpened(true)}
+                  >
                     Delete
-                </Button>
+                  </Button>
+                )}
               </Popover.Target>
               <Popover.Dropdown>
                 <Group>
@@ -199,9 +302,7 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
                       justify="center"
                       rightSection={<IconCheck size="1rem" />} 
                       variant="default"
-                      onClick={ () => {
-                        deleteSerialAnalyzer(analyzerData.id)
-                      }}
+                      onClick={() => handleDelete(analyzerData.id)}
                     >
                       Yes
                     </Button>
@@ -213,15 +314,20 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
               </Popover.Dropdown>
             </Popover>
           
-            {
-              isPendingUpdate ? 
+            { 
+              isPendingUpdate ? (
                 <Button color="dark.3" disabled>
-                  <Loader size="sm"/>
+                  <Loader size="xs" />
                 </Button>
-              : 
-                <Button type="submit" color="dark.3">
+              ) : (
+                <Button 
+                  type="submit"
+                  color="dark.3"
+                  disabled={errorUpdateState}
+                >
                   Save
                 </Button>
+              )
             }
 
           </Flex>

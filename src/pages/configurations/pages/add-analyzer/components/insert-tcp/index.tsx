@@ -1,4 +1,7 @@
-import { Button, TextInput, NativeSelect, Flex, Title, Text } from "@mantine/core";
+import { useState, useEffect } from "react";
+
+import { Button, TextInput, NativeSelect, Flex, Title, Text, Loader, NumberInput } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
@@ -10,7 +13,40 @@ import classes from "../../InsertForm.module.css";
 
 const InsertTcpForm = () => {
 
-  const { mutate: insertTcpAnalyzer } = useInsertTcpAnalyzer();
+  const { mutate: insertTcpAnalyzer, isPending, isError } = useInsertTcpAnalyzer();
+  const [errorState, setErrorState] = useState(false);
+
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+        form.reset()
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  const handleSubmit = (values: any) => {
+    insertTcpAnalyzer(values, {
+      onError: () => {
+        showNotification({
+          title: "Insert Failed",
+          message: "An error occurred while inserting a TCP Analyzer.",
+          color: "red",
+          autoClose: 5000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Insert Successful",
+          message: "Inserting TCP Analyzer successful!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
 
   const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
@@ -18,14 +54,17 @@ const InsertTcpForm = () => {
       port: 502,
       device_address: 1,
       sampling: 80
-    }
+    },
+    validate: (values) => ({
+      name: values.name === undefined || values.name === '' ? "Please enter a name." : null,
+      host_address: values.host_address === undefined || values.host_address === '' ? "Please enter an IP Address." : null
+    })
   });
+
 
   return (
     <>
-      <form onSubmit={ form.onSubmit( (value) =>  {
-        insertTcpAnalyzer(value)
-      })}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
 
         <Title size="xl" ta="center" mb="md" >
           Add Modbus Tcp Analyzer
@@ -57,7 +96,9 @@ const InsertTcpForm = () => {
 
           <Flex className={classes.flexContainer}>
             <Text className={classes.text}>Port Number</Text>
-            <TextInput
+            <NumberInput
+              min={1}
+              max={99999}
               className={classes.textInput}
               size="xs"
               key={form.key('port')}
@@ -88,9 +129,19 @@ const InsertTcpForm = () => {
 
 
           <Flex mt="xs" justify="flex-end">
-            <Button type="submit" color="dark.3">
-              Save
-            </Button>
+            {isPending ? (
+              <Button color="dark.3" disabled>
+                <Loader size="xs" />
+              </Button>
+            ) : (
+              <Button 
+                type="submit"
+                color="dark.3"
+                disabled={errorState}
+              >
+                Save
+              </Button>
+            )}
           </Flex>
         </Flex>
 

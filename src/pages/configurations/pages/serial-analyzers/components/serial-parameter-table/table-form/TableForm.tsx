@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classes from './css/TableForm.module.css';
 
 import { Table, Button,  ScrollArea, Group, Loader } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 
 import cx from 'clsx';
@@ -26,16 +27,48 @@ const TableForm = ({parametersData, analyzerData}: TableFormProps) => {
   });
 
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateParameter, isPending } = useUpdateSerialParameter(parametersData[0]?.analyzer_id)
+  const [errorState, setErrorState] = useState(false);
+  const { mutate: updateParameter, isPending, isError }  = useUpdateSerialParameter(parametersData[0]?.analyzer_id)
+
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+        form.reset()
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  const handleSubmit = (values: any) => {
+    updateParameter(modifyFormValues(values), {
+      onError: () => {
+        showNotification({
+          title: "Update Failed",
+          message: "An error occurred while updating the parameters.",
+          color: "red",
+          autoClose: 3000,
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Update Successful",
+          message: "Parameters have been updated successfully!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
 
   return (
 
     <form 
       onSubmit={ 
-        form.onSubmit((values) => updateParameter(modifyFormValues(values)))
+        form.onSubmit(handleSubmit)
       }
     >
-
       <ScrollArea h="55vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
         <Table highlightOnHover withColumnBorders withRowBorders={false} ta="center">
           <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
@@ -48,20 +81,19 @@ const TableForm = ({parametersData, analyzerData}: TableFormProps) => {
       </ScrollArea>
 
       <Group justify="flex-end" mx="lg" my="md">
-        {
-          isPending ? 
-            <Button
-              color="dark.3"
-              disabled
-            >
-              <Loader size="xs"/>
-            </Button>
-          :         
-            <Button type="submit" color="dark.3">
-              Save
-            </Button>
-        }
-
+        {isPending ? (
+          <Button color="dark.3" disabled>
+            <Loader size="xs" />
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            color="dark.3"
+            disabled={errorState}
+          >
+            Save
+          </Button>
+        )}
       </Group>
     </form>
   )

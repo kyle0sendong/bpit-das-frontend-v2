@@ -19,14 +19,12 @@ export const getAllStations = async () => {
 }
 
 export const updateStations = async (data: Partial<StationsType>[]) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.patch(url, data, {
-      headers: {
-        Authorization: token
-      }
-    })
-  } catch(error) {
-    console.error("Error: ", error)
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.patch(url, data, {
+    headers: {
+      Authorization: token
+    }
+  })
+
+  return response.data;
 }

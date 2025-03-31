@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classes from './css/TableForm.module.css';
 
 import { Table, Button,  ScrollArea, Group, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-
+import { showNotification } from "@mantine/notifications";
 import cx from 'clsx';
 
 import TableRows from "./TableRows";
@@ -16,17 +16,51 @@ import { useGetAllSerialParameters } from "@/hooks/serialParametersHook";
 import { VirtualChannelsType } from "@/types/virtualChannels";
 
 const TableForm = () => {
-  
+
+  const [errorState, setErrorState] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { mutate: updateVirtualChannel, isPending } = useUpdateVirtualChannel()
+
+  const { mutate: updateVirtualChannel, isPending, isError }  = useUpdateVirtualChannel()
+
+  const tcpParameters = useGetAllTcpParameters();
+  const serialParameters = useGetAllSerialParameters();
+  const virtualChannels = useGetAllVirtualChannels(true);
 
   const form = useForm<VirtualChannelsType>({
     mode:"uncontrolled"
   });
 
-  const tcpParameters = useGetAllTcpParameters();
-  const serialParameters = useGetAllSerialParameters();
-  const virtualChannels = useGetAllVirtualChannels(true);
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+        form.reset()
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  const handleSubmit = (values: any) => {
+    updateVirtualChannel(modifyFormValues(values), {
+      onError: () => {
+        showNotification({
+          title: "Update Failed",
+          message: "An error occurred while updating the parameters.",
+          color: "red",
+          autoClose: 5000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Update Successful",
+          message: "Parameters have been updated successfully!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
 
   if(virtualChannels.isFetched && tcpParameters.isFetched && serialParameters.isFetched) {
     const virtualChannelsData = virtualChannels.data;
@@ -35,10 +69,7 @@ const TableForm = () => {
     return (
 
       <form 
-        onSubmit={ 
-          form.onSubmit( (values) => updateVirtualChannel(modifyFormValues(values))
-          )
-        }
+        onSubmit={form.onSubmit( handleSubmit)}
       >
         <ScrollArea h="55vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
           <Table highlightOnHover withColumnBorders withRowBorders={false} ta="center">
@@ -52,20 +83,20 @@ const TableForm = () => {
         </ScrollArea>
   
         <Group justify="flex-end" mx="lg" my="md">
-        {
-          isPending ? 
-            <Button
-              color="dark.3"
-              disabled
-            >
-              <Loader size="xs"/>
+          {isPending ? (
+            <Button color="dark.3" disabled>
+              <Loader size="xs" />
             </Button>
-          :         
-            <Button type="submit" color="dark.3">
+          ) : (
+            <Button
+              type="submit"
+              color="dark.3"
+              disabled={errorState}
+            >
               Save
             </Button>
-        }
-        </Group>
+          )}
+      </Group>
       </form>
     )
   }

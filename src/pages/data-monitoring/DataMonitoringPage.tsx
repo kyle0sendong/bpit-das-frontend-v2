@@ -11,7 +11,7 @@ import { SerialAnalyzerType } from "@/types/serialAnalyzers";
 const DataMonitoringPage = () => {
 
   const [searchParams] = useSearchParams();
-  const monitorType = searchParams.get("type") ?? 'all-analyzers';
+  const monitorType = searchParams.get("type") ?? 'all';
   const id = searchParams.get("id") ?? '0';
 
   const allTcpAnalyzers = useGetAllTcpAnalyzers(monitorType == "all-analyzers" || monitorType == "all");

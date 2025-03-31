@@ -3,21 +3,38 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import queryKeys from "./_queryKeys";
 import { useUser } from "@/contexts/UserContext";
+import { AxiosResponse } from "axios";
+
+import { UserType } from "@/types/users";
+
+interface LoginResponse {
+  user: UserType;  // Replace 'any' with your specific user type if available
+  token: string;
+}
 
 export const useUserLogin = () => {
   const { login } = useUser();
 
   return useMutation({
     mutationFn: loginUser,
-    onSuccess: (data) => {
-      if(data != -1) {
-        login(data.data.user, data.data.token)
+    onSuccess: (response: AxiosResponse<LoginResponse> | -1) => {
+      // Check if the response is not -1 and has data
+      if (response !== -1 && 'data' in response) {
+        const userData = response.data;
+        if (userData.user && userData.token) {
+          login(userData.user, userData.token);
+        } else {
+          throw new Error("Invalid login response");
+        }
+      } else {
+        throw new Error("Login failed");
       }
     },
-    onError: (error) => {
-      console.log(error.message);
+    onError: () => {
+      // Throw a more specific error for invalid credentials
+      throw new Error("Login failed. Please check your credentials.");
     }
-  })
+  });
 }
 
 export const useUserLogout = () => {
@@ -27,8 +44,7 @@ export const useUserLogout = () => {
     onSuccess: () => {
       logout();
     },
-    onError: (error) => {
-      console.log(error.message);
+    onError: () => {
       logout()
     }
   }) 
@@ -56,9 +72,7 @@ export const useUpdateUser = () => {
   return useMutation({
     mutationFn: updateUser,
     onSuccess: (data) => {
-      if(data != -1) {
-        update(data.data.user)
-      }
+      update(data.user)
     }
   })
 }

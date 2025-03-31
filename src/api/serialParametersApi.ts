@@ -26,44 +26,37 @@ export const getSerialParametersByAnalyzerId = async (id: number) => {
 }
 
 export const insertSerialParameter = async (data: InsertParameterType) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.post(url, data, {
-      headers: {
-        Authorization: token
-      }
-    });
-  } catch(error) {
-    console.error("Error: ", error)
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.post(url, data, {
+    headers: {
+      Authorization: token
+    }
+  });
+
+  return response.data;
 }
 
 export const updateSerialParameter = async (data: Partial<ParameterType>[]) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.patch(url, data, {
-      headers: {
-        Authorization: token
-      }
+  const token = localStorage.getItem("token");
+  const response = await axios.patch(url, data, {
+    headers: {
+      Authorization: token
     }
-    )
-  } catch(error) {
-    console.error("Error: ", error)
-  }
+  });
+
+  return response.data;
 }
 
 export const deleteSerialParameter = async (id: number) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.delete(url, {
-      params: {
-        id
-      },
-      headers: {
-        Authorization: token
-      }
-    })
-  } catch(error) {
-    console.error("Error: ", error);
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.delete(url, {
+    params: {
+      id
+    },
+    headers: {
+      Authorization: token
+    }
+  })
+
+  return response.data;
 }

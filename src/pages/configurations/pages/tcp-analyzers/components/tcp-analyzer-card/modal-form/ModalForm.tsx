@@ -1,22 +1,28 @@
-import { useEffect } from "react";
-import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
-import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { useForm } from "@mantine/form";
 
 import { useUpdateTcpAnalyzer, useDeleteTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
 import { IconCheck, IconTrash } from "@tabler/icons-react";
 
 import { getDataSampling } from "@/utils/analyzers"
 
+import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
+
 const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
 
+  const [errorUpdateState, setErrorUpdateState] = useState(false);
+  const [errorDeleteState, setErrorDeleteState] = useState(false);
+  const [popoverOpened, setPopoverOpened] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-  const { mutate: updateTcpAnalyzer, isPending: isPendingUpdate } = useUpdateTcpAnalyzer(analyzerData.id);
-  const { mutate: deleteTcpAnalyzer, isPending: isPendingDelete, isSuccess } = useDeleteTcpAnalyzer(analyzerData.id);
-  
+
+  const { mutate: updateTcpAnalyzer, isPending: isPendingUpdate, isError: isErrorUpdate } = useUpdateTcpAnalyzer(analyzerData.id);
+  const { mutate: deleteTcpAnalyzer, isPending: isPendingDelete, isError: isErrorDelete, isSuccess } = useDeleteTcpAnalyzer(analyzerData.id);
+
   const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
     validate: (values) => ({
@@ -27,6 +33,72 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
       sampling: values.sampling == undefined && "Sampling is required"
     })
   });
+
+  useEffect(() => {
+    if (isErrorUpdate) {
+      setErrorUpdateState(true);
+      const timer = setTimeout(() => {
+        setErrorUpdateState(false)
+        form.reset()
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isErrorUpdate]);
+
+  useEffect(() => {
+    if (isErrorDelete) {
+      setErrorDeleteState(true);
+      const timer = setTimeout(() => {
+        setErrorDeleteState(false)
+        form.reset()
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isErrorDelete]);
+
+  const handleUpdate = (values: any) => {
+    updateTcpAnalyzer(values, {
+      onError: () => {
+        showNotification({
+          title: "Update Failed",
+          message: "An error occurred while updating.",
+          color: "red",
+          autoClose: 3000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        form.setValues(values);
+        showNotification({
+          title: "Update Successful",
+          message: "Update successful!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
+
+  const handleDelete = (id: number) => {
+    setPopoverOpened(false);
+    deleteTcpAnalyzer(id, {
+      onError: () => {
+        showNotification({
+          title: "Delete Failed",
+          message: "An error occurred while deleting.",
+          color: "red",
+          autoClose: 3000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Delete Successful",
+          message: "Deleting successful!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
 
   useEffect( () => {
     form.setFieldValue("id", analyzerData.id);
@@ -49,14 +121,10 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
         title={`Edit ${analyzerData.name}`}
         centered
       >
-        <form key={`tcp-${analyzerData.id}`} onSubmit={ form.onSubmit( (values) =>  {
-          updateTcpAnalyzer(values, {
-            onSuccess: () => {
-              form.setValues(values);
-              close();
-            }
-          });
-        })}>
+        <form 
+          key={`tcp-${analyzerData.id}`}
+          onSubmit={ form.onSubmit(handleUpdate)}
+        >
           <Box mb="1rem">
             <TextInput
               size="xs"
@@ -100,19 +168,33 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
           </Box>
 
           <Flex justify="space-between">
-            <Popover position="bottom" withArrow shadow="md">
+            <Popover 
+              position="bottom" 
+              withArrow
+              shadow="md"
+              opened={popoverOpened}
+              onChange={() => setPopoverOpened(true)}
+            >
+                
               <Popover.Target>
-                <Button 
-                  rightSection={<IconTrash size="1rem" />} 
-                  variant="filled"
-                  color="red"  
-                >
+                {isPendingDelete ? (
+                  <Button color="dark.3" disabled>
+                    <Loader size="xs" />
+                  </Button>
+                ) : (
+                  <Button
+                    rightSection={<IconTrash size="1rem" />} 
+                    variant="filled"
+                    color="red"
+                    disabled={errorDeleteState}
+                    onClick={() => setPopoverOpened(true)}
+                  >
                     Delete
-                </Button>
+                  </Button>
+                )}
               </Popover.Target>
               <Popover.Dropdown>
                 <Group>
-
                 {
                   isPendingDelete ?                 
                     <Button
@@ -127,10 +209,7 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
                       justify="center"
                       rightSection={<IconCheck size="1rem" />} 
                       variant="default"
-                      onClick={ () => {
-                        
-                        deleteTcpAnalyzer(analyzerData.id)
-                      }}
+                      onClick={() => handleDelete(analyzerData.id)}
                     >
                       Yes
                     </Button>
@@ -142,16 +221,20 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
               </Popover.Dropdown>
             </Popover>
           
-            {
-              isPendingUpdate ? 
-                <Button color="dark.3" disabled>
-                  <Loader size="sm"/>
-                </Button>
-              : 
-                <Button type="submit" color="dark.3">
-                  Save
-                </Button>
-            }
+          
+            {isPendingUpdate ? (
+              <Button color="dark.3" disabled>
+                <Loader size="xs" />
+              </Button>
+            ) : (
+              <Button 
+                type="submit"
+                color="dark.3"
+                disabled={errorUpdateState}
+              >
+                Save
+              </Button>
+            )}
 
           </Flex>
 

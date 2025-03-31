@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { Button, NumberInput, Flex, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-
+import { showNotification } from "@mantine/notifications";
 import { useInsertVirtualChannel } from "@/hooks/virtualChannelsHook";
 
 import { InsertVirtualChannelType } from "@/types/virtualChannels";
@@ -14,14 +15,44 @@ const AddVirtualChannelCard = () => {
     }
   });
   
-  const { mutate: insertVirtualChannel, isPending } = useInsertVirtualChannel();
+  const [errorState, setErrorState] = useState(false);
+  const { mutate: insertVirtualChannel, isPending, isError } = useInsertVirtualChannel();
+
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError, isPending]);
+
+  const handleSubmit = (value: InsertVirtualChannelType) => {
+    insertVirtualChannel(value, {
+      onError: () => {
+        showNotification({
+          title: "Update Failed",
+          message: "An error occurred while deleting the parameter.",
+          color: "red",
+          autoClose: 3000,
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Update Successful",
+          message: "Parameters have been updated successfully!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+    form.reset()
+  };
 
   return (
     <form onSubmit={
-      form.onSubmit( (value) => {
-        form.reset();
-        insertVirtualChannel(value);
-      })
+      form.onSubmit( (value) => handleSubmit(value))
     }>
       <Flex align="center" p="xs" gap="md">
         <NumberInput   
@@ -32,14 +63,19 @@ const AddVirtualChannelCard = () => {
           {...form.getInputProps('number')}
         />
         {
-          isPending ?  
+          isPending ? (
             <Button variant="outline" disabled> 
-              <Loader size="sm" />
+              <Loader size="xs" />
             </Button>
-          : 
-            <Button variant="outline" type="submit">
-              Insert
+          ) : (
+            <Button 
+              variant="outline"
+              type="submit"
+              disabled={errorState}
+            >
+              Save
             </Button>
+          )
         }
       </Flex>
     </form>

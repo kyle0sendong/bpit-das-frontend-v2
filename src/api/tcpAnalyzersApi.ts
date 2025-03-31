@@ -29,42 +29,36 @@ export const getTcpAnalyzerById = async (id: number) => {
 
 export const insertTcpAnalyzer = async (data: Partial<TcpAnalyzerType>) => {
   const token = localStorage.getItem("token");
-  try {
-    return await axios.post(url, data, {
-      headers: {
-        Authorization: token
-      }
-    })
-  } catch(error) {
-    console.error("Error: ", error)
-  }
+  const response = await axios.post(url, data, {
+    headers: {
+      Authorization: token
+    }
+  })
+
+  return response.data;
 }
 
 export const updateTcpAnalyzer = async (data: Partial<TcpAnalyzerType>) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.patch(url, data, {
-      headers: {
-        Authorization: token
-      }
-    })
-  } catch(error) {
-    console.error("Error: ", error)
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.patch(url, data, {
+    headers: {
+      Authorization: token
+    }
+  })
+
+  return response.data;
 }
 
 export const deleteTcpAnalyzer = async (id: number) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.delete(url, {
-      params: {
-        id
-      },
-      headers: {
-        Authorization: token
-      }
-    })
-  } catch(error) {
-    console.error("Error: ", error);
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.delete(url, {
+    params: {
+      id
+    },
+    headers: {
+      Authorization: token
+    }
+  })
+
+  return response.data;
 }

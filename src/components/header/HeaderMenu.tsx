@@ -17,11 +17,12 @@ import {
   IconHome2,
 } from '@tabler/icons-react';
 import { Tooltip, UnstyledButton } from '@mantine/core';
+import { useUser } from "@/contexts/UserContext";
 
 import Login from '../login/Login';
 
 const data = [
-  { icon: IconHome2, label: 'Configurations', link: "configurations" },
+  { icon: IconHome2, label: 'Configurations', link: "configurations/stations" },
   { icon: IconGauge, label: 'Data Monitoring', link: "data-monitoring"},
   { icon: IconHome2, label: 'Data History', link: "data-history" },
   { icon: IconGauge, label: 'User Logs', link: "user-logs"},
@@ -33,29 +34,52 @@ export default function HeaderMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [active, setActive] = useState<string>();
 
+  const { user } = useUser();
+
   useEffect( () => {
     setActive(location.pathname.substring(1))
   }, [])
 
   const navigate = useNavigate();
 
-  const links = data.map((item) => (
-    <Tooltip label={item.label} position="bottom" key={item.label} >
-      <UnstyledButton
-        key={item.label}
-        onClick={
-          () => {
-            setActive(item.link)
-            navigate(item?.link)
-        }}
-        className={classes.link}
-        data-active={item.link === active || undefined}
-      >
-        <item.icon size={20} stroke={1.5}/>
-        {item.label}
-      </UnstyledButton>
-    </Tooltip>
-  ));
+  const filteredLinks = data.filter((item) => {
+    // Always allow 'data-monitoring' and 'data-history'
+    if (item.link === "data-monitoring" || item.link === "data-history") {
+      return true;
+    }
+  
+    if (!user) return false;
+
+    if ((user.role === "admin" || user.role === "standard" || user.role === "integrator") && 
+        item.link === "configurations/stations") {
+      return true;
+    }
+
+    if (user.role === "admin" && item.link === "user-logs") {
+      return true;
+    }
+    return false;
+  });
+  
+  const links = filteredLinks.map((item) => {
+    return (
+      <Tooltip label={item.label} position="bottom" key={item.label} >
+        <UnstyledButton
+          key={item.label}
+          onClick={
+            () => {
+              setActive(item.link)
+              navigate(item?.link)
+          }}
+          className={classes.link}
+          data-active={item.link === active || undefined}
+        >
+          {/* <item.icon size={20} stroke={1.5}/> */}
+          {item.label}
+        </UnstyledButton>
+      </Tooltip>
+    )
+  });
 
 
   return (

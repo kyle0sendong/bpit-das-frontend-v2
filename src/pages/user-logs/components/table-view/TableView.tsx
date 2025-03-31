@@ -17,8 +17,8 @@ const TableView = () => {
 
   const userLogs = useGetUserLogsByDate(from, to);
 
-
   if(userLogs.isFetched) {
+
     const data: UserLogsType[] = userLogs.data;
     return (
       <UserLogsTable 

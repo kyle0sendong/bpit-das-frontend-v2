@@ -14,43 +14,38 @@ export const getAllVirtualChannels = async () => {
 }
 
 export const insertVirtualChannel = async (data: InsertVirtualChannelType) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.post(url, data, {
-      headers: {
-        Authorization: token
-      }
-    });
-  } catch(error) {
-    console.error("Error: ", error);
-  }
+
+  const token = localStorage.getItem("token");
+  const response = await axios.post(url, data, {
+    headers: {
+      Authorization: token
+    }
+  });
+  return response.data
+
 }
 
 export const updateVirtualChannel = async (data: Partial<VirtualChannelsType>[]) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.patch(url, data, {
-      headers: {
-        Authorization: token
-      }
-    });
-  } catch(error) {
-    console.error("Error: ", error);
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.patch(url, data, {
+    headers: {
+      Authorization: token
+    }
+  });
+
+  return response.data;
 }
 
 export const deleteVirtualChannel = async (id: number) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.delete(url, {
-      params: {
-        id
-      },
-      headers: {
-        Authorization: token
-      }
-    });
-  } catch(error) {
-    console.error("Error: ", error);;
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.delete(url, {
+    params: {
+      id
+    },
+    headers: {
+      Authorization: token
+    }
+  });
+
+  return response.data;
 }

@@ -31,7 +31,8 @@ type DataTableProps = {
 const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
   const [scrolled, setScrolled] = useState(false);
   const { data, isFetched } = useGetCurrentValuesByAnalyzerId(id ?? 1, type ?? 'tcp');
-  
+    
+
   // If data isn't fetched yet, we won't render the table content
   if (!isFetched) {
     return (
@@ -53,7 +54,6 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
 
   // Type assertion for data
   const typedData = data as DataItem[];
-
   const uniqueParameterNames = [...new Set(typedData.map((item) => item.parameterName))];
   const uniqueTimebases = [...new Set(typedData.map((item) => item.timebase))].sort((a, b) => a - b);
     
@@ -75,9 +75,9 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
       
       // Add the currentValue as a column with the timebase as the column name
       row[`timebase_${timebase}`] = item ? item.currentValue : null;
-      
+
       // Update datetime if available
-      if (item && item.datetime) {
+      if (item && item.datetime && (item.timebase === 0 || item.timebase === 1)) {
         row.datetime = item.datetime;
       }
     });

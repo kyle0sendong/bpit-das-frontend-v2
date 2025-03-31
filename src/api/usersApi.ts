@@ -34,76 +34,68 @@ export const logoutUser = async(token: string | null) => {
 export const getAllUsers = async() => {
   const apiUrl = `${bpitDasApiUrlV1}/users`;
   const token = localStorage.getItem("token");
-  try {
-    const data = await axios.get(apiUrl, {
-      headers: {
-        Authorization: token
-      }
-    });
-    return data.data;
-  } catch {
-    return -1;
-  }
+
+  const response = await axios.get(apiUrl, {
+    headers: {
+      Authorization: token
+    }
+  });
+
+  return response.data;
+
 }
 
 export const insertUser = async(data: Partial<UserType>) => {
   const apiUrl = `${bpitDasApiUrlV1}/register`;
   const token = localStorage.getItem("token");
-  try {
-    return await axios.post(apiUrl, data, {
-      headers: {
-        Authorization: token
-      }
-    })
-  } catch {
-    return -1;
-  }
+
+  const response = await axios.post(apiUrl, data, {
+    headers: {
+      Authorization: token
+    }
+  })
+
+  return response.data;
 }
 
 export const updateUser = async(data: Partial<UserType>) => {
   const apiUrl = `${bpitDasApiUrlV1}/user`;
   const token = localStorage.getItem("token");
-  try {
-    const result = await axios.patch(apiUrl, data, {
-      headers: {
-        Authorization: token
-      }
-    });
-    return result;
-  } catch {
-    return -1;
-  }
+
+  const response = await axios.patch(apiUrl, data, {
+    headers: {
+      Authorization: token
+    }
+  });
+
+  return response.data;
 }
 
 export const updateOtherUser = async(data: Partial<UserType>) => {
   const apiUrl = `${bpitDasApiUrlV1}/users`;
   const token = localStorage.getItem("token");
-  try {
-    const result = await axios.patch(apiUrl, data, {
-      headers: {
-        Authorization: token
-      }
-    });
-    return result;
-  } catch {
-    return -1;
-  }
+
+  const response = await axios.patch(apiUrl, data, {
+    headers: {
+      Authorization: token
+    }
+  });
+
+  return response.data;
 }
 
 export const deleteUser = async(data: Partial<UserType>) => {
   const apiUrl = `${bpitDasApiUrlV1}/user`;
   const token = localStorage.getItem("token");
-  try {
-    return await axios.delete(apiUrl, {
-      data,
-      headers: {
-        Authorization: token
-      }
-    })
-  } catch {
-    return -1;
-  }
 
+  const response = await axios.delete(apiUrl, {
+    data,
+    headers: {
+      Authorization: token
+    }
+  })
+
+  return response.data;
 }
 
 export const getUserRoles = async() => {

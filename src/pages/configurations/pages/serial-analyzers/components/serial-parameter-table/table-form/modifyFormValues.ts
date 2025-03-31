@@ -7,9 +7,7 @@ const modifyFormValues = (values: any) => {
   const objectKeys = Object.keys(values)
 
   const handleRegisterCount = (format: string) => {
-    console.log(format)
     const bit = format.split(" ")[0];
-    console.log(bit)
     switch(bit) {
       case "16-bit":
         return 1;
@@ -32,7 +30,6 @@ const modifyFormValues = (values: any) => {
     const function_code = values[`function_code_${id}`];
     const start_register_address = values[`start_register_address_${id}`];
     const register_count = handleRegisterCount(format);
-    console.log(register_count)
     const formula = values[`formula_${id}`];
     
     const ascii_command = values[`${id}-ascii_command`] ?? '';

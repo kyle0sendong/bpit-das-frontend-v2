@@ -5,7 +5,6 @@ const modifyFormValues = (values: any) => {
   const updateParameters: Partial<VirtualChannelsType>[] = []
   const objectKeys = Object.keys(values)
 
-  console.log(values)
   for(let i = 0; i < objectKeys.length-1; i = i+10) {
 
     const id = parseInt(objectKeys[i].split("_")[1]);

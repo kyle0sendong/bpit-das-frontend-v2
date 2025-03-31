@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Flex, Box } from "@mantine/core";
+import { Flex, Box, Text } from "@mantine/core";
 import HeaderMenu from "@/components/header/HeaderMenu";
 import Footer from "@/components/footer/Footer";
 import { useUser } from "@/contexts/UserContext";
@@ -12,19 +12,30 @@ const DefaultLayout = () => {
   
   if(!user) {
     navigate('/data-monitoring');
-  }
-
-  return (
-    <>
+    return (
       <Flex mih="100vh" w="100%" bg="#F0F0F0" direction="column">
         <HeaderMenu />
-        <Box>
-          <Outlet />
-        </Box>
-        <Footer/>
+        <Text m="lg">
+          Please login to continue.
+        </Text>
+        
       </Flex>
-    </>
-  )
+    )
+  }
+  else {
+    return (
+      <>
+        <Flex mih="100vh" w="100%" bg="#F0F0F0" direction="column">
+          <HeaderMenu />
+          <Box>
+            <Outlet />
+          </Box>
+          <Footer/>
+        </Flex>
+      </>
+    )
+  }
+
 }
 
 export default DefaultLayout;

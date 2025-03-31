@@ -4,7 +4,7 @@ export type UserType = {
   email: string;
   firstName: string,
   lastName: string;
-  role: number;
+  role: string;
   roleId: number | string;
   first_name: string,
   last_name: string;

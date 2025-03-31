@@ -33,16 +33,14 @@ export const insertTimebases = async (data: TimebasesType) => {
 }
 
 export const updateTimebases = async (data: Partial<TimebasesType>[]) => {
-  try {
-    const token = localStorage.getItem("token");
-    return await axios.patch(url, data, {
-      headers: {
-        Authorization: token
-      }
-    });
-  } catch(error) {
-    console.error("Error: ", error)
-  }
+  const token = localStorage.getItem("token");
+  const response = await axios.patch(url, data, {
+    headers: {
+      Authorization: token
+    }
+  });
+
+  return response.data;
 }
 
 export const deleteTimebases = async (id: number) => {

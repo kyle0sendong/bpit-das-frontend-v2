@@ -3,6 +3,7 @@ import { Avatar, Popover, Flex, UnstyledButton, Tooltip } from "@mantine/core";
 import classes from "./DropdownMenu.module.css";
 import { useUserLogout } from '@/hooks/usersHook';
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
 
 const DropdownMenu = () => {
   const [opened, setOpened] = useState(false);
@@ -13,6 +14,8 @@ const DropdownMenu = () => {
     const token = localStorage.getItem("token") ?? null;
     return userLogout(token);
   }
+
+  const { user } = useUser();
 
   return (
     <>
@@ -33,14 +36,19 @@ const DropdownMenu = () => {
 
         <Popover.Dropdown>
           <Flex direction="column" gap="sm">
-            <UnstyledButton
-              className={classes.link} 
-              onClick={() => {
-                navigate("user-dashboard")
-                setOpened((o) => !o)  
-              }}>
-              User Dashboard
-            </UnstyledButton>
+            {
+              user?.role === "admin" && (
+                <UnstyledButton
+                  className={classes.link} 
+                  onClick={() => {
+                    navigate("user-dashboard")
+                    setOpened((o) => !o)  
+                  }}>
+                  User Dashboard
+                </UnstyledButton>
+              )
+            }
+
             <UnstyledButton className={classes.link}
               onClick={() => {
                 navigate("settings")

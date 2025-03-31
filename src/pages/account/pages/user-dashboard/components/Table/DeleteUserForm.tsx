@@ -1,6 +1,10 @@
+import { useEffect, useState } from "react";
+
+import { Modal, Button, Flex, Text, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { Modal, Button, Flex, Text } from "@mantine/core";
+
 import { useDeleteUser } from "@/hooks/usersHook";
 
 type DeleteUserProps = {
@@ -10,7 +14,9 @@ type DeleteUserProps = {
 
 const DeleteUserForm = ({id, name}: DeleteUserProps) => {
 
-  const {mutate: deleteUser} = useDeleteUser();
+  const {mutate: deleteUser, isPending, isError} = useDeleteUser();
+  const [errorState, setErrorState] = useState(false);
+  const [openedDelete, {open: openDelete, close: closeDelete}] = useDisclosure(false);
 
   const form = useForm({
     mode:"uncontrolled",
@@ -18,9 +24,38 @@ const DeleteUserForm = ({id, name}: DeleteUserProps) => {
       id: id
     }
   });
-  
-  const [openedDelete, {open: openDelete, close: closeDelete}] = useDisclosure(false);
 
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  const handleSubmit = (values: any) => {
+    deleteUser(values, {
+      onError: () => {
+        showNotification({
+          title: "Delete Failed",
+          message: "An error occurred while deleting the User.",
+          color: "red",
+          autoClose: 3000,
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Delete Successful",
+          message: "User has been deleted successfully!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
+  
   return (
     <>
       <Modal 
@@ -32,10 +67,7 @@ const DeleteUserForm = ({id, name}: DeleteUserProps) => {
           blur: 0.5
         }}
       >
-        <form onSubmit={form.onSubmit((values) => {
-          console.log(values)
-          deleteUser(values)
-        })}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
           <Flex direction="column" gap="md">
             <Text>
               Are you sure you want to delete <i>{name}</i>? This action cannot be undone.
@@ -44,9 +76,20 @@ const DeleteUserForm = ({id, name}: DeleteUserProps) => {
               <Button variant="default" onClick={closeDelete}>
                 Cancel
               </Button>
-              <Button bg="red" type="submit">
-                Delete
-              </Button>
+              {isPending ? (
+                <Button color="dark.3" disabled>
+                  <Loader size="xs" />
+                </Button>
+              ) : (
+                <Button 
+                  variant="filled"
+                  color="red"
+                  disabled={errorState}
+                  type="submit"
+                >
+                  Delete
+                </Button>
+              )}
             </Flex>
           </Flex>
         </form>

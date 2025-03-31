@@ -1,14 +1,15 @@
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
-import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
-
 import { useEffect, useState } from "react";
 
-import { useDeleteSerialParameter } from "@/hooks/serialParametersHook";
-import { ParameterType } from "@/types/parameters";
-
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
+import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
+import { showNotification } from "@mantine/notifications";
 import { UseFormReturnType } from "@mantine/form";
-import { dataFormatMenu, requestIntervalsMenu, functionCodesMenu } from "@/utils/constants"
 
+import { useDeleteSerialParameter } from "@/hooks/serialParametersHook";
+
+import { dataFormatMenu, requestIntervalsMenu, functionCodesMenu } from "@/utils/constants";
+
+import { ParameterType } from "@/types/parameters";
 
 const checkIcon = (
   <IconCheck
@@ -33,7 +34,19 @@ type TableRowsProps = {
 }
 
 const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
-  const {mutate: deleteParameter, isPending} = useDeleteSerialParameter(parametersData[0]?.analyzer_id);
+  const {mutate: deleteParameter, isPending, isError } = useDeleteSerialParameter(parametersData[0]?.analyzer_id);
+  const [errorState, setErrorState] = useState(false);
+  const [opened, setOpened] = useState<number | null>(null);
+  
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
 
   // Use useEffect to set form values once after mounting or when parametersData changes
   useEffect(() => {
@@ -50,6 +63,27 @@ const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
       form.setFieldValue(`ascii_command_${parameter.id}`, parameter.ascii_command);
     }
   }, [parametersData]);
+
+  const handleDelete = (id:number) => {
+    deleteParameter(id, {
+      onError: () => {
+        showNotification({
+          title: "Delete Failed",
+          message: "An error occurred while deleting the parameter.",
+          color: "red",
+          autoClose: 3000,
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Delete Successful",
+          message: "Parameters have been deleted successfully!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
 
   // Function to determine register count
   const handleRegisterCount = (format: string) => {
@@ -135,9 +169,7 @@ const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
           {...form.getInputProps(`format_${parameter.id}`)}
           onChange={(event) => {
             const selectedFormat = event.target.value;
-            console.log("Selected Format:", selectedFormat); // Debugging
             form.setFieldValue(`format_${parameter.id}`, selectedFormat);
-            console.log(form.getValues())
             setRegisterCounts((prev) => ({
               ...prev,
               [parameter.id]: handleRegisterCount(selectedFormat),
@@ -207,28 +239,31 @@ const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
         
         {/* Delete Button */}
         <Table.Td>
-          <Popover position="bottom" withArrow shadow="md">
+          <Popover 
+            position="bottom"
+            withArrow
+            shadow="md"
+            opened={opened === parameter.id} // Open only for the clicked row
+            onChange={(isOpen) => setOpened(isOpen ? parameter.id : null)}
+          >
             <Popover.Target>
-            {
-              isPending ?  
-                <Button 
-                  size="compact-sm" 
-                  variant="filled"
-                  color="red"  
-                  disabled>
-                  <Loader size="sm" />
+              {isPending ? (
+                <Button color="dark.3" disabled>
+                  <Loader size="xs" />
                 </Button>
-              :
+              ) : (
                 <Button 
                   size="compact-sm"
                   fz="0.6rem"
                   rightSection={<IconTrash size="1rem" />} 
                   variant="filled"
                   color="red"
+                  onClick={() => setOpened(parameter.id)}
+                  disabled={errorState}
                 >
                   Delete
                 </Button>
-            }
+              )}
             </Popover.Target>
             <Popover.Dropdown>
               <Group>
@@ -239,7 +274,8 @@ const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
                   rightSection={<IconCheck size="1rem" />} 
                   variant="default"
                   onClick={ () => {
-                    deleteParameter(parameter.id)
+                    handleDelete(parameter.id);
+                    setOpened(null); // Close popover
                   }}
                 >
                   Yes

@@ -1,6 +1,10 @@
 import classes from "../../../Forms.module.css"
+
+import { useState, useEffect } from "react";
+
+import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { Flex, Text, TextInput, NativeSelect, Button, Modal } from "@mantine/core";
+import { Flex, Text, TextInput, NativeSelect, Button, Modal, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { UserType, UserRolesType } from "@/types/users";
 import { useUpdateOtherUser } from "@/hooks/usersHook";
@@ -12,14 +16,71 @@ type EditUserFormProps = {
 
 const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
 
-  const { mutate: updateOtherUser } = useUpdateOtherUser();
+  const [errorState, setErrorState] = useState(false);
+  const { mutate: updateOtherUser, isPending, isError } = useUpdateOtherUser();
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
       id: userData.id,
-      role_id: userData.roleId.toString()
+      role_id: userData.roleId.toString(),
+      username: userData.username,
+      email: userData.email,
+      first_name: userData.firstName,
+      last_name: userData.lastName
+    },
+    validate: {
+      username: (value) => 
+        value.length < 3 
+          ? 'Username must be at least 3 characters long' 
+          : null,
+      email: (value) => 
+        value.trim() !== '' && !/^\S+@\S+\.\S+$/.test(value) 
+          ? 'Invalid email address' 
+          : null,
+      first_name: (value) => 
+        value.length < 2 
+          ? 'First name must be at least 2 characters long' 
+          : null,
+      last_name: (value) => 
+        value.trim() !== '' && value.length < 2 
+          ? 'Last name must be at least 2 characters long' 
+          : null,
     }
   });
+
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+        form.reset()
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  const handleSubmit = (values: any) => {
+    updateOtherUser(values, {
+      onError: () => {
+        showNotification({
+          title: "Update Failed",
+          message: "An error occurred while updating User.",
+          color: "red",
+          autoClose: 5000,
+        });
+        form.reset()
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Update Successful",
+          message: "User have been updated successfully!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
 
   const userRoleSelection = userRoles.map( (data) => { 
     return {
@@ -41,9 +102,27 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
           blur: 0.5
         }}
       >
-        <form onSubmit={form.onSubmit((values) => {
-          updateOtherUser(values)
-        })}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+
+        <Flex className={classes.flexItem}>
+            <Text className={classes.text}> Username </Text>
+            <TextInput
+              placeholder={userData.username}
+              className={classes.textInput}
+              key={form.key('username')}
+              {...form.getInputProps('username')}
+            />
+          </Flex>
+          
+          <Flex className={classes.flexItem}>
+            <Text className={classes.text}> Email </Text>
+            <TextInput
+              placeholder={userData.email}
+              className={classes.textInput}
+              key={form.key('email')}
+              {...form.getInputProps('email')}
+            />
+          </Flex>
 
           <Flex className={classes.flexItem}>
             <Text className={classes.text}> First Name </Text>
@@ -67,26 +146,6 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
           </Flex>
 
           <Flex className={classes.flexItem}>
-            <Text className={classes.text}> Username </Text>
-            <TextInput
-              placeholder={userData.username}
-              className={classes.textInput}
-              key={form.key('username')}
-              {...form.getInputProps('username')}
-            />
-          </Flex>
-
-          <Flex className={classes.flexItem}>
-            <Text className={classes.text}> Email </Text>
-            <TextInput
-              placeholder={userData.email}
-              className={classes.textInput}
-              key={form.key('email')}
-              {...form.getInputProps('email')}
-            />
-          </Flex>
-
-          <Flex className={classes.flexItem}>
             <Text className={classes.text}> Role</Text>
             <NativeSelect
               size="xs"
@@ -97,9 +156,21 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
           </Flex>
 
           <Flex justify='flex-end'>
-            <Button type="submit" onClick={closeEdit}>
-              Save
-            </Button>
+            { 
+              isPending ? (
+                <Button color="dark.3" disabled>
+                  <Loader size="xs" />
+                </Button>
+              ) : (
+                <Button 
+                  type="submit"
+                  color="dark.3"
+                  disabled={errorState}
+                >
+                  Save
+                </Button>
+              )
+            }
           </Flex>
         </form>
 

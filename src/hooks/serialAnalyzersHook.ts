@@ -2,6 +2,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import queryKeys from "./_queryKeys";
 import {
+  getSerialPorts,
   getAllSerialAnalyzers,
   getSerialAnalyzerById,
   insertSerialAnalyzer,
@@ -11,6 +12,15 @@ import {
 
 import { SerialAnalyzerType } from "@/types/serialAnalyzers";
 import { UseFormReturnType } from "@mantine/form";
+
+export const useGetSerialPorts = () => {
+  return useQuery({
+    queryKey: [queryKeys.useGetSerialPorts()],
+    queryFn: getSerialPorts,
+    refetchInterval: 5000
+  })
+}
+
 
 export const useGetAllSerialAnalyzers = (enabled: boolean) => {
   return useQuery({

@@ -37,7 +37,6 @@ const SidebarMenu = () => {
   const serialAnalyzers = useGetAllSerialAnalyzers(true);
 
   const validateInputs = (values: Partial<FormSubmitType>) => {
-    console.log(values)
     return (values.analyzer === undefined && values.virtualChannel === undefined);
   }
 
@@ -55,34 +54,50 @@ const SidebarMenu = () => {
       virtualChannel: validateInputs(values) ? "Please select an analyzer." : null,
     })
   })
-  
-  // When submitting the form, set search params which is used in table view
+
   const labelStyle = {label:{fontSize:"0.9rem", color:"black"}}
-  const formOnSubmit = (values: FormSubmitType) => {
+
+  const formOnSubmit = (values: FormSubmitType, view: 'table' | 'graph') => {
     form.setFieldValue("analyzer", "");
     form.setFieldValue("virtualChannel", "");
-
-    const [type, id] = values.analyzer ? values.analyzer.split("-"): [undefined, undefined];
-
+  
+    const [type, id] = values.analyzer ? values.analyzer.split("-") : [undefined, undefined];
+  
     setSearchParams({
       ...(values.timebase && {timebase: values.timebase}),
       ...(values.from && {from: values.from}),
       ...(values.to && {to: values.to}),
       ...(values.analyzer && {analyzerId: id, analyzerType: type}),
-      ...(values.virtualChannel && {virtualChannel: values.virtualChannel})
+      ...(values.virtualChannel && {virtualChannel: values.virtualChannel}),
+      view // Add the view parameter
     })
   }
-
+  
   return (
     <nav className={classes.navbar}>
-      <form onSubmit={ form.onSubmit((values) => formOnSubmit(values))
-        }>
+      <form onSubmit={form.onSubmit((values) => formOnSubmit(values, 'table'))}>
         <Divider label="Views" labelPosition="center" styles={labelStyle}/>
         <Flex direction="row" gap="xs" mb="sm" justify="center">
-          <Button color="black" variant="outline" type="submit">
+          <Button 
+            color="black" 
+            variant="outline" 
+            type="submit"
+            onClick={(event) => {
+              event.preventDefault(); // Prevent default form submission
+              form.onSubmit((values) => formOnSubmit(values, 'table'))();
+            }}
+          >
             Table View
           </Button>
-          <Button color="black" variant="outline" type="submit">
+          <Button 
+            color="black" 
+            variant="outline" 
+            type="submit"
+            onClick={(event) => {
+              event.preventDefault(); // Prevent default form submission
+              form.onSubmit((values) => formOnSubmit(values, 'graph'))();
+            }}
+          >
             Graph View
           </Button>
         </Flex>

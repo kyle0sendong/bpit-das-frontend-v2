@@ -2,7 +2,7 @@ import { Box, Flex, Paper } from "@mantine/core";
 import { useSearchParams } from "react-router-dom";
 
 import TcpAnalyzerCard from "./components/tcp-analyzer-card/TcpAnalyzerCard"
-import AddParameterCard from "./components/add-parameter-card/AddParameterCard";
+import AddParameterCard from "./components/add-parameter-card";
 import TcpParametersTable from "./components/tcp-parameter-table/TcpParametersTable";
 const TcpAnalyzers = () => {
   const [searchParams] = useSearchParams();

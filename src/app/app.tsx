@@ -1,7 +1,9 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import '@mantine/notifications/styles.css';
 import 'mantine-react-table/styles.css';
 
+import { Notifications } from "@mantine/notifications";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { MantineProvider } from "@mantine/core";
@@ -19,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
       theme={theme}
       cssVariablesResolver={resolver}
     >
+      <Notifications position="top-center"/>
       <QueryClientProvider client={queryClient}>
         <UserProvider>
           <RouterProvider router={router} />

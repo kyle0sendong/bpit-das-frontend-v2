@@ -13,7 +13,6 @@ const ParametersTable = ({id}: {id:string}) => {
   if(parameters.isFetched && analyzer.isFetched) {
     const analyzerData = analyzer.data[0];
     const parametersData: ParameterType[] = parameters.data;
-    console.log(analyzerData)
     return (
       <TableForm parametersData={parametersData} analyzerData={analyzerData}/>
     )

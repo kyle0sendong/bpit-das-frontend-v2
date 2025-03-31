@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+
+import { showNotification } from "@mantine/notifications";
 import { Button, Loader, Flex, Checkbox, Grid, Text, Paper } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useGetAllTimebases, useUpdateTimebases } from "@/hooks/timebasesHook";
@@ -6,11 +9,46 @@ import modifyTimebaseFormValues from "./modifyTimebaseFormValues";
 
 const TimebaseForm = () => {
 
+  const [errorState, setErrorState] = useState(false);
+
   const timebases = useGetAllTimebases();
-  const { mutate: updateTimebase, isPending } = useUpdateTimebases();
+  const { mutate: updateTimebase, isPending, isError } = useUpdateTimebases();
+
   const form = useForm<any>({
     mode:"uncontrolled"
   });
+
+  useEffect(() => {
+    if (isError) {
+      setErrorState(true);
+      const timer = setTimeout(() => {
+        setErrorState(false)
+        form.reset()
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  const handleSubmit = (values: any) => {
+    updateTimebase(modifyTimebaseFormValues(values), {
+      onError: () => {
+        showNotification({
+          title: "Update Failed",
+          message: "An error occurred while updating the Timebases.",
+          color: "red",
+          autoClose: 5000, // Notification disappears after 5s
+        });
+      },
+      onSuccess: () => {
+        showNotification({
+          title: "Update Successful",
+          message: "Timebases have been updated successfully!",
+          color: "green",
+          autoClose: 3000,
+        });
+      },
+    });
+  };
 
   if(timebases.isLoading) {
     return (
@@ -34,9 +72,7 @@ const TimebaseForm = () => {
 
     return (
       <>
-        <form onSubmit={ form.onSubmit( (value) =>  {
-          updateTimebase(modifyTimebaseFormValues(value))
-        })}>
+        <form onSubmit={ form.onSubmit(handleSubmit)}>
 
           <Paper shadow="md" m="xs" p="xs">
             <Text m="xs">Timebases</Text>
@@ -97,17 +133,19 @@ const TimebaseForm = () => {
             </Grid>
 
             <Flex justify="flex-end" w="100%" pt="xs">
-              {
-                isPending ? 
-                  <Button color="dark.3" disabled>
-                    Save Timebase 
-                    <Loader size="sm"/>
-                  </Button>
-                : 
-                  <Button type="submit" color="dark.3">
-                    Save Timebase
-                  </Button>
-              }
+              {isPending ? (
+                <Button color="dark.3" disabled>
+                  <Loader size="xs" />
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  color="dark.3"
+                  disabled={errorState}
+                >
+                  Save
+                </Button>
+              )}
             </Flex>
           </Paper>
         </form>

@@ -6,6 +6,7 @@ const queryKeys = {
   useGetCurrentValuesByAnalyzerId: (id: number, type: string) => `currentValuesByAnalyzerId-${type}${id}`,
   useGetAllTcpParameters: () => 'allTcpParameters',
   useGetTcpParametersByAnalyzerId: (id: number) => `tcpParameterByAnalyzerId-${id}`,
+  useGetSerialPorts: () => 'allSerialPorts',
   useGetAllSerialParameters: () => 'allSerialParameters',
   useGetSerialParametersByAnalyzerId: (id: number) => `serialParameterByAnalyzerId-${id}`,
   useGetAllStations: () => 'allStations',
