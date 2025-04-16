@@ -32,16 +32,16 @@ const AddVirtualChannelCard = () => {
     insertVirtualChannel(value, {
       onError: () => {
         showNotification({
-          title: "Update Failed",
-          message: "An error occurred while deleting the parameter.",
+          title: "Insert Failed",
+          message: "An error occurred while inserting the parameter.",
           color: "red",
           autoClose: 3000,
         });
       },
       onSuccess: () => {
         showNotification({
-          title: "Update Successful",
-          message: "Parameters have been updated successfully!",
+          title: "Insert Successful",
+          message: "Virtual have been inserted successfully!",
           color: "green",
           autoClose: 3000,
         });
@@ -52,7 +52,7 @@ const AddVirtualChannelCard = () => {
 
   return (
     <form onSubmit={
-      form.onSubmit( (value) => handleSubmit(value))
+      form.onSubmit((value) => handleSubmit(value))
     }>
       <Flex align="center" p="xs" gap="md">
         <NumberInput   

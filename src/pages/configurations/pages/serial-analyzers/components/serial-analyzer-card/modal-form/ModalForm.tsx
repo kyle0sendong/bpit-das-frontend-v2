@@ -134,13 +134,13 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
     )
   }
 
-  const serialPortsData = serialPorts.data;
-  const serialPortsMenu = serialPortsData.map((port: any) => {
-    return {
-      label: `${port.friendlyName}`,
-      value: port.path
-    }
-  })
+  const serialPortsData = serialPorts?.data || [];
+  const serialPortsMenu = serialPortsData.length > 0
+    ? serialPortsData.map((port: any) => ({
+        label: port.friendlyName || "Unknown Port",
+        value: port.path || "N/A"
+      }))
+    : [{ label: "No ports available", value: "no_ports" }]; 
 
 
   return (
