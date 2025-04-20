@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 
 import { showNotification } from "@mantine/notifications";
-import { Button, TextInput, Flex, Box, Loader } from "@mantine/core";
+import { TextInput, Flex, Box } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useUpdateStations } from "@/hooks/stationsHook";
 import { StationsType } from "@/types/stations";
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 
 const StationForm = ({stationsData}: {stationsData: StationsType }) => {
 
@@ -73,17 +74,11 @@ const StationForm = ({stationsData}: {stationsData: StationsType }) => {
             
             <Flex justify="flex-end" pt="xs">
               {isPending ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
+                <LoaderButton1 />
               ) : (
-                <Button
-                  type="submit"
-                  color="dark.3"
-                  disabled={errorState}
-                >
-                  Save
-                </Button>
+                <SaveButton1 
+                  isDisabled={errorState}
+                />
               )}
             </Flex>
           </Box>

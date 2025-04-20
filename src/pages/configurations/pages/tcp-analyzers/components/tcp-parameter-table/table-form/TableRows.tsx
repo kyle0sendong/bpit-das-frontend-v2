@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput } from "@mantine/core"
 import { UseFormReturnType } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 
-import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 import { useDeleteTcpParameter } from "@/hooks/tcpParametersHook";
 
 import { dataFormatMenu, requestIntervalsMenu, functionCodesMenu } from "@/utils/constants"
 
 import { ParameterType } from "@/types/parameters";
+import { LoaderButton1, DeleteButton1 } from "@/components/ui/button";
 
 const checkIcon = (
   <IconCheck
@@ -236,21 +237,13 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
           >
             <Popover.Target>
             {isPending ? (
-              <Button color="dark.3" disabled>
-                <Loader size="xs" />
-              </Button>
+              <LoaderButton1 />
             ) : (
-              <Button 
-                size="compact-sm"
-                fz="0.6rem"
-                rightSection={<IconTrash size="1rem" />} 
-                variant="filled"
-                color="red"
+              <DeleteButton1 
                 onClick={() => setOpened(parameter.id)}
-                disabled={errorState}
-              >
-                Delete
-              </Button>
+                isDisabled={errorState}
+              />
+
             )}
             </Popover.Target>
             <Popover.Dropdown>

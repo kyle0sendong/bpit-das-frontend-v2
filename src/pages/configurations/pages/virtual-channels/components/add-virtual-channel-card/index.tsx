@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, NumberInput, Flex, Loader } from "@mantine/core";
+import { NumberInput, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { useInsertVirtualChannel } from "@/hooks/virtualChannelsHook";
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 
 import { InsertVirtualChannelType } from "@/types/virtualChannels";
 
@@ -66,17 +67,11 @@ const AddVirtualChannelCard = () => {
         />
         {
           isPending ? (
-            <Button variant="outline" disabled> 
-              <Loader size="xs" />
-            </Button>
+            <LoaderButton1 />
           ) : (
-            <Button 
-              variant="outline"
-              type="submit"
-              disabled={errorState}
-            >
-              Save
-            </Button>
+            <SaveButton1 
+              isDisabled={errorState}
+            />
           )
         }
       </Flex>

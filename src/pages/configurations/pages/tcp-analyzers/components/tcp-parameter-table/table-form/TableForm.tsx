@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { showNotification } from "@mantine/notifications";
 import classes from './TableForm.module.css';
 
-import { Table, Button, ScrollArea, Group, Loader } from "@mantine/core";
+import { Table, ScrollArea, Group } from "@mantine/core";
+
 import { useForm } from "@mantine/form";
 
 import cx from 'clsx';
@@ -10,6 +11,8 @@ import cx from 'clsx';
 import TableRows from "./TableRows";
 import TableColumn from "./TableColumn";
 import modifyFormValues from "./modifyFormValues";
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
+
 import { useUpdateTcpParameter } from "@/hooks/tcpParametersHook";
 
 import { ParameterType } from "@/types/parameters";
@@ -98,17 +101,11 @@ const TableForm = ({ parametersData }: TableFormProps) => {
 
       <Group justify="flex-end" mx="lg" my="md">
         {isPending ? (
-          <Button color="dark.3" disabled>
-            <Loader size="xs" />
-          </Button>
-        ) : errorState ? (
-          <Button color="red" disabled>
-            Update Failed
-          </Button>
+          <LoaderButton1 />
         ) : (
-          <Button type="submit" color="dark.3">
-            Save
-          </Button>
+          <SaveButton1 
+            isDisabled={errorState}
+          />
         )}
       </Group>
     </form>

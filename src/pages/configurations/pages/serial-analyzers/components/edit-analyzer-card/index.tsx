@@ -4,8 +4,8 @@ import { Navigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { Button, TextInput, Box, NativeSelect, Flex, Popover, Group, Loader, NumberInput } from "@mantine/core";
-
-import { IconCheck, IconTrash } from "@tabler/icons-react";
+import { LoaderButton1, DeleteButton1, SaveButton1 } from "@/components/ui/button";
+import { IconCheck } from "@tabler/icons-react";
 
 import { useGetSerialPorts } from "@/hooks/serialAnalyzersHook";
 import { getDataSampling, getSerialMode, getBaudRates, getParity, getDataBits, getStopBits } from '@/utils/analyzers'
@@ -261,19 +261,13 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
           >
             <Popover.Target>
               {isPendingDelete ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
+                <LoaderButton1 />
               ) : (
-                <Button 
-                  rightSection={<IconTrash size="1rem" />} 
-                  variant="filled"
-                  color="red"
-                  disabled={errorDeleteState}
+
+                <DeleteButton1 
+                  isDisabled={errorDeleteState}
                   onClick={() => setPopoverOpened(true)}
-                >
-                  Delete
-                </Button>
+                />
               )}
             </Popover.Target>
             <Popover.Dropdown>
@@ -306,19 +300,9 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
           </Popover>
         
           { 
-            isPendingUpdate ? (
-              <Button color="dark.3" disabled>
-                <Loader size="xs" />
-              </Button>
-            ) : (
-              <Button 
-                type="submit"
-                color="dark.3"
-                disabled={errorUpdateState}
-              >
-                Save
-              </Button>
-            )
+            isPendingUpdate
+              ? <LoaderButton1 />
+              : <SaveButton1 isDisabled={errorUpdateState} />
           }
 
         </Flex>

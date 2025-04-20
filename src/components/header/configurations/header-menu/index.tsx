@@ -4,15 +4,15 @@ import { Burger, Center, Container, Group, Menu, Image, Popover, Loader } from '
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMenu.module.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { EditButton, PrimaryButton } from '@/components/ui/button';
+import { EditButton1, PrimaryButton } from '@/components/ui/button';
 import { useSearchParams } from 'react-router-dom';
 
 import { useGetTcpAnalyzerById } from '@/hooks/tcpAnalyzersHook';
 import { useGetSerialAnalyzerById } from '@/hooks/serialAnalyzersHook';
 
 import AddVirtualChannelCard from '@/pages/configurations/pages/virtual-channels/components/add-virtual-channel-card';
-import AddTcpCard from '@/pages/configurations/pages/serial-analyzers/components/add-parameter-card';
-import AddSerialCard from '@/pages/configurations/pages/tcp-analyzers/components/add-parameter-card';
+import AddTcpCard from '@/pages/configurations/pages/tcp-analyzers/components/add-parameter-card';
+import AddSerialCard from '@/pages/configurations/pages/serial-analyzers/components/add-parameter-card';
 
 import EditTcpAnalyzerCard from "@/pages/configurations/pages/tcp-analyzers/components/edit-analyzer-card";
 import EditSerialAnalyzerCard from "@/pages/configurations/pages/serial-analyzers/components/edit-analyzer-card";
@@ -130,14 +130,15 @@ export default function HeaderMenu({linksData}: NavbarNestedProps) {
       content = <AddVirtualChannelCard />
       isRender = true;
     } 
-      
+    
+
     if(isTcpAnalyzerPage) {
       if(id !== 'none') {
         content = <AddTcpCard id={id}/>
         isRender = true;
       }
-    }
-
+    } 
+    
     if(isSerialAnalyzerPage) {
       if(id !== 'none') {
         content = <AddSerialCard id={id}/>
@@ -198,9 +199,8 @@ export default function HeaderMenu({linksData}: NavbarNestedProps) {
           position="bottom"
         >
           <Popover.Target>
-            <EditButton
+            <EditButton1
               onClick={() => setOpenEdit( (open) => !open)}
-              icon={<Image src="/edit.png" alt="Edit" w="1.3rem" />}
             />
           </Popover.Target>
           <Popover.Dropdown ml='-6rem' miw="300px">
@@ -220,9 +220,8 @@ export default function HeaderMenu({linksData}: NavbarNestedProps) {
           position="bottom"
         >
           <Popover.Target>
-            <EditButton
+            <EditButton1
               onClick={() => setOpenEdit( (open) => !open)}
-              icon={<Image src="/edit.png" alt="Edit" w="1.3rem" />}
             />
           </Popover.Target>
           <Popover.Dropdown ml='-6rem' miw="300px">
@@ -239,7 +238,7 @@ export default function HeaderMenu({linksData}: NavbarNestedProps) {
 
   return (
     <header className={classes.header}>
-      <Container size="md">
+      <div className={classes.container}>
         <div className={classes.inner}>
           <Group gap={5} visibleFrom="sm">
             {items}
@@ -253,7 +252,7 @@ export default function HeaderMenu({linksData}: NavbarNestedProps) {
           </Group>
           <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
         </div>
-      </Container>
+      </div>
     </header>
   );
 }

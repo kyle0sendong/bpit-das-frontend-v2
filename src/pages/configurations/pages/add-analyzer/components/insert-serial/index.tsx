@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
-import { Button, TextInput, NativeSelect, Flex, Title, Text, NumberInput, Loader } from '@mantine/core';
+import { TextInput, NativeSelect, Flex, Title, Text, NumberInput, Loader } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { SerialAnalyzerType } from '@/types/serialAnalyzers';
-
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 import { useGetSerialPorts } from '@/hooks/serialAnalyzersHook';
 import { useInsertSerialAnalyzer } from '@/hooks/serialAnalyzersHook';
 
@@ -249,19 +249,10 @@ const InsertSerialForm = () => {
 
 
           <Flex mt='xs' justify='flex-end'>
-            {isPending ? (
-              <Button color="dark.3" disabled>
-                <Loader size="xs" />
-              </Button>
-            ) : errorState ? (
-              <Button color="red" disabled>
-                Insert Failed
-              </Button>
-            ) : (
-              <Button type="submit" color="dark.3">
-                Save
-              </Button>
-            )}
+            { isPending 
+                ? <LoaderButton1 />
+                : <SaveButton1 isDisabled={errorState} />
+            }
           </Flex>
         </Flex>
 

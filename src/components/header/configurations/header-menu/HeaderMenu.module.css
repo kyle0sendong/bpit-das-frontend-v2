@@ -1,8 +1,15 @@
 .header {
   display: flex;
   height: 64px;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 
+}
+
+.container {
+  padding-inline: 0.5rem;
+  margin-inline: auto;
+  border: 1px solid white;
+  border-radius: 2rem;
 }
 
 .inner {
@@ -15,7 +22,7 @@
 .link {
   display: block;
   line-height: 1;
-  padding: 1rem 1.5rem;
+  padding: 1rem 2rem;
   border-radius: 1.5rem;
   text-decoration: none;
   color: white;
@@ -63,5 +70,5 @@
 
 .buttons {
   position: absolute;
-  right: 4.5rem;
+  right: 5rem;
 }

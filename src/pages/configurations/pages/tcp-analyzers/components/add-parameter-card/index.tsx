@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, NumberInput, Flex, Loader } from "@mantine/core";
+import { NumberInput, Flex } from "@mantine/core";
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 import { showNotification } from "@mantine/notifications";
 import { useInsertTcpParameter } from "@/hooks/tcpParametersHook";
 import { useForm } from "@mantine/form";
@@ -53,7 +54,7 @@ const AddParameterCard = ({id}: {id: string}) => {
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
-      <Flex align="center" p="xs" gap="md">
+      <Flex direction="column" align="center" p="xs" gap="md">
         <NumberInput   
           size="xs"
           label="Insert Parameters"
@@ -63,17 +64,11 @@ const AddParameterCard = ({id}: {id: string}) => {
         />
         {
           isPending ? (
-            <Button variant="outline" disabled> 
-              <Loader size="xs" />
-            </Button>
-          ) : (
-            <Button
-              variant="outline"
-              type="submit"
-              disabled={errorState}
-            >
-              Save
-            </Button>
+              <LoaderButton1 />
+            ) : (
+              <SaveButton1 
+                isDisabled={errorState}
+              />
           )
         }
         

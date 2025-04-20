@@ -6,7 +6,8 @@ import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 
 import { useUpdateTcpAnalyzer, useDeleteTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
-import { IconCheck, IconTrash } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
+import { LoaderButton1, DeleteButton1, SaveButton1 } from "@/components/ui/button";
 
 import { getDataSampling } from "@/utils/analyzers"
 
@@ -169,19 +170,12 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
               
             <Popover.Target>
               {isPendingDelete ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
+                <LoaderButton1 />
               ) : (
-                <Button
-                  rightSection={<IconTrash size="1rem" />} 
-                  variant="filled"
-                  color="red"
-                  disabled={errorDeleteState}
+                <DeleteButton1 
+                  isDisabled={errorDeleteState}
                   onClick={() => setPopoverOpened(true)}
-                >
-                  Delete
-                </Button>
+                />
               )}
             </Popover.Target>
             <Popover.Dropdown>
@@ -214,17 +208,11 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
         
         
           {isPendingUpdate ? (
-            <Button color="dark.3" disabled>
-              <Loader size="xs" />
-            </Button>
-          ) : (
-            <Button 
-              type="submit"
-              color="dark.3"
-              disabled={errorUpdateState}
-            >
-              Save
-            </Button>
+              <LoaderButton1 />
+            ) : (
+              <SaveButton1 
+                isDisabled={errorUpdateState}
+              />
           )}
 
         </Flex>

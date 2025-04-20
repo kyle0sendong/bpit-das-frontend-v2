@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import classes from './TableForm.module.css';
 
-import { Table, Button,  ScrollArea, Group, Loader } from "@mantine/core";
+import { Table, ScrollArea, Group } from "@mantine/core";
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
+
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import cx from 'clsx';
@@ -93,17 +95,11 @@ const TableForm = () => {
   
         <Group justify="flex-end" mx="lg" my="md">
           {isPending ? (
-            <Button color="dark.3" disabled>
-              <Loader size="xs" />
-            </Button>
+            <LoaderButton1 />
           ) : (
-            <Button
-              type="submit"
-              color="dark.3"
-              disabled={errorState}
-            >
-              Save
-            </Button>
+            <SaveButton1 
+              isDisabled={errorState}
+            />
           )}
       </Group>
       </form>

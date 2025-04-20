@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 
 import { showNotification } from "@mantine/notifications";
-import { Button, Loader, Flex, Checkbox, Grid, Text, Box } from "@mantine/core";
+import { Loader, Flex, Checkbox, Grid, Text, Box } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useGetAllTimebases, useUpdateTimebases } from "@/hooks/timebasesHook";
 import { TimebasesType } from "@/types/timebases";
 import modifyTimebaseFormValues from "./modifyTimebaseFormValues";
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 
 const TimebaseForm = () => {
 
@@ -134,17 +135,11 @@ const TimebaseForm = () => {
 
             <Flex justify="flex-end" w="100%" pt="xs">
               {isPending ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
+                <LoaderButton1 />
               ) : (
-                <Button
-                  type="submit"
-                  color="dark.3"
-                  disabled={errorState}
-                >
-                  Save
-                </Button>
+                <SaveButton1 
+                  isDisabled={errorState}
+                />
               )}
             </Flex>
           </Box>

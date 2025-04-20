@@ -4,7 +4,7 @@ import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, Nu
 import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { UseFormReturnType } from "@mantine/form";
-
+import { LoaderButton1, DeleteButton1 } from "@/components/ui/button";
 import { useDeleteSerialParameter } from "@/hooks/serialParametersHook";
 
 import { dataFormatMenu, requestIntervalsMenu, functionCodesMenu } from "@/utils/constants";
@@ -248,21 +248,12 @@ const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
           >
             <Popover.Target>
               {isPending ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
+                <LoaderButton1 />
               ) : (
-                <Button 
-                  size="compact-sm"
-                  fz="0.6rem"
-                  rightSection={<IconTrash size="1rem" />} 
-                  variant="filled"
-                  color="red"
+                <DeleteButton1                   
                   onClick={() => setOpened(parameter.id)}
-                  disabled={errorState}
-                >
-                  Delete
-                </Button>
+                  isDisabled={errorState}
+                />
               )}
             </Popover.Target>
             <Popover.Dropdown>

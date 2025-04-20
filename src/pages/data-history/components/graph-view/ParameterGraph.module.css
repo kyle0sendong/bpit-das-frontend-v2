@@ -1,0 +1,33 @@
+.graph {
+  p {
+    color: black;
+  }
+}
+
+/* Inactive buttons */
+.paginationControl {
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  background-color: var(--color1);
+  font-size: 0.8rem;
+  height: 1.5em;
+  min-width: 1.5rem;
+}
+
+/* Hover state for inactive buttons */
+.paginationControl:not([data-active]):hover {
+  color: white !important;
+  background-color: var(--color2) !important;
+}
+
+/* Active button */
+.paginationControl[data-active] {
+  color: white !important;
+  background-color: var(--color2) !important;
+}
+
+/* Hover state for active button */
+.paginationControl[data-active]:hover {
+  background-color: var(--color1) !important;
+}

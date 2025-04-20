@@ -2,9 +2,9 @@ import classes from "../../Forms.module.css"
 
 import { useEffect, useState } from "react";
 import { showNotification } from "@mantine/notifications";
-
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 import { useForm } from "@mantine/form";
-import { Flex, Text, TextInput, PasswordInput, NativeSelect, Button, Modal, Box, Loader } from "@mantine/core";
+import { Flex, Text, TextInput, PasswordInput, NativeSelect, Button, Modal, Image } from "@mantine/core";
 import { UserRolesType } from "@/types/users";
 import { useRegisterUser } from "@/hooks/usersHook";
 import { useDisclosure } from "@mantine/hooks";
@@ -107,11 +107,11 @@ const RegisterUserForm = ({userRoles}: RegisterUserFormProps) => {
   return (
     <Flex gap='lg' direction='column' flex={1}>
 
-      <Box>
+      <Flex justify='flex-end'>
         <Button onClick={open}>
-          Create User
+          <Image src="/more-add.png" alt="add" w="1.3rem" />
         </Button>
-      </Box>
+      </Flex>
 
       <Modal opened={opened} onClose={close} title="Create User" >
         <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -191,20 +191,9 @@ const RegisterUserForm = ({userRoles}: RegisterUserFormProps) => {
           </Flex>
 
           <Flex justify='flex-end' mt="md">
-            { 
-              isPending ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
-              ) : (
-                <Button 
-                  type="submit"
-                  color="dark.3"
-                  disabled={errorState}
-                >
-                  Register User
-                </Button>
-              )
+            { isPending 
+                ? <LoaderButton1 />
+                : <SaveButton1 isDisabled={errorState} text={'Register User'} />
             }
           </Flex>
         </form>

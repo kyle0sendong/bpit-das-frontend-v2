@@ -6,7 +6,7 @@ const TableColumn = () => (
     <Table.Th ta="center">Name</Table.Th>
     <Table.Th ta="center">Email</Table.Th>
     <Table.Th ta="center">Role</Table.Th>
-    <Table.Th ta="center" w="200">Actions</Table.Th>
+    <Table.Th ta="center" w="100">Actions</Table.Th>
   </Table.Tr>
 )
 

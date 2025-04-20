@@ -8,6 +8,8 @@ import { toSnakeCase } from '@/utils/strings';
 import { ParameterType } from '@/types/parameters';
 import { VirtualChannelsType } from '@/types/virtualChannels';
 
+import classes from './ParameterGraph.module.css';
+
 // Function to generate a random hex color
 const getRandomColor = () => {
   return `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`;
@@ -42,14 +44,22 @@ const ParameterGraph = ({parameters, data, analyzerType, analyzerId}: Props) => 
       name: `${analyzerType}${analyzerId}_${toSnakeCase(col.name)}`, 
       color: getRandomColor(), 
       label: col.name 
-    }; 
+    };
+
 
     const maxYValue = Math.max(...paginatedData.map(d => Number(d[series.name])));
     const yAxisMax = Math.ceil(maxYValue * 1.5); // Adds 50% padding
   
+    
     return ( 
-      <LineChart 
+      <LineChart
+        className={classes.graph}
         key={analyzerId}
+        style={{
+          backgroundColor:'white',
+          padding: '1rem',
+          borderRadius: '1.5rem',
+        }}
         h="200px" 
         w="100%" 
         xAxisProps={{ 
@@ -59,9 +69,18 @@ const ParameterGraph = ({parameters, data, analyzerType, analyzerId}: Props) => 
           width: 60,
           domain: [0, yAxisMax]
         }}
+        withLegend
+        styles={{
+          legend: {
+            label: {
+              fill: 'black',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            }
+          }
+        }}
         data={paginatedData} 
         dataKey="formatted_date" 
-        withLegend 
         series={[series]} 
         tickLine="y" 
       /> 
@@ -69,9 +88,12 @@ const ParameterGraph = ({parameters, data, analyzerType, analyzerId}: Props) => 
   }); 
  
   return ( 
-    <Flex direction="column" w="100%" gap="lg" align="center" m="lg"> 
+    <Flex direction="column" w="100%" gap="lg" align="center"> 
       {lineCharts}
-      <Pagination 
+      <Pagination
+        classNames={{
+          control: classes.paginationControl
+        }}
         total={totalPages} 
         value={currentPage} 
         onChange={setCurrentPage} 
