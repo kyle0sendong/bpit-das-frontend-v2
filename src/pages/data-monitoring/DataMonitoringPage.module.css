@@ -1,0 +1,19 @@
+.header_container {
+  margin: 0;
+  padding: 0;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    font-size: 2.5rem;
+    color: white;
+    margin: 0;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    padding: 0;
+  }
+
+  .filter_btn {
+    margin-right: 3rem;
+  }
+}

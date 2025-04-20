@@ -4,6 +4,8 @@ import { useSearchParams } from "react-router-dom";
 
 import { getCurrentDate, getDateTomorrow, convertDateToStringMantineDates } from "@/utils/dates";
 
+import classes from '../FilterMenu.module.css';
+
 const DatePickerMenu = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -23,11 +25,17 @@ const DatePickerMenu = () => {
   }, [value, setSearchParams]);
 
   return (
-    <DatePickerInput
-      type="range"
-      value={value}
-      onChange={setValue} 
-    />
+    <>
+      <DatePickerInput
+        type="range"
+        value={value}
+        onChange={setValue}
+        classNames={{
+          input: classes.dateInput,
+        }}
+      />
+    </>
+
   )
 
 }

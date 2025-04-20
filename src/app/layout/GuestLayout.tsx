@@ -1,19 +1,22 @@
 import { Outlet } from "react-router-dom";
-import { Flex, Box } from "@mantine/core";
-import HeaderMenu from "@/components/header/HeaderMenu";
+
+import HeaderMenu from "@/components/header";
 import Footer from "@/components/footer/Footer";
+import SidebarMenu from "@/components/sidebar/SidebarMenu";
+import classes from "./Layout.module.css"
 
 const GuestLayout = () => {
 
   return (
     <>
-      <Flex mih="100vh" w="100%" bg="#F0F0F0" direction="column">
+      <div className={classes.section}>
         <HeaderMenu />
-        <Box>
+        <div className={classes.content_container}>
+          <SidebarMenu />
           <Outlet />
-        </Box>
+        </div>
         <Footer/>
-      </Flex>
+      </div>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import classes from './css/TableForm.module.css';
+import classes from './TableForm.module.css';
 
 import { Table, Button,  ScrollArea, Group, Loader } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
@@ -69,12 +69,26 @@ const TableForm = ({parametersData, analyzerData}: TableFormProps) => {
         form.onSubmit(handleSubmit)
       }
     >
-      <ScrollArea h="55vh" onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-        <Table highlightOnHover withColumnBorders withRowBorders={false} ta="center">
-          <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+      <ScrollArea 
+        onScrollPositionChange={({ y }) => setScrolled(y !== 0)} 
+        className={classes.table_container}
+        classNames={{
+          thumb: classes.scrollThumb
+        }}
+      >
+        <Table
+          withRowBorders={false}
+          ta="center"
+        >
+          <Table.Thead 
+            className={cx(
+              classes.header, 
+              { [classes.scrolled]: scrolled }
+            )}
+          >
             <TableColumn mode={analyzerData.mode}/>
           </Table.Thead>
-          <Table.Tbody style={{fontSize:'0.8rem'}}>
+          <Table.Tbody className={classes.input}>
             <TableRows parametersData={parametersData} form={form} mode={analyzerData.mode}/>
           </Table.Tbody>
         </Table>

@@ -105,135 +105,147 @@ const InsertSerialForm = () => {
         </Title>
 
         <Flex direction='column' gap='lg'>
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}> Analyzer Name </Text>
-            <TextInput
-              className={classes.textInput}
-              size='xs'
-              placeholder='e.g. RS232'
-              key={form.key('name')}
-              {...form.getInputProps('name')}
-            />
-          </Flex>
 
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Port Name</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={serialPortsMenu}
-              key={form.key('port_name')}
-              {...form.getInputProps('port_name')}
-            />
-          </Flex>
-
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Device Address</Text>
-            <NumberInput
-              className={classes.textInput}
-              size='xs'
-              placeholder='1'
-              min={0}
-              key={form.key('device_address')}
-              {...form.getInputProps('device_address')}
-            />
-          </Flex>
-
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Mode</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={getSerialMode}
-              key={form.key('mode')}
-              value={serialMode}
-              onChange={(e) => {
-                setSerialMode(e.target.value)
-                form.setFieldValue('mode', e.target.value)
-              }}
-            />
-          </Flex>
-
-          {
-            serialMode === 'ascii' && (
+          <Flex>
+            <Flex direction='column' gap='lg' w="50%" px="lg" pt="md">
               <Flex className={classes.flexContainer}>
-              <Text className={classes.text}>ASCII Command</Text>
-              <TextInput
-                className={classes.textInput}
-                size='xs'
-                key={form.key('ascii_command')}
-                {...form.getInputProps('ascii_command')}
-              />
+                <Text className={classes.text}> Analyzer Name </Text>
+                <TextInput
+                  className={classes.textInput}
+                  size='xs'
+                  placeholder='e.g. RS232'
+                  key={form.key('name')}
+                  {...form.getInputProps('name')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Port Name</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={serialPortsMenu}
+                  key={form.key('port_name')}
+                  {...form.getInputProps('port_name')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Device Address</Text>
+                <NumberInput
+                  className={classes.textInput}
+                  size='xs'
+                  placeholder='1'
+                  min={0}
+                  key={form.key('device_address')}
+                  {...form.getInputProps('device_address')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Mode</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={getSerialMode}
+                  key={form.key('mode')}
+                  value={serialMode}
+                  onChange={(e) => {
+                    setSerialMode(e.target.value)
+                    form.setFieldValue('mode', e.target.value)
+                  }}
+                />
+              </Flex>
+
+              {
+                serialMode === 'ascii' && (
+                  <Flex className={classes.flexContainer}>
+                    <Text className={classes.text}>ASCII Command</Text>
+                    <TextInput
+                      className={classes.textInput}
+                      size='xs'
+                      key={form.key('ascii_command')}
+                      {...form.getInputProps('ascii_command')}
+                    />
+                  </Flex>
+                )
+              }
             </Flex>
-            )
-          }
 
+            <Flex direction='column' gap='lg' w="50%"  px="lg" pt="md">
 
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Baud Rate</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={getBaudRates}
-              key={form.key('baud_rate')}
-              {...form.getInputProps('baud_rate')}
-            />
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Baud Rate</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={getBaudRates}
+                  key={form.key('baud_rate')}
+                  {...form.getInputProps('baud_rate')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Parity</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={getParity}
+                  key={form.key('parity')}
+                  {...form.getInputProps('parity')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Data Bits</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={getDataBits}
+                  key={form.key('data_bits')}
+                  {...form.getInputProps('data_bits')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Stop Bits</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={getStopBits}
+                  key={form.key('stop_bits')}
+                  {...form.getInputProps('stop_bits')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Flow Control</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={getFlowControl}
+                  key={form.key('flow_control')}
+                  {...form.getInputProps('flow_control')}
+                />
+              </Flex>
+
+              <Flex className={classes.flexContainer}>
+                <Text className={classes.text}>Data Sampling</Text>
+                <NativeSelect
+                  className={classes.textInput}
+                  size='xs'
+                  data={getDataSampling}
+                  key={form.key('sampling')}
+                  {...form.getInputProps('sampling')}
+                />
+              </Flex>
+
+            </Flex>
           </Flex>
+          
 
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Parity</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={getParity}
-              key={form.key('parity')}
-              {...form.getInputProps('parity')}
-            />
-          </Flex>
 
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Data Bits</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={getDataBits}
-              key={form.key('data_bits')}
-              {...form.getInputProps('data_bits')}
-            />
-          </Flex>
 
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Stop Bits</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={getStopBits}
-              key={form.key('stop_bits')}
-              {...form.getInputProps('stop_bits')}
-            />
-          </Flex>
-
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Flow Control</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={getFlowControl}
-              key={form.key('flow_control')}
-              {...form.getInputProps('flow_control')}
-            />
-          </Flex>
-
-          <Flex className={classes.flexContainer}>
-            <Text className={classes.text}>Data Sampling</Text>
-            <NativeSelect
-              className={classes.textInput}
-              size='xs'
-              data={getDataSampling}
-              key={form.key('sampling')}
-              {...form.getInputProps('sampling')}
-            />
-          </Flex>
 
 
           <Flex mt='xs' justify='flex-end'>

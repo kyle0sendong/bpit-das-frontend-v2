@@ -1,0 +1,19 @@
+.header_container {
+  margin: 0;
+  padding: 0;
+  padding-top: 1.95rem;
+  justify-content: flex-end;
+  align-items: center;
+
+  .filter_btn {
+    margin-right: 3rem;
+  }
+}
+
+.view_container {
+
+  p {
+    margin-left: 2rem;
+    color: white;
+  }
+}

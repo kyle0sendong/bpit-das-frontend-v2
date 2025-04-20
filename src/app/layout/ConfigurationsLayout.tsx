@@ -9,8 +9,7 @@ import { Outlet } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 
-import NavbarNested from "@/pages/configurations/components/navbar/NavbarNested";
-
+import HeaderMenu from '@/components/header/configurations/header-menu';
 import { useGetAllTcpAnalyzers } from "@/hooks/tcpAnalyzersHook";
 import { useGetAllSerialAnalyzers } from '@/hooks/serialAnalyzersHook';
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
@@ -51,22 +50,22 @@ const ConfigurationsLayout = () => {
         {
           label: 'Modbus TCP Analyzers',
           icon: IconNotes,
-          link: "",
-          initiallyOpened: true,
+          link: "add-analyzer?type=tcp",
+          initiallyOpened: false,
           links: [{label: "Add Modbus TCP Analyzer", link:"add-analyzer?type=tcp"}, ...tcpAnalyzerLinks]
         },
         {
           label: 'Serial Analyzers',
           icon: IconCalendarStats,
-          link: "",
-          initiallyOpened: true,
+          link: "add-analyzer?type=serial",
+          initiallyOpened: false,
           links: [{label: "Add Serial Analyzer", link:"add-analyzer?type=serial"}, ...serialAnalyzerLinks]
         }
       ];
   
       return (
-        <Flex w="100%">
-          <NavbarNested linksData={linksData}/>
+        <Flex w="100%" direction="column">
+          <HeaderMenu linksData={linksData}/>
           <Outlet />
         </Flex>
       )

@@ -4,12 +4,12 @@ const TableColumn = (props: {mode: string}) => (
   <Table.Tr style={{fontSize:"0.8rem"}}>
     <Table.Th ta="center">Enable</Table.Th>
     <Table.Th ta="center">Parameter Name</Table.Th>
-    <Table.Th ta="center">Parameter Unit</Table.Th>
+    <Table.Th ta="center" w={50}>Parameter Unit</Table.Th>
     <Table.Th ta="center">Request Interval</Table.Th>
-    <Table.Th ta="center">Data Format</Table.Th>
+    <Table.Th ta="center" w={120}>Data Format</Table.Th>
     <Table.Th ta="center">Function Code</Table.Th>
-    <Table.Th ta="center">Start Address</Table.Th>
-    <Table.Th ta="center">Register Count</Table.Th>
+    <Table.Th ta="center" w={50}>Start Address</Table.Th>
+    <Table.Th ta="center" w={50}>Register Count</Table.Th>
     {
       props.mode === 'ascii' && <Table.Th ta="center">ASCII Command</Table.Th>
     }

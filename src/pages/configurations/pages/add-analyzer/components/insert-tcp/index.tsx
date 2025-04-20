@@ -70,7 +70,7 @@ const InsertTcpForm = () => {
           Add Modbus Tcp Analyzer
         </Title>
 
-        <Flex direction="column" gap="lg">
+        <Flex direction="column" gap="lg" w="50%" justify={'center'} m="auto">
 
           <Flex className={classes.flexContainer}>
             <Text className={classes.text}> Analyzer Name </Text>

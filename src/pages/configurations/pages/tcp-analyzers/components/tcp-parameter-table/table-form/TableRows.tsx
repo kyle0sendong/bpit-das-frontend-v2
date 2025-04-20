@@ -191,6 +191,8 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
         {/* Start Address Input */}
         <Table.Td>
           <NumberInput
+            min={0}
+            max={254}
             placeholder={parameter.start_register_address.toString()}
             radius="md"
             size="xs"
