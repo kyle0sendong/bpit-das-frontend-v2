@@ -71,6 +71,7 @@ const TableForm = ({ parametersData }: TableFormProps) => {
       onSubmit={form.onSubmit((values) =>
         handleSubmit(values)
       )}
+      style={{width:'100%'}}
     >
       <ScrollArea 
         onScrollPositionChange={({ y }) => setScrolled(y !== 0)} 

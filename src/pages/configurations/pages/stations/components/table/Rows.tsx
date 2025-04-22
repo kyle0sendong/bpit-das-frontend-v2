@@ -39,9 +39,7 @@ const RenderRows = ({ id, title, type}: Partial<DataTableProps>) => {
 
   if(data.length == 0) {
     return (
-      <Table.Tr key={`loading`}>
-        <Table.Td>No data</Table.Td>
-      </Table.Tr>
+      <Table.Tr key={`loading`} />
     );
   }
 

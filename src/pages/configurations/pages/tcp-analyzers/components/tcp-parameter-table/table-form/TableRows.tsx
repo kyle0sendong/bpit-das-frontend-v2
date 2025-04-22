@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput } from "@mantine/core"
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Text } from "@mantine/core"
 import { UseFormReturnType } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 
@@ -39,7 +39,30 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
 
   const [errorState, setErrorState] = useState(false);
   const [opened, setOpened] = useState<number | null>(null);
-  
+
+
+  // Function to determine register count
+  const handleRegisterCount = (format: string) => {
+    const bit = format.split(" ")[0];
+    switch (bit) {
+      case "16-bit":
+        return 1;
+      case "32-bit":
+        return 2;
+      case "64-bit":
+        return 4;
+      default:
+        return 1; // Fallback
+    }
+  };
+  const [registerCounts, setRegisterCounts] = useState<{ [key: string]: number }>(
+    () =>
+      parametersData.reduce((acc, param) => {
+        acc[param.id] = handleRegisterCount(param.format); // Initialize with format-based value
+        return acc;
+      }, {} as { [key: string]: number })
+  );
+
   useEffect(() => {
     if (isError) {
       setErrorState(true);
@@ -65,6 +88,17 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
     }
   }, [parametersData]);
 
+  // If there are no parameters, return a message
+  if (parametersData.length === 0) {
+    return (
+      <Table.Tr>
+        <Table.Td colSpan={11} style={{ textAlign: 'center', padding: '20px', color: 'white' }}>
+          <Text>No parameters configured.</Text>
+        </Table.Td>
+      </Table.Tr>
+    );
+  }
+
   const handleDelete = (id:number) => {
     deleteParameter(id, {
       onError: () => {
@@ -85,29 +119,6 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
       },
     });
   };
-
-  // Function to determine register count
-  const handleRegisterCount = (format: string) => {
-    const bit = format.split(" ")[0];
-    switch (bit) {
-      case "16-bit":
-        return 1;
-      case "32-bit":
-        return 2;
-      case "64-bit":
-        return 4;
-      default:
-        return 1; // Fallback
-    }
-  };
-
-  const [registerCounts, setRegisterCounts] = useState<{ [key: string]: number }>(
-    () =>
-      parametersData.reduce((acc, param) => {
-        acc[param.id] = handleRegisterCount(param.format); // Initialize with format-based value
-        return acc;
-      }, {} as { [key: string]: number })
-  );
 
   return parametersData.map( (parameter) => {
 

@@ -12,7 +12,7 @@ const TcpAnalyzers = () => {
       <Flex ml="xs" justify="space-between" >
         <TcpAnalyzerCard id={id}/> 
       </Flex>
-      <Flex>
+      <Flex w="100%">
         <TcpParametersTable id={id}/>
       </Flex>
     </Box>

@@ -181,8 +181,8 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
   if (safeVirtualChannelsData.length === 0) {
     return (
       <Table.Tr>
-        <Table.Td colSpan={11} style={{ textAlign: 'center', padding: '20px' }}>
-          <Text>No virtual channels available.</Text>
+        <Table.Td colSpan={11} style={{ textAlign: 'center', padding: '20px', color: 'white' }}>
+          <Text>No virtual channels configured.</Text>
         </Table.Td>
       </Table.Tr>
     );

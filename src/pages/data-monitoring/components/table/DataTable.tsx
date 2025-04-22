@@ -45,7 +45,7 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
 
   if(data.length == 0) {
     return (
-      <Flex direction="column" mb="xs">
+      <Flex direction="column" mb="xs" c="white">
         <Title size="md" ta="center" p="xs">{title}</Title>
         <div> No Configured Parameters</div>
       </Flex>
