@@ -1,4 +1,4 @@
-import { Box, Flex, Paper } from "@mantine/core";
+import { Box, Flex } from "@mantine/core";
 import { useSearchParams } from "react-router-dom";
 
 import AnalyzerCard from "./components/serial-analyzer-card"

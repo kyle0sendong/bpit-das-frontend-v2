@@ -1,4 +1,3 @@
-import { Paper } from "@mantine/core";
 import DatePickerMenu from "./components/DatePickerMenu";
 import classes from './FilterMenu.module.css';
 export type FormSubmitType = {

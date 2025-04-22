@@ -46,11 +46,9 @@ const ParameterGraph = ({parameters, data, analyzerType, analyzerId}: Props) => 
       label: col.name 
     };
 
-
     const maxYValue = Math.max(...paginatedData.map(d => Number(d[series.name])));
     const yAxisMax = Math.ceil(maxYValue * 1.5); // Adds 50% padding
   
-    
     return ( 
       <LineChart
         className={classes.graph}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, Loader, Text } from "@mantine/core"
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, Text } from "@mantine/core"
 import { UseFormReturnType } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 

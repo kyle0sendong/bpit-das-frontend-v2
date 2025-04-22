@@ -14,12 +14,10 @@ export const resolver: CSSVariablesResolver = (theme) => ({
   },
   light: {
     '--mantine-color-deep-orange': theme.other.deepOrangeLight,
-
   },
   dark: {
     '--mantine-color-deep-orange': theme.other.deepOrangeDark,
   },
-  
 });
 
 export const theme = createTheme({

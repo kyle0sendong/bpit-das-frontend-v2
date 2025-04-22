@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';
-import { Burger, Center, Container, Group, Menu, Image, Popover, Loader } from '@mantine/core';
+import { Burger, Center, Group, Menu, Image, Popover, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMenu.module.css';
 import { useNavigate, useLocation } from 'react-router-dom';

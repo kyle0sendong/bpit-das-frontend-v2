@@ -1,6 +1,6 @@
 .graph {
   p {
-    color: black;
+    color: black !important;
   }
 }
 

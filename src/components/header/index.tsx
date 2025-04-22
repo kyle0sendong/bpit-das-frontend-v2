@@ -33,7 +33,7 @@ export default function HeaderMenu() {
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-  });
+  }).replace(/^0/, ''); // Remove leading zero
 
   const { user } = useUser();
   return (

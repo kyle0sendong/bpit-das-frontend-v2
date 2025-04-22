@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
-import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput } from "@mantine/core"
+import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { UseFormReturnType } from "@mantine/form";
 import { LoaderButton1, DeleteButton1 } from "@/components/ui/button";
