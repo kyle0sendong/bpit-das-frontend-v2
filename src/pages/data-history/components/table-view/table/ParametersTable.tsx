@@ -13,6 +13,7 @@ import { jsPDF } from 'jspdf'; //or use your library of choice here
 import autoTable from 'jspdf-autotable';
 
 import { toSnakeCase } from '@/utils/strings';
+import classes from './ParametersTable.module.css';
 
 type ParametersTableProps = {
   parameters: ParameterType[] | VirtualChannelsType[],
@@ -53,7 +54,7 @@ const ParametersTable = (props: ParametersTableProps) => {
       head: [tableHeaders],
       body: tableData,
     });
-    doc.save('mrt-pdf-example.pdf');
+    doc.save('data-history.pdf');
   };
 
   const table = useMantineReactTable({
@@ -64,12 +65,46 @@ const ParametersTable = (props: ParametersTableProps) => {
     paginationDisplayMode: 'pages',
     positionToolbarAlertBanner: 'bottom',
     enableColumnFilters:false,
-
     initialState: { density: "xs"},
+
+    mantineTableContainerProps: {
+      className: classes.table_container
+    },
+    mantineTableProps: {
+      className: classes.table
+    },
+    mantineTableHeadCellProps: {
+      className: classes.header_cell
+    },
+    mantineTopToolbarProps: {
+      className: classes.toolbar
+    },
+    mantinePaperProps: {
+      className: classes.paper,
+    },
+    mantineSelectAllCheckboxProps: {
+      className: classes.customCheckbox
+    },
+    mantineFilterCheckboxProps: {
+      className: classes.customCheckbox
+    },
+    mantineSelectCheckboxProps: {
+      className: classes.customCheckbox
+    },
+    mantinePaginationProps: {
+      classNames: {
+        control: classes.paginationControl, // Applies to ALL pagination buttons
+      },
+    },
+    mantineBottomToolbarProps: {
+      className: classes.rowsPerPageSelect, // this is just to scope your style
+    },
+
     renderTopToolbarCustomActions: ({ table }) => (
       <Flex
         gap="xs"
         wrap='wrap'
+        className={classes.btn_container}
       >
         <Button
           disabled={table.getPrePaginationRowModel().rows.length === 0}
@@ -109,8 +144,6 @@ const ParametersTable = (props: ParametersTableProps) => {
     <MantineReactTable table={table}/>
   )
     
-  
-
 }
 
 export default ParametersTable;

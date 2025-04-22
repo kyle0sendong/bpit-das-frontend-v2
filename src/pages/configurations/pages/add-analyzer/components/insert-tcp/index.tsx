@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
-import { Button, TextInput, NativeSelect, Flex, Title, Text, Loader, NumberInput } from "@mantine/core";
+import { TextInput, NativeSelect, Flex, Title, Text, NumberInput } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 
 import { useInsertTcpAnalyzer } from "@/hooks/tcpAnalyzersHook";
@@ -70,7 +70,7 @@ const InsertTcpForm = () => {
           Add Modbus Tcp Analyzer
         </Title>
 
-        <Flex direction="column" gap="lg">
+        <Flex direction="column" gap="lg" w="50%" justify={'center'} m="auto">
 
           <Flex className={classes.flexContainer}>
             <Text className={classes.text}> Analyzer Name </Text>
@@ -129,19 +129,10 @@ const InsertTcpForm = () => {
 
 
           <Flex mt="xs" justify="flex-end">
-            {isPending ? (
-              <Button color="dark.3" disabled>
-                <Loader size="xs" />
-              </Button>
-            ) : (
-              <Button 
-                type="submit"
-                color="dark.3"
-                disabled={errorState}
-              >
-                Save
-              </Button>
-            )}
+            { isPending 
+                ? <LoaderButton1 />
+                : <SaveButton1 isDisabled={errorState} />
+            }
           </Flex>
         </Flex>
 

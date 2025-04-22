@@ -8,8 +8,8 @@ const AddAnalyzerPage = () => {
 
   const [searchParams] = useSearchParams();
   return (
-    <Flex mx="xs" mt="xs" w="100%">
-      <Paper w="50%" shadow="md" p="md">
+    <Flex w="100%" align={'center'} justify={'center'}>
+      <Paper w="80%" shadow="md" p="md" c="var(--color1)">
         {
           searchParams.get("type") === "tcp" ?
             <InsertTcpForm /> :

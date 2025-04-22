@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Table, ScrollArea, Title, Flex } from "@mantine/core";
-import classes from "./css/DataTable.module.css"
+import classes from "./DataTable.module.css"
 import cx from "clsx";
 
 import { convertDateTimeToString } from "@/utils/dates";
@@ -45,7 +45,7 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
 
   if(data.length == 0) {
     return (
-      <Flex direction="column" mb="xs">
+      <Flex direction="column" mb="xs" c="white">
         <Title size="md" ta="center" p="xs">{title}</Title>
         <div> No Configured Parameters</div>
       </Flex>
@@ -97,7 +97,7 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
 
   // Create column headers based on timebases
   const columns = (
-    <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })} style={{fontSize:'0.8rem'}}>
+    <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
       <Table.Tr>
         <Table.Th ta="center" style={{ width: 170, minWidth: 170 }}>Parameter</Table.Th>
         <Table.Th ta="center" style={{ width: 170, minWidth: 170 }}>Date & Time</Table.Th>
@@ -117,7 +117,7 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
 
   // Create rows from transformed data
   const rows = transformedData.map((row) => (
-    <Table.Tbody style={{fontSize:'0.8rem'}} key={row.parameterName}>
+    <Table.Tbody className={classes.rows_container} key={row.parameterName}>
       <Table.Tr>
         <Table.Td>{row.parameterName}</Table.Td>
         <Table.Td>{convertDateTimeToString(row.datetime)}</Table.Td>
@@ -126,11 +126,13 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
           const value = row[`timebase_${timebase}`] as string | null;
           return (
             <Table.Td key={`${row.parameterName}-${timebase}`}>
-              {value === "-9999.00000" ? 
-                "N/A" : 
-                value !== null ? 
-                  parseFloat(value).toFixed(2) : 
-                  "N/A"}
+              {
+                value === "-9999.00000" 
+                  ? "N/A" 
+                    : value !== null 
+                      ? parseFloat(value).toFixed(2) 
+                        : "N/A"
+              }
             </Table.Td>
           );
         })}
@@ -139,12 +141,31 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
   ));
 
   return (
-    <Flex direction="column" mb="md">
-      <Title size="md" ta="center" p="xs">
-        {title}
-      </Title>
-      <ScrollArea maw="70vw" type="auto" offsetScrollbars scrollbarSize={15} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-        <Table bg="white" verticalSpacing="sm" highlightOnHover withColumnBorders ta="center">
+    <Flex mb="md" direction="column" justify='center'>
+      <div className={classes.title}>
+        <p>
+          {title}
+        </p>
+      </div>
+
+      <ScrollArea
+        className={classes.table_container}
+        classNames={{
+          thumb: classes.scrollThumb,
+          scrollbar: classes.scrollbar
+        }}
+        styles={{
+          viewport: {
+            paddingRight: 0,
+            marginRight: 0,
+          }
+        }}
+        type="auto" 
+        offsetScrollbars
+        scrollbarSize={10}
+        onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
+      >
+        <Table verticalSpacing="sm" ta="center">
           {columns}
           {rows}
         </Table>

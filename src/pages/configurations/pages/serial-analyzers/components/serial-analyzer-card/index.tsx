@@ -1,8 +1,9 @@
-import { Loader, Paper, Flex, Text } from '@mantine/core';
+import { Loader } from '@mantine/core';
 
 import { useGetSerialAnalyzerById } from '@/hooks/serialAnalyzersHook';
 import { SerialAnalyzerType } from '@/types/serialAnalyzers';
-import ModalForm from './modal-form/ModalForm';
+
+import classes from './SerialAnalyzerCard.module.css';
 
 const AnalyzerCard = ({id}: {id: string}) => {
 
@@ -14,33 +15,31 @@ const AnalyzerCard = ({id}: {id: string}) => {
 
     return (
 
-      <Flex gap="lg" h='100%' p='md'>
-        <Paper shadow='md'>
-          <ModalForm analyzerData={analyzerData}/>
-        </Paper>
+      <div className={classes.container}>
 
-        <Flex direction='column' gap='xs' my='auto' justify="flex-start" h="100%">
-          <Text size='0.9rem'> <b>Port Name:</b> {analyzerData.port_name}</Text>
-          <Text size='0.9rem'> <b>Mode:</b> {analyzerData.mode}</Text>
-          {analyzerData.mode === 'ascii' && <Text size='0.9rem'> <b>ASCII Command:</b> {analyzerData.ascii_command}</Text>}
-        </Flex>
+        <p className={classes.title}>
+          {analyzerData.name}
+        </p>
 
-        <Flex direction='column' gap='xs' my='auto' justify="flex-start" h="100%">
-          <Text size='0.9rem'> <b>Device Address</b> {analyzerData.device_address}</Text>
-          <Text size='0.9rem'> <b>Sampling</b> {analyzerData.sampling}</Text>
-        </Flex>
+        <div className={classes.text_container}>
+          <p> <b>Port Name:</b> {analyzerData.port_name}</p>
+          <p> <b>Mode:</b> {analyzerData.mode}</p>
+          {analyzerData.mode === 'ascii' && <p> <b>ASCII Command:</b> {analyzerData.ascii_command}</p>}
 
-        <Flex direction='column' gap='xs' my='auto' justify="flex-start" h="100%">
-          <Text size='0.9rem'><b>Baud Rate</b> {analyzerData.baud_rate}</Text>
-          <Text size='0.9rem'><b>Parity</b> {analyzerData.parity}</Text>
-        </Flex>
 
-        <Flex direction='column' gap='xs' my='auto' justify="flex-start" h="100%">
-          <Text size='0.9rem'><b>Data Bits</b> {analyzerData.data_bits}</Text>
-          <Text size='0.9rem'><b>Stop Bits</b> {analyzerData.stop_bits}</Text>
-        </Flex>
+          <p> <b>Device Address</b> {analyzerData.device_address}</p>
+          <p> <b>Sampling</b> {analyzerData.sampling}%</p>
 
-      </Flex>
+
+          <p><b>Baud Rate</b> {analyzerData.baud_rate}</p>
+          <p><b>Parity</b> {analyzerData.parity}</p>
+
+
+          <p><b>Data Bits</b> {analyzerData.data_bits}</p>
+          <p><b>Stop Bits</b> {analyzerData.stop_bits}</p>
+        </div>
+
+      </div>
 
     )
   }

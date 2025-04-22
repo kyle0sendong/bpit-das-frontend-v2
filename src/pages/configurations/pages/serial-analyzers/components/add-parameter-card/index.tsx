@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, NumberInput, Flex, Loader } from "@mantine/core";
+import { NumberInput, Flex } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 import { useInsertSerialParameter } from "@/hooks/serialParametersHook";
 import { useForm } from "@mantine/form";
 import { InsertParameterType } from "@/types/parameters";
@@ -17,7 +18,7 @@ const AddParameterCard = ({id}: {id: string}) => {
 
   const [errorState, setErrorState] = useState(false);
   const { mutate: insertParameter, isPending, isError } = useInsertSerialParameter(parseInt(id));
-
+  parseInt(id)
   useEffect(() => {
     if (isError) {
       setErrorState(true);
@@ -53,7 +54,7 @@ const AddParameterCard = ({id}: {id: string}) => {
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
-      <Flex align="center" p="xs" gap="md">
+      <Flex direction="column" align="center" p="xs" gap="md">
         <NumberInput   
           size="xs"
           label="Insert Parameters"
@@ -61,21 +62,12 @@ const AddParameterCard = ({id}: {id: string}) => {
           key={form.key('number')}
           {...form.getInputProps('number')}
         />
-        {
-          isPending ? (
-            <Button variant="outline" disabled> 
-              <Loader size="xs" />
-            </Button>
-          ) : (
-            <Button 
-              variant="outline"
-              type="submit"
-              disabled={errorState}
-            >
-              Save
-            </Button>
-          )
+        
+        { isPending 
+          ? <LoaderButton1 />
+          : <SaveButton1 isDisabled={errorState} />
         }
+        
         
       </Flex>
     </form>

@@ -26,9 +26,10 @@ const DropdownMenu = () => {
               className={classes.avatar}
               onClick={() => setOpened((o) => !o)}>
               <Avatar
-                size="md"
+                size="lg"
                 radius="md"
-                color="blue"
+                color="var(--color1)"
+                
               />
             </UnstyledButton>
           </Tooltip>

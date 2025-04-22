@@ -1,0 +1,36 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background: 
+    linear-gradient(
+      135deg,
+      #004471 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      315deg,
+      #0B8568 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at top right,
+      #002A48 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      #000411 0%,
+      transparent 60%
+    );
+  background-color: #083D47;
+  
+}
+
+.content_container {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3rem;
+  margin: 2rem 2rem 1rem 2rem;
+}

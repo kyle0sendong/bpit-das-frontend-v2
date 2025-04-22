@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Flex } from "@mantine/core";
-import NavbarNested from "./components/sidebar/navbar/NavbarNested";
+import { Flex, Popover, Image } from "@mantine/core";
+import DropdownLinks from "./components/popover/dropdown/DropdownLinks";
 import DataTable from "./components/table/DataTable";
 import { useGetAllTcpAnalyzers, useGetTcpAnalyzerById } from "@/hooks/tcpAnalyzersHook";
 import { useGetAllSerialAnalyzers, useGetSerialAnalyzerById } from "@/hooks/serialAnalyzersHook";
@@ -8,8 +9,12 @@ import { useGetAllSerialAnalyzers, useGetSerialAnalyzerById } from "@/hooks/seri
 import { TcpAnalyzerType } from "@/types/tcpAnalyzers";
 import { SerialAnalyzerType } from "@/types/serialAnalyzers";
 
-const DataMonitoringPage = () => {
+import { PrimaryButton } from "@/components/ui/button";
 
+import classes from './DataMonitoringPage.module.css';
+
+const DataMonitoringPage = () => {
+  const [openFilter, setOpenFilter] = useState(false);
   const [searchParams] = useSearchParams();
   const monitorType = searchParams.get("type") ?? 'all';
   const id = searchParams.get("id") ?? '0';
@@ -49,9 +54,34 @@ const DataMonitoringPage = () => {
   }
 
   return (
-    <Flex w="100%">
-      <NavbarNested />
-      <Flex w="100%" direction="column" align="center" p="xs">
+    <Flex w="100%" direction='column'>
+
+      <Flex className={classes.header_container}>
+
+        <p>
+          Overview
+        </p>
+
+        <Popover
+          opened={openFilter} 
+          onChange={setOpenFilter} 
+          position="bottom"
+        >
+          <Popover.Target>
+            <div className={classes.filter_btn}>
+              <PrimaryButton
+                onClick={() => setOpenFilter( (open) => !open)}
+                icon={<Image src="/filter.png" alt="filter" w="1.3rem" />}
+              />
+            </div>
+          </Popover.Target>
+          <Popover.Dropdown p={0} ml='-6rem'>
+            <DropdownLinks />
+          </Popover.Dropdown>
+        </Popover>
+      </Flex>
+
+      <Flex w="100%" direction="column" align="center" p="xs" gap="1rem">
         {dataTables}
       </Flex>
     </Flex>

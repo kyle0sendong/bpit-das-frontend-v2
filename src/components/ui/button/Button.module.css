@@ -1,0 +1,43 @@
+.edit_btn {
+  background-color: rgba(255,255,255, 0.2);
+  padding: 4px 4px 5px 5px;
+  border-radius: 5px;
+}
+
+.edit_btn2 {
+  background-color: var(--color1);
+  opacity: 0.8;
+  padding: 4px 4px 5px 5px;
+  border-radius: 5px;
+}
+
+.primary_btn {
+  background-color: rgba(255,255,255, 0.2);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.delete_btn {
+  background-color: red;
+  opacity: 0.8;
+  color: white;
+  padding-top: 5px;
+  padding-inline: 5px;
+  border-radius: 5px;
+}
+
+.loader_btn {
+  background-color: var(--color1);
+  padding-top: 5px;
+  padding-inline: 5px;
+  border-radius: 5px;
+}
+
+.save_btn1 {
+  background-color: #b93838;
+  font-weight: 400;
+  color: white;
+  padding-block: 0.2rem;
+  padding-inline: 1.5rem;
+  border-radius: 1rem;
+}

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { Modal, Button, Flex, Text, Loader } from "@mantine/core";
+import { Modal, Button, Flex, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-
+import { LoaderButton1, DeleteButton1 } from "@/components/ui/button";
 import { useDeleteUser } from "@/hooks/usersHook";
 
 type DeleteUserProps = {
@@ -77,9 +77,7 @@ const DeleteUserForm = ({id, name}: DeleteUserProps) => {
                 Cancel
               </Button>
               {isPending ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
+                <LoaderButton1 />
               ) : (
                 <Button 
                   variant="filled"
@@ -87,7 +85,7 @@ const DeleteUserForm = ({id, name}: DeleteUserProps) => {
                   disabled={errorState}
                   type="submit"
                 >
-                  Delete
+                  Confirm
                 </Button>
               )}
             </Flex>
@@ -95,9 +93,11 @@ const DeleteUserForm = ({id, name}: DeleteUserProps) => {
         </form>
 
       </Modal>
-      <Button size="xs" bg="red" variant="filled" onClick={openDelete}>
-        Delete
-      </Button>
+
+      <DeleteButton1 
+        onClick={openDelete}
+      />
+
     </>
 
   )

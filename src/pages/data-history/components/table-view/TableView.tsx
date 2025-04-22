@@ -77,14 +77,22 @@ const TableView = () => {
       data = virtualChannelsData.data;
     }
 
+    if(parametersData) {
+      return (
+        <Box w="100%" p="1rem">
+          <ParametersTable 
+            parameters={parametersData}
+            data={data}
+            analyzerType={queryAnalyzerType}
+            analyzerId={queryAnalyzerId ?? ''}
+          />
+        </Box>
+      )
+    }
+    
     return (
-      <Box w="100%" p="1rem">
-        <ParametersTable 
-          parameters={parametersData}
-          data={data}
-          analyzerType={queryAnalyzerType}
-          analyzerId={queryAnalyzerId ?? ''}
-        />
+      <Box p="1rem" c="white">
+        Please select an analyzer from the filter menu
       </Box>
     )
   }
@@ -98,8 +106,8 @@ const TableView = () => {
   }
 
   return (
-    <Box p="1rem">
-      Please select from the sidebar menu
+    <Box p="1rem" c="white">
+      Please select an analyzer from the filter menu
     </Box>
   )
 }

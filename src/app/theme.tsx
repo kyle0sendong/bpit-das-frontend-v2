@@ -8,15 +8,16 @@ export const resolver: CSSVariablesResolver = (theme) => ({
   variables: {
     '--mantine-hero-height': theme.other.heroHeight,
     '--testing': theme.other.deepOrangeDark,
+    '--color1': '#0b8367',
+    '--color2': '#4d7591',
+    '--color3': '#7bbcad',
   },
   light: {
     '--mantine-color-deep-orange': theme.other.deepOrangeLight,
-
   },
   dark: {
     '--mantine-color-deep-orange': theme.other.deepOrangeDark,
   },
-  
 });
 
 export const theme = createTheme({

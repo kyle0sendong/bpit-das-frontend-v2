@@ -1,7 +1,0 @@
-.navbar {
-  padding: var(--mantine-spacing-md);
-  display: flex;
-  flex-direction: column;
-  min-width: 20%;
-  max-height: fit-content;
-}

@@ -4,12 +4,12 @@ const TableColumn = () => (
   <Table.Tr style={{fontSize:"0.8rem"}}>
     <Table.Th ta="center">Enable</Table.Th>
     <Table.Th ta="center">Parameter Name</Table.Th>
-    <Table.Th ta="center">Parameter Unit</Table.Th>
+    <Table.Th ta="center" w={50}>Parameter Unit</Table.Th>
     <Table.Th ta="center">Request Interval</Table.Th>
     <Table.Th ta="center">Data Format</Table.Th>
     <Table.Th ta="center">Function Code</Table.Th>
-    <Table.Th ta="center">Start Address</Table.Th>
-    <Table.Th ta="center">Register Count</Table.Th>
+    <Table.Th ta="center" w={50}>Start Address</Table.Th>
+    <Table.Th ta="center" w={50}>Register Count</Table.Th>
     <Table.Th ta="center">Offset Formula</Table.Th>
     <Table.Th ta="center">Actions</Table.Th>
   </Table.Tr>

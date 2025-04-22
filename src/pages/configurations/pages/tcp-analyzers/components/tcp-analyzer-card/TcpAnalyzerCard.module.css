@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  margin: 0;
+  margin-left: 20px;
+  margin-bottom: 0.5rem;
+
+  .title {
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+}
+
+.text_container {
+  display:flex;
+  gap: 2.5rem;
+  background-color: white;
+  border-radius: 3rem;
+  margin: 0;
+  padding-inline: 1rem;
+  p {
+    font-size: 0.8rem;
+    color: var(--color1);
+    margin: 5px;
+  }
+}

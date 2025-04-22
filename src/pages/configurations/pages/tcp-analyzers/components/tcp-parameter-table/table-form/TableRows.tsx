@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Loader } from "@mantine/core"
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Text } from "@mantine/core"
 import { UseFormReturnType } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 
-import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 import { useDeleteTcpParameter } from "@/hooks/tcpParametersHook";
 
 import { dataFormatMenu, requestIntervalsMenu, functionCodesMenu } from "@/utils/constants"
 
 import { ParameterType } from "@/types/parameters";
+import { LoaderButton1, DeleteButton1 } from "@/components/ui/button";
 
 const checkIcon = (
   <IconCheck
@@ -38,7 +39,30 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
 
   const [errorState, setErrorState] = useState(false);
   const [opened, setOpened] = useState<number | null>(null);
-  
+
+
+  // Function to determine register count
+  const handleRegisterCount = (format: string) => {
+    const bit = format.split(" ")[0];
+    switch (bit) {
+      case "16-bit":
+        return 1;
+      case "32-bit":
+        return 2;
+      case "64-bit":
+        return 4;
+      default:
+        return 1; // Fallback
+    }
+  };
+  const [registerCounts, setRegisterCounts] = useState<{ [key: string]: number }>(
+    () =>
+      parametersData.reduce((acc, param) => {
+        acc[param.id] = handleRegisterCount(param.format); // Initialize with format-based value
+        return acc;
+      }, {} as { [key: string]: number })
+  );
+
   useEffect(() => {
     if (isError) {
       setErrorState(true);
@@ -64,6 +88,17 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
     }
   }, [parametersData]);
 
+  // If there are no parameters, return a message
+  if (parametersData.length === 0) {
+    return (
+      <Table.Tr>
+        <Table.Td colSpan={11} style={{ textAlign: 'center', padding: '20px', color: 'white' }}>
+          <Text>No parameters configured.</Text>
+        </Table.Td>
+      </Table.Tr>
+    );
+  }
+
   const handleDelete = (id:number) => {
     deleteParameter(id, {
       onError: () => {
@@ -84,29 +119,6 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
       },
     });
   };
-
-  // Function to determine register count
-  const handleRegisterCount = (format: string) => {
-    const bit = format.split(" ")[0];
-    switch (bit) {
-      case "16-bit":
-        return 1;
-      case "32-bit":
-        return 2;
-      case "64-bit":
-        return 4;
-      default:
-        return 1; // Fallback
-    }
-  };
-
-  const [registerCounts, setRegisterCounts] = useState<{ [key: string]: number }>(
-    () =>
-      parametersData.reduce((acc, param) => {
-        acc[param.id] = handleRegisterCount(param.format); // Initialize with format-based value
-        return acc;
-      }, {} as { [key: string]: number })
-  );
 
   return parametersData.map( (parameter) => {
 
@@ -191,6 +203,8 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
         {/* Start Address Input */}
         <Table.Td>
           <NumberInput
+            min={0}
+            max={254}
             placeholder={parameter.start_register_address.toString()}
             radius="md"
             size="xs"
@@ -234,21 +248,13 @@ const TableRows = ({parametersData, form}: TableRowsProps) => {
           >
             <Popover.Target>
             {isPending ? (
-              <Button color="dark.3" disabled>
-                <Loader size="xs" />
-              </Button>
+              <LoaderButton1 />
             ) : (
-              <Button 
-                size="compact-sm"
-                fz="0.6rem"
-                rightSection={<IconTrash size="1rem" />} 
-                variant="filled"
-                color="red"
+              <DeleteButton1 
                 onClick={() => setOpened(parameter.id)}
-                disabled={errorState}
-              >
-                Delete
-              </Button>
+                isDisabled={errorState}
+              />
+
             )}
             </Popover.Target>
             <Popover.Dropdown>

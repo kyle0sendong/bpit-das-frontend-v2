@@ -1,0 +1,96 @@
+.table_container {
+  background-color: transparent !important;
+  min-width: 65vw;
+  max-width: 70vw;
+  border: 1px solid white;
+  border-radius: 1.5rem;
+  padding-right: 0 !important;
+
+  .scrollThumb {
+    background-color: white;
+    opacity: 0;
+    transition: 'opacity 0.2s ease-in-out';
+  }
+  .scrollThumb:hover {
+    background-color: white !important;
+  }
+
+  .scrollbar {
+    background-color: transparent !important;
+  }
+  .scrollbar:hover {
+    background-color: transparent !important;
+    .scrollThumb {
+      opacity: 1;
+    }
+  }
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: var(--mantine-color-body);
+  transition: box-shadow 150ms ease;
+  color: var(--color1);
+  font-size: 0.8rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-bottom: rem(1px) solid
+      light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-3));
+  }
+}
+
+.rows_container {
+  background-color: transparent !important;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: white;
+
+  td {
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+  }
+  td:last-child {
+    border-right: none;
+  }
+}
+.scrolled {
+  box-shadow: var(--mantine-shadow-sm);
+}
+
+.th {
+  padding: 0;
+}
+
+.control {
+  width: 100%;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+
+  @mixin hover {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  }
+}
+
+.icon {
+  border-radius: rem(21px);
+}
+
+.title {
+  text-align: center;
+  p {
+    display: inline-block;
+    background-color: white;
+    color: var(--color1);
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-radius: 1.8rem 1.8rem 0 0;
+    margin: 0;
+    padding-top: 3px;
+    padding-inline: 1.7rem;
+  }
+}

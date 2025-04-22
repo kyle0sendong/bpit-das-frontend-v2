@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, Loader, Text } from "@mantine/core"
+import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, Text } from "@mantine/core"
 import { UseFormReturnType } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 
-import { IconCheck, IconX, IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 import { useDeleteVirtualChannel } from "@/hooks/virtualChannelsHook";
 
 import { VirtualChannelsType } from "@/types/virtualChannels";
 import { ParameterType } from "@/types/parameters";
+
+import { DeleteButton1, LoaderButton1 } from "@/components/ui/button";
 
 const getSelectDataMenu = (parametersData: ParameterType[], selected: string) => {
   // Handle empty parametersData array
@@ -179,8 +181,8 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
   if (safeVirtualChannelsData.length === 0) {
     return (
       <Table.Tr>
-        <Table.Td colSpan={11} style={{ textAlign: 'center', padding: '20px' }}>
-          <Text>No virtual channels available.</Text>
+        <Table.Td colSpan={11} style={{ textAlign: 'center', padding: '20px', color: 'white' }}>
+          <Text>No virtual channels configured.</Text>
         </Table.Td>
       </Table.Tr>
     );
@@ -308,21 +310,13 @@ const TableRows = ({virtualChannelsData, parametersData, form}: TableRowsProps) 
           >
             <Popover.Target>
             {isPending ? (
-              <Button color="dark.3" disabled>
-                <Loader size="xs" />
-              </Button>
+              <LoaderButton1 />
             ) : (
-              <Button 
-                size="compact-sm"
-                fz="0.6rem"
-                rightSection={<IconTrash size="1rem" />} 
-                variant="filled"
-                color="red"
+
+              <DeleteButton1 
                 onClick={() => setOpened(virtualChannel.id)}
-                disabled={errorState}
-              >
-                Delete
-              </Button>
+                isDisabled={errorState}
+              />
             )}
 
             </Popover.Target>

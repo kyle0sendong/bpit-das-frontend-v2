@@ -3,9 +3,9 @@ import classes from '../Forms.module.css'
 import { useState, useEffect } from "react";
 
 import { showNotification } from "@mantine/notifications";
-import { Flex, Text, TextInput, Paper, Button, PasswordInput, Alert, Loader } from '@mantine/core';
+import { Flex, Text, TextInput, Paper, PasswordInput, Alert } from '@mantine/core';
 import { useForm } from '@mantine/form';
-
+import { SaveButton1, LoaderButton1 } from "@/components/ui/button";
 import { useUpdateUser } from '@/hooks/usersHook';
 import { useUser } from '@/contexts/UserContext';
 
@@ -194,20 +194,9 @@ const AccountSettingsPage = () => {
 
 
           <Flex justify='flex-end' mt="md">
-            { 
-              isPending ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
-              ) : (
-                <Button 
-                  type="submit"
-                  color="dark.3"
-                  disabled={errorState}
-                >
-                  Save
-                </Button>
-              )
+            { isPending 
+              ? <LoaderButton1 />
+              : <SaveButton1 isDisabled={errorState} />
             }
           </Flex>
         </form>

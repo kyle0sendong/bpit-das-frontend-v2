@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 
 import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { Flex, Text, TextInput, NativeSelect, Button, Modal, Loader } from "@mantine/core";
+import { Flex, Text, TextInput, NativeSelect, Modal } from "@mantine/core";
+import { LoaderButton1, EditButton2, SaveButton1} from "@/components/ui/button";
 import { useDisclosure } from "@mantine/hooks";
 import { UserType, UserRolesType } from "@/types/users";
 import { useUpdateOtherUser } from "@/hooks/usersHook";
@@ -156,29 +157,17 @@ const EditUserForm = ({userRoles, userData}: EditUserFormProps) => {
           </Flex>
 
           <Flex justify='flex-end'>
-            { 
-              isPending ? (
-                <Button color="dark.3" disabled>
-                  <Loader size="xs" />
-                </Button>
-              ) : (
-                <Button 
-                  type="submit"
-                  color="dark.3"
-                  disabled={errorState}
-                >
-                  Save
-                </Button>
-              )
+            { isPending 
+                ? <LoaderButton1 />
+                : <SaveButton1 isDisabled={errorState} />
             }
           </Flex>
         </form>
 
       </Modal>
-      
-      <Button size="xs" variant="default" onClick={openEdit}>
-        Edit
-      </Button>
+      <EditButton2
+        onClick={openEdit}
+      />
 
     </>
   )

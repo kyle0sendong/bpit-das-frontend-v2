@@ -1,18 +1,32 @@
-import { Box, Flex, Paper, Text } from "@mantine/core";
-import StationForm from "./components/StationForm";
-import TimebaseForm from "./components/TimebaseForm";
+import { Flex, Loader } from "@mantine/core";
+import classes from './Stations.module.css';
+
+import { useGetAllStations } from "@/hooks/stationsHook";
+
+import SummaryTable from "./components/table";
 
 const Stations = () => {
+  const stations = useGetAllStations();
+
+  if(stations.isLoading) return <Loader />
+
+  const stationsData = stations.data[0];
+
   return (
-    <Box w="100%">
-      <Flex gap="md" m="xs">
-        <Paper shadow="md" w="40%" p="xs">
-          <Text size="1.3rem" fw="bold">Edit Station</Text>
-          <StationForm />
-          <TimebaseForm />
-        </Paper>
+    <Flex className={classes.container}>
+      <Flex className={classes.content_text_container}>
+        <p className={classes.content_title}>
+          {stationsData.name}
+        </p>
+        <p className={classes.content_description}>
+          {stationsData.location}
+        </p>
       </Flex>
-    </Box>
+
+      <div>
+        <SummaryTable />
+      </div>
+    </Flex>
   )
 }
 
