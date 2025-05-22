@@ -17,7 +17,7 @@ export const EditButton1 = forwardRef<HTMLButtonElement, ButtonProps>(
       <UnstyledButton
         ref={ref}
         className={classes.edit_btn}
-        onClick={onClick || (() => console.log('Edit clicked'))}
+        onClick={onClick}
       >
         <Image src="/edit.png" alt="Edit" w="1.3rem" />
       </UnstyledButton>
@@ -31,7 +31,7 @@ export const EditButton2 = forwardRef<HTMLButtonElement, ButtonProps>(
       <UnstyledButton
         ref={ref}
         className={classes.edit_btn2}
-        onClick={onClick || (() => console.log('Edit clicked'))}
+        onClick={onClick}
       >
         <Image src="/edit.png" alt="Edit" w="1.3rem" />
       </UnstyledButton>
@@ -45,7 +45,7 @@ export const PrimaryButton = forwardRef<HTMLButtonElement, ButtonProps>(
       <UnstyledButton
         ref={ref}
         className={classes.primary_btn}
-        onClick={onClick || (() => console.log('Primary btn clicked'))}
+        onClick={onClick}
       >
         {icon} {text ?? ''}
       </UnstyledButton>
@@ -59,7 +59,7 @@ export const DeleteButton1 = forwardRef<HTMLButtonElement, ButtonProps>(
       <UnstyledButton
         ref={ref}
         className={classes.delete_btn}
-        onClick={onClick || (() => console.log('Delete btn clicked'))}
+        onClick={onClick}
         disabled={isDisabled}
       >
         <IconTrash size="1.1rem" />
@@ -87,7 +87,7 @@ export const SaveButton1 = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type="submit"
         className={classes.save_btn1}
-        onClick={onClick || (() => console.log('Save btn clicked'))}
+        onClick={onClick}
       >
         {text ?? 'Save'}
       </UnstyledButton>

@@ -63,7 +63,6 @@ const TableForm = ({parametersData, analyzerData}: TableFormProps) => {
   };
 
   return (
-
     <form 
       onSubmit={ 
         form.onSubmit(handleSubmit)
