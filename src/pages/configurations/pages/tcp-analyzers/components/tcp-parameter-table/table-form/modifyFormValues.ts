@@ -7,13 +7,16 @@ const modifyFormValues = (values: any) => {
   const objectKeys = Object.keys(values)
 
   const handleRegisterCount = (format: string) => {
-    const bit = format.split(" ")[0];
+    if (!format) return;
+
+    const bit = format.split("-")[0];
+
     switch(bit) {
-      case "16-bit":
+      case "16":
         return 1;
-      case "32-bit":
+      case "32":
         return 2;
-      case "64-bit":
+      case "64":
         return 4;
     }
   }
