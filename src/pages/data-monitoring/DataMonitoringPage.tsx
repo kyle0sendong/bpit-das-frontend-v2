@@ -59,7 +59,7 @@ const DataMonitoringPage = () => {
       <Flex className={classes.header_container}>
 
         <p>
-          OOOOVERVIEEEW
+          Overview
         </p>
 
         <Popover
