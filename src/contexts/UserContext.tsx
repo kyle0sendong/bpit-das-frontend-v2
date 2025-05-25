@@ -1,11 +1,25 @@
-// UserContext.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode
+} from 'react';
+
 import { UserType, UserContextType } from '@/types/users';
 
-// Create the context with a default value
-const UserContext = createContext<UserContextType | undefined>(undefined);
+interface UserProviderProps {
+  children: ReactNode;
+}
+// Extend your context type if needed
+interface ExtendedUserContextType extends UserContextType {
+  isLoading: boolean;
+}
 
-// Custom hook to use the UserContext
+// Create the context
+const UserContext = createContext<ExtendedUserContextType | undefined>(undefined);
+
+// Custom hook
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
@@ -14,36 +28,29 @@ export const useUser = () => {
   return context;
 };
 
-// UserProvider component
-interface UserProviderProps {
-  children: ReactNode;
-}
-
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserType | null>(null);
+  const [isLoading, setIsLoading] = useState(true); // <-- Add loading state
 
-  // Check localStorage for user data on initial load
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setIsLoading(false); // <-- Done loading
   }, []);
 
-  // Login function
   const login = (userData: UserType, token: string) => {
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', token);
     setUser(userData);
   };
 
-  // Update user function
   const update = (userData: UserType) => {
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-  }
+  };
 
-  // Logout function
   const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
@@ -51,7 +58,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, update, logout }}>
+    <UserContext.Provider value={{ user, login, update, logout, isLoading }}>
       {children}
     </UserContext.Provider>
   );

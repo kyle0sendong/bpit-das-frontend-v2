@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 
 import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Text } from "@mantine/core"

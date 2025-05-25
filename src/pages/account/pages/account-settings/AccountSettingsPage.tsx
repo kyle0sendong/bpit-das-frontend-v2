@@ -111,7 +111,7 @@ const AccountSettingsPage = () => {
   };
 
   return (
-    <Paper w='50%' m='auto' p='lg'>
+    <Paper w='50%' mx='auto' mt='100px' mb='auto' p='lg'>
       <Flex gap='lg' direction='column' flex={1}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           {passwordError && (

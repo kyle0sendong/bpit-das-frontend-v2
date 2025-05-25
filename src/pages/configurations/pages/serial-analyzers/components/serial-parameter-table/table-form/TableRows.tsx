@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 
 import { Table, Group, TextInput, Switch, rem, NativeSelect, Button, Popover, NumberInput, Text } from "@mantine/core"
@@ -231,8 +232,8 @@ const TableRows = ({parametersData, form, mode}: TableRowsProps) => {
                 placeholder={parameter.ascii_command}
                 radius="md"
                 size="xs"
-                key={form.key(`${parameter.id}-ascii_command`)}
-                {...form.getInputProps(`${parameter.id}-ascii_command`)}
+                key={form.key(`ascii_command-${parameter.id}`)}
+                {...form.getInputProps(`ascii_command-${parameter.id}`)}
               />
             </Table.Td>
           )

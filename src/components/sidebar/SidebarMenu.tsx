@@ -9,11 +9,11 @@ import classes from './SidebarMenu.module.css';
 
 import { UnstyledButton, Image } from '@mantine/core';
 
-const data = [
-  { icon: IconLogout, label: 'Configurations', link: "configurations/stations" },
-  { icon: IconLogout, label: 'Data Monitoring', link: "data-monitoring"},
-  { icon: IconLogout, label: 'Data History', link: "data-history" },
-  { icon: IconLogout, label: 'User Logs', link: "user-logs"},
+const sidebarLinks = [
+  { icon: IconLogout, label: 'Configurations', link: 'configurations/stations' },
+  { icon: IconLogout, label: 'Data Monitoring', link: 'data-monitoring'},
+  { icon: IconLogout, label: 'Data History', link: 'data-history' },
+  { icon: IconLogout, label: 'User Logs', link: 'user-logs'},
 ];
 
 export default function SidebarMenu() {
@@ -23,24 +23,25 @@ export default function SidebarMenu() {
   const [active, setActive] = useState('');
 
   useEffect( () => {
-    setActive(location.pathname.substring(1))
+    const currentLink = location.pathname.substring(1).split('/')[0];
+    const matched = sidebarLinks.filter((item) => item?.link.startsWith(currentLink));
+    if(matched) setActive(matched[0]?.link);
   }, [])
 
-
-  const filteredLinks = data.filter((item) => {
+  const filteredLinks = sidebarLinks.filter((item) => {
     // Always allow 'data-monitoring' and 'data-history'
-    if (item.link === "data-monitoring" || item.link === "data-history") {
+    if (item.link === 'data-monitoring' || item.link === 'data-history') {
       return true;
     }
   
     if (!user) return false;
 
-    if ((user.role === "admin" || user.role === "standard" || user.role === "integrator") && 
-        item.link === "configurations/stations") {
+    if ((user.role === 'admin' || user.role === 'standard' || user.role === 'integrator') && 
+        item.link === 'configurations/stations') {
       return true;
     }
 
-    if (user.role === "admin" && item.link === "user-logs") {
+    if (user.role === 'admin' && item.link === 'user-logs') {
       return true;
     }
     return false;
@@ -67,7 +68,7 @@ export default function SidebarMenu() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <Image src="/logo.png" alt="Company Logo"  pb="0.5rem" />
+        <Image src='/logo.png' alt='Company Logo'  pb='0.5rem' />
         {links}
       </div>
     </nav>

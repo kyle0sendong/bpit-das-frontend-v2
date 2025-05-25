@@ -1,21 +1,21 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { Flex, Text } from "@mantine/core";
-import HeaderMenu from "@/components/header";
-import Footer from "@/components/footer/Footer";
-import { useUser } from "@/contexts/UserContext";
-import SidebarMenu from "@/components/sidebar/SidebarMenu";
-import classes from "./Layout.module.css";
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Flex, Text } from '@mantine/core';
+import HeaderMenu from '@/components/header';
+import Footer from '@/components/footer/Footer';
+import { useUser } from '@/contexts/UserContext';
+import SidebarMenu from '@/components/sidebar/SidebarMenu';
+import classes from './Layout.module.css';
 
 const DefaultLayout = () => {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate("/data-monitoring");
+    if (!user && !isLoading) {
+      navigate('/data-monitoring');
     }
-  }, [user, navigate]);
+  }, [user, navigate, isLoading]);
 
   if (!user) {
     return (
@@ -23,7 +23,7 @@ const DefaultLayout = () => {
         <HeaderMenu />
         <div className={classes.content_container}>
           <SidebarMenu />
-          <Text m="lg">Please login to continue.</Text>
+          <Text m='lg'>Please login to continue.</Text>
         </div>
       </Flex>
     );

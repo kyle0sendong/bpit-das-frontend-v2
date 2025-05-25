@@ -2,15 +2,13 @@ import { ParameterType } from "@/types/parameters";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const modifyFormValues = (values: any) => {
-
   const updateParameters: Partial<ParameterType>[] = []
-  const objectKeys = Object.keys(values)
-
+  
   const handleRegisterCount = (format: string) => {
-    if (!format) return;
-
-    const bit = format.split("-")[0];
-
+    if (!format) return 1; // Default fallback
+    
+    const bit = format?.split("-")[0];
+    
     switch(bit) {
       case "16":
         return 1;
@@ -18,13 +16,22 @@ const modifyFormValues = (values: any) => {
         return 2;
       case "64":
         return 4;
+      default:
+        return 1; // Default fallback
     }
   }
-  
-  for(let i = 0; i < objectKeys.length-1; i = i+9) {
 
-    const id = parseInt(objectKeys[i].split("_")[1]);
+  // Extract unique IDs from the form values
+  const ids = new Set<number>();
+  Object.keys(values).forEach(key => {
+    const match = key.match(/_(\d+)$/);
+    if (match) {
+      ids.add(parseInt(match[1]));
+    }
+  });
 
+  // Process each unique ID
+  ids.forEach(id => {
     const enable = values[`enable_${id}`];
     const name = values[`name_${id}`];
     const unit = values[`unit_${id}`];
@@ -34,8 +41,6 @@ const modifyFormValues = (values: any) => {
     const start_register_address = values[`start_register_address_${id}`];
     const register_count = handleRegisterCount(format);
     const formula = values[`formula_${id}`];
-    
-    const ascii_command = values[`${id}-ascii_command`] ?? '';
 
     const parameterObject: Partial<ParameterType> = {
       id,
@@ -47,11 +52,11 @@ const modifyFormValues = (values: any) => {
       function_code,
       start_register_address,
       register_count,
-      formula,
-      ascii_command
+      formula
     }
-    updateParameters.push(parameterObject)
-  }
+    
+    updateParameters.push(parameterObject);
+  });
 
   return updateParameters;
 }
