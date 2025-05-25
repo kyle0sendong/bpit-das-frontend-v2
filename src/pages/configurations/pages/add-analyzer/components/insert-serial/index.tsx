@@ -63,7 +63,7 @@ const InsertSerialForm = () => {
       onError: () => {
         showNotification({
           title: "Insert Failed",
-          message: "An error occurred while inserting a TCP Analyzer.",
+          message: "An error occurred while inserting a Serial Analyzer.",
           color: "red",
           autoClose: 5000, // Notification disappears after 5s
         });
@@ -71,7 +71,7 @@ const InsertSerialForm = () => {
       onSuccess: () => {
         showNotification({
           title: "Insert Successful",
-          message: "Inserting TCP Analyzer successful!",
+          message: "Inserting Serial Analyzer successful!",
           color: "green",
           autoClose: 3000,
         });

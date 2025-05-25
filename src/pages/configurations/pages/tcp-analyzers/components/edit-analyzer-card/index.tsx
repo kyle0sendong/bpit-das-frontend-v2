@@ -22,7 +22,7 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
   const [popoverOpened, setPopoverOpened] = useState(false);
 
   const { mutate: updateTcpAnalyzer, isPending: isPendingUpdate, isError: isErrorUpdate } = useUpdateTcpAnalyzer(analyzerData.id);
-  const { mutate: deleteTcpAnalyzer, isPending: isPendingDelete, isError: isErrorDelete, isSuccess } = useDeleteTcpAnalyzer(analyzerData.id);
+  const { mutate: deleteTcpAnalyzer, isPending: isPendingDelete, isError: isErrorDelete, isSuccess: isSuccessDelete} = useDeleteTcpAnalyzer(analyzerData.id);
 
   const form = useForm<Partial<TcpAnalyzerType>>({
     mode:"uncontrolled",
@@ -200,7 +200,7 @@ const ModalForm = ({analyzerData}: {analyzerData: TcpAnalyzerType}) => {
                   </Button>
               }
 
-              { isSuccess && <Navigate to={'/configurations'} />}
+              { (isSuccessDelete || isPendingDelete) && <Navigate to={'/configurations/add-analyzer?type=tcp'} />}
 
               </Group>
             </Popover.Dropdown>

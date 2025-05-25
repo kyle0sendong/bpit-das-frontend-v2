@@ -8,7 +8,7 @@ const AddAnalyzerPage = () => {
 
   const [searchParams] = useSearchParams();
   return (
-    <Flex w="100%" align={'center'} justify={'center'}>
+    <Flex w="100%" align={'center'} justify={'center'} mt='lg'>
       <Paper w="80%" shadow="md" p="md" c="var(--color1)">
         {
           searchParams.get("type") === "tcp" ?

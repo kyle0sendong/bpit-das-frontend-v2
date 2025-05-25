@@ -25,7 +25,7 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
 
   const serialPorts = useGetSerialPorts();
   const { mutate: updateSerialAnalyzer, isPending: isPendingUpdate, isError: isErrorUpdate } = useUpdateSerialAnalyzer(analyzerData.id);
-  const { mutate: deleteSerialAnalyzer, isPending: isPendingDelete, isError: isErrorDelete, isSuccess } = useDeleteSerialAnalyzer(analyzerData.id);
+  const { mutate: deleteSerialAnalyzer, isPending: isPendingDelete, isError: isErrorDelete, isSuccess: isSuccessDelete } = useDeleteSerialAnalyzer(analyzerData.id);
   
   const [serialMode, setSerialMode] = useState("rtu");
 
@@ -293,7 +293,7 @@ const ModalForm = ({analyzerData}: {analyzerData: SerialAnalyzerType}) => {
                   </Button>
               }
 
-              { isSuccess && <Navigate to={'/configurations'} />}
+              { (isSuccessDelete || isPendingDelete) && <Navigate to={'/configurations/add-analyzer?type=serial'} />}
 
               </Group>
             </Popover.Dropdown>
