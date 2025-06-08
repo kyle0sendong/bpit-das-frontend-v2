@@ -59,6 +59,9 @@
     border-right: none;
   }
 }
+.rows {
+  cursor: pointer
+}
 .scrolled {
   box-shadow: var(--mantine-shadow-sm);
 }

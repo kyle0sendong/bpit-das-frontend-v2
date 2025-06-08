@@ -23,6 +23,7 @@ type Props = {
 }
 
 const ParameterGraph = ({parameters, data, analyzerType, analyzerId}: Props) => {
+
   const itemsPerPage = 50;
   const totalPages = Math.ceil(data.length / itemsPerPage);
   
@@ -39,20 +40,22 @@ const ParameterGraph = ({parameters, data, analyzerType, analyzerId}: Props) => 
     .reverse();
 
 
-  const lineCharts = parameters.map((col) => { 
+  const lineCharts = parameters.map((col) => {
+    
+    const seriesName = analyzerType === 'vc' ? `${analyzerType}_${toSnakeCase(col.name)}` : `${analyzerType}${analyzerId}_${toSnakeCase(col.name)}`
     const series = { 
-      name: `${analyzerType}${analyzerId}_${toSnakeCase(col.name)}`, 
+      name: seriesName, 
       color: getRandomColor(), 
       label: col.name 
     };
 
     const maxYValue = Math.max(...paginatedData.map(d => Number(d[series.name])));
     const yAxisMax = Math.ceil(maxYValue * 1.5); // Adds 50% padding
-  
+    
     return ( 
       <LineChart
         className={classes.graph}
-        key={analyzerId}
+        key={seriesName}
         style={{
           backgroundColor:'white',
           padding: '1rem',

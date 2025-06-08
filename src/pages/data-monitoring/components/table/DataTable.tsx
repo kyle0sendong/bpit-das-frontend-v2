@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table, ScrollArea, Title, Flex } from "@mantine/core";
+import { Table, ScrollArea, Title, Flex, Tooltip } from "@mantine/core";
 import classes from "./DataTable.module.css"
 import cx from "clsx";
 
@@ -18,8 +18,7 @@ interface DataItem {
 
 interface TransformedDataItem {
   parameterName: string;
-  datetime: string | null;
-  [key: string]: string | null | number; // For dynamically added timebase columns
+  [key: string]: string | null | number;
 }
 
 type DataTableProps = {
@@ -32,7 +31,6 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
   const [scrolled, setScrolled] = useState(false);
   const { data, isFetched } = useGetCurrentValuesByAnalyzerId(id ?? 1, type ?? 'tcp');
     
-
   // If data isn't fetched yet, we won't render the table content
   if (!isFetched) {
     return (
@@ -51,7 +49,7 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
       </Flex>
     );
   }
-
+  
   // Type assertion for data
   const typedData = data as DataItem[];
   const uniqueParameterNames = [...new Set(typedData.map((item) => item.parameterName))];
@@ -59,28 +57,21 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
     
   // Transform data to have one row per parameter with columns for each timebase
   const transformedData: TransformedDataItem[] = uniqueParameterNames.map(paramName => {
-    // Start with the parameter name
+
     const row: TransformedDataItem = {
-      parameterName: paramName,
-      datetime: null // Will be updated if any non-null datetime exists
+      parameterName: paramName
     };
     
-    // Add columns for each timebase
     uniqueTimebases.forEach(timebase => {
-
-      // Find the matching item for this parameter and timebase
-      const item = typedData.find(d => 
+  
+      const item = typedData.find(d =>
         d.parameterName === paramName && d.timebase === timebase
       );
-      
-      // Add the currentValue as a column with the timebase as the column name
-      row[`timebase_${timebase}`] = item ? item.currentValue : null;
 
-      // Update datetime if available
-      if (item && item.datetime && (item.timebase === 0 || item.timebase === 1)) {
-        row.datetime = item.datetime;
-      }
+      row[`timebase_${timebase}`] = item ? item.currentValue : null;
+      row[`datetime_${timebase}`] = item?.datetime ?? null;
     });
+
     
     return row;
   });
@@ -100,7 +91,6 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
     <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
       <Table.Tr>
         <Table.Th ta="center" style={{ width: 170, minWidth: 170 }}>Parameter</Table.Th>
-        <Table.Th ta="center" style={{ width: 170, minWidth: 170 }}>Date & Time</Table.Th>
         {
           uniqueTimebases.map(timebase => {
             if(type === 'vc' && timebase === 0) return 
@@ -115,30 +105,44 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
     </Table.Thead>
   );
 
-  // Create rows from transformed data
   const rows = transformedData.map((row) => (
     <Table.Tbody className={classes.rows_container} key={row.parameterName}>
       <Table.Tr>
         <Table.Td>{row.parameterName}</Table.Td>
-        <Table.Td>{convertDateTimeToString(row.datetime)}</Table.Td>
-        {uniqueTimebases.map(timebase => {
-          if(type === 'vc' && timebase === 0) return 
+        {uniqueTimebases.map((timebase) => {
+          if (type === 'vc' && timebase === 0) return null;
+
           const value = row[`timebase_${timebase}`] as string | null;
+          const datetime = row[`datetime_${timebase}`] as string | null;
+          
           return (
-            <Table.Td key={`${row.parameterName}-${timebase}`}>
-              {
-                value === "-9999.00000" 
-                  ? "N/A" 
-                    : value !== null 
-                      ? parseFloat(value).toFixed(2) 
+            <Table.Td
+              key={`${row.parameterName}-${timebase}`}
+              className={cx(classes.rows, classes.pointer)} // Add `pointer` class
+            >
+              <Tooltip
+                label={datetime ? convertDateTimeToString(datetime) : 'No timestamp'}
+                withArrow
+                position="top"
+                offset={6}
+              >
+                <span>
+                  {
+                    value === "-9999.00000"
+                      ? "N/A"
+                      : value !== null
+                        ? parseFloat(value).toFixed(2)
                         : "N/A"
-              }
+                  }
+                </span>
+              </Tooltip>
             </Table.Td>
           );
         })}
       </Table.Tr>
     </Table.Tbody>
   ));
+
 
   return (
     <Flex mb="md" direction="column" justify='center'>
