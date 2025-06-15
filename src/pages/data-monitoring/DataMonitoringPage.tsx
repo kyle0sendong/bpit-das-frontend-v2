@@ -29,7 +29,7 @@ const DataMonitoringPage = () => {
     dataTables = [
       ...allTcpAnalyzers.data.map((item: TcpAnalyzerType) => <DataTable key={`tcp-${item.id}`} id={item.id} title={`${item.name} (TCP)`} type='tcp'/>),
       ...allSerialAnalyzers.data.map((item: SerialAnalyzerType) => <DataTable key={`serial-${item.id}`} id={item.id} title={`${item.name} (Serial)`} type='serial'/>),
-      <DataTable key="virtual-channels" title="Virtual Channels" type="vc"/>
+      (allTcpAnalyzers.data.length > 0 && allSerialAnalyzers.data.length > 0) &&<DataTable key="virtual-channels" title="Virtual Channels" type="vc"/>
     ]
   }
   

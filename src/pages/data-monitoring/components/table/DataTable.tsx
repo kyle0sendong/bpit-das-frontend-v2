@@ -6,7 +6,6 @@ import cx from "clsx";
 import { convertDateTimeToString } from "@/utils/dates";
 import { useGetCurrentValuesByAnalyzerId } from "@/hooks/currentValuesHook";
 
-// Define the types for your data
 interface DataItem {
   id: number;
   currentValue: string | null;
@@ -31,7 +30,7 @@ const DataTable = ({title, id, type}: Partial<DataTableProps>) => {
   const [scrolled, setScrolled] = useState(false);
   const { data, isFetched } = useGetCurrentValuesByAnalyzerId(id ?? 1, type ?? 'tcp');
     
-  // If data isn't fetched yet, we won't render the table content
+  // If data isn't fetched yet, don't render the table content
   if (!isFetched) {
     return (
       <Flex direction="column" mb="xs">
