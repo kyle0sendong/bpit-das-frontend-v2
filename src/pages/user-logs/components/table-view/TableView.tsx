@@ -18,13 +18,15 @@ const TableView = () => {
   const userLogs = useGetUserLogsByDate(from, to);
 
   if(userLogs.isFetched) {
-
     const data: UserLogsType[] = userLogs.data;
-    return (
+
+    return (<div style={{border:'1px solid red'}}>
       <UserLogsTable 
         data={data}
       />
-    )
+    </div>)
+
+
   }
 
   if(userLogs.isLoading) {

@@ -21,7 +21,7 @@ const columns: MRT_ColumnDef<any>[] = [
   {
     accessorKey: 'datetime',
     header: 'Date & Time',
-    size: 100
+    size: 200
   }
 ];
 

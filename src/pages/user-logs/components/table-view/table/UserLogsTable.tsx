@@ -16,7 +16,7 @@ const columns: MRT_ColumnDef<any>[] = [
   {
     accessorKey: 'username',
     header: 'Username',
-    size: 50
+    size: 25
   },
   {
     accessorKey: 'formatted_date',
@@ -26,12 +26,12 @@ const columns: MRT_ColumnDef<any>[] = [
   {
     accessorKey: 'tags',
     header: 'Tags',
-    size: 50
+    size: 40
   },
   {
     accessorKey: 'changes',
     header: 'Changes',
-    size: 50
+    size: 200
   },
 ]
 

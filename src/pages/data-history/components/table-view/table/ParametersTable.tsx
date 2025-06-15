@@ -32,7 +32,7 @@ const ParametersTable = (props: ParametersTableProps) => {
     {
       accessorKey: 'formatted_date',
       header: 'Date & Time',
-      size: 100
+      size: 150
     },
     ...props.parameters.map((parameter) => {
       let accessorKey = `${props.analyzerType}${props.analyzerId}_${toSnakeCase(parameter.name)}`;
