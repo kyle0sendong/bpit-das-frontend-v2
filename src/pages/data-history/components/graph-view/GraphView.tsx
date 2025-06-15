@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-
+import { useMemo } from 'react';
 import { useGetTcpParametersByAnalyzerId } from "@/hooks/tcpParametersHook";
 import { useGetSerialParametersByAnalyzerId } from '@/hooks/serialParametersHook';
 import { useGetAllVirtualChannels } from '@/hooks/virtualChannelsHook';
@@ -14,31 +14,35 @@ import ParameterGraph from "./ParameterGraph"
 const GraphView = () => {
 
   const [ searchParams ] = useSearchParams()
-  const queryTimebase = searchParams.get("timebase") ?? '1';
-  const queryFrom = searchParams.get("from") ;
-  const queryTo = searchParams.get("to");
-  const queryAnalyzerType = searchParams.get("analyzerType") ?? 'vc';
-  const queryAnalyzerId = searchParams.get("analyzerId") ?? '0';
-  const queryVirtualChannel = searchParams.get("virtualChannel") ?? '0';
+
+  const query = useMemo(() => ({
+    timebase: searchParams.get("timebase") ?? '1',
+    from: searchParams.get("from") ?? '',
+    to: searchParams.get("to") ?? '',
+    analyzerType: searchParams.get("analyzerType") ?? 'vc',
+    analyzerId: searchParams.get("analyzerId") ?? '0',
+    virtualChannel: searchParams.get("virtualChannel") ?? '0',
+  }), [searchParams]);
+
 
   const analyzerData = useGetAnalyzerData({
-    timebase: queryTimebase,
-    from: queryFrom,
-    to: queryTo,
-    analyzer: queryAnalyzerId,
-    analyzerType: queryAnalyzerType
+    timebase: query.timebase,
+    from: query.from,
+    to: query.to,
+    analyzer: query.analyzerId,
+    analyzerType: query.analyzerType
   })
 
   const virtualChannelsData = useGetVirtualChannelsData({
-    timebase: queryTimebase,
-    from: queryFrom,
-    to: queryTo,
-    analyzer: queryVirtualChannel
+    timebase: query.timebase,
+    from: query.from,
+    to: query.to,
+    analyzer: query.virtualChannel
   })
 
-  const tcpParameters = useGetTcpParametersByAnalyzerId(queryAnalyzerType === "tcp" ? parseInt(queryAnalyzerId) : 0);
-  const serialParameters = useGetSerialParametersByAnalyzerId(queryAnalyzerType === "serial" ? parseInt(queryAnalyzerId) : 0);
-  const virtualChannels = useGetAllVirtualChannels(queryVirtualChannel === "all");
+  const tcpParameters = useGetTcpParametersByAnalyzerId(query.analyzerType === "tcp" ? parseInt(query.analyzerId) : 0);
+  const serialParameters = useGetSerialParametersByAnalyzerId(query.analyzerType === "serial" ? parseInt(query.analyzerId) : 0);
+  const virtualChannels = useGetAllVirtualChannels(query.virtualChannel === "all");
 
   if((tcpParameters.isFetched || serialParameters.isFetched || virtualChannels.isFetched)
     && (analyzerData.isFetched || virtualChannelsData.isFetched)) {
@@ -46,11 +50,11 @@ const GraphView = () => {
     let parametersData: ParameterType[] | VirtualChannelsType[] = tcpParameters.data;
     let data: any[] = analyzerData.data;
 
-    if(queryAnalyzerType === "serial") {
+    if(query.analyzerType === "serial") {
       parametersData = serialParameters.data;
     }
 
-    if(queryVirtualChannel === "all") {
+    if(query.virtualChannel === "all") {
       parametersData = virtualChannels.data;
       data = virtualChannelsData.data;
     }
@@ -60,8 +64,8 @@ const GraphView = () => {
         <ParameterGraph 
           parameters={parametersData}
           data={data}
-          analyzerType={queryAnalyzerType}
-          analyzerId={queryAnalyzerId ?? ''}
+          analyzerType={query.analyzerType}
+          analyzerId={query.analyzerId ?? ''}
         />
       </Box>
     )

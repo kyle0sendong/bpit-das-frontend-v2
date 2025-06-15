@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useGetTcpParametersByAnalyzerId } from "@/hooks/tcpParametersHook";
@@ -16,100 +17,102 @@ import {
   type MRT_ColumnDef
 } from 'mantine-react-table';
 
-
 const columns: MRT_ColumnDef<any>[] = [ 
   {
     accessorKey: 'datetime',
     header: 'Date & Time',
     size: 100
   }
-]
+];
 
-const data: any[] = []
+const data: any[] = [];
 
 const TableView = () => {
+  const [searchParams] = useSearchParams();
 
-  const [ searchParams ] = useSearchParams()
-  const queryTimebase = searchParams.get("timebase") ?? '1';
-  const queryFrom = searchParams.get("from") ;
-  const queryTo = searchParams.get("to");
-  const queryAnalyzerType = searchParams.get("analyzerType") ?? 'vc';
-  const queryAnalyzerId = searchParams.get("analyzerId") ?? '0';
-  const queryVirtualChannel = searchParams.get("virtualChannel") ?? '0';
+  const query = useMemo(() => ({
+    timebase: searchParams.get("timebase") ?? '1',
+    from: searchParams.get("from") ?? '',
+    to: searchParams.get("to") ?? '',
+    analyzerType: searchParams.get("analyzerType") ?? 'vc',
+    analyzerId: searchParams.get("analyzerId") ?? '0',
+    virtualChannel: searchParams.get("virtualChannel") ?? '0',
+  }), [searchParams]);
 
   const table = useMantineReactTable({
     columns,
-    data, //should fallback to empty array while loading data
+    data,
     state: { isLoading: true },
   });
 
   const analyzerData = useGetAnalyzerData({
-    timebase: queryTimebase,
-    from: queryFrom,
-    to: queryTo,
-    analyzer: queryAnalyzerId,
-    analyzerType: queryAnalyzerType
-  })
+    timebase: query.timebase,
+    from: query.from,
+    to: query.to,
+    analyzer: query.analyzerId,
+    analyzerType: query.analyzerType,
+  });
 
   const virtualChannelsData = useGetVirtualChannelsData({
-    timebase: queryTimebase,
-    from: queryFrom,
-    to: queryTo,
-    analyzer: queryVirtualChannel
-  })
+    timebase: query.timebase,
+    from: query.from,
+    to: query.to,
+    analyzer: query.virtualChannel,
+  });
 
-  const tcpParameters = useGetTcpParametersByAnalyzerId(queryAnalyzerType === "tcp" ? parseInt(queryAnalyzerId) : 0);
-  const serialParameters = useGetSerialParametersByAnalyzerId(queryAnalyzerType === "serial" ? parseInt(queryAnalyzerId) : 0);
-  const virtualChannels = useGetAllVirtualChannels(queryVirtualChannel === "all");
+  const tcpParameters = useGetTcpParametersByAnalyzerId(query.analyzerType === "tcp" ? parseInt(query.analyzerId) : 0);
+  const serialParameters = useGetSerialParametersByAnalyzerId(query.analyzerType === "serial" ? parseInt(query.analyzerId) : 0);
+  const virtualChannels = useGetAllVirtualChannels(query.virtualChannel === "all");
 
-  if((tcpParameters.isFetched || serialParameters.isFetched || virtualChannels.isFetched)
-    && (analyzerData.isFetched || virtualChannelsData.isFetched)) {
-
+  if (
+    (tcpParameters.isFetched || serialParameters.isFetched || virtualChannels.isFetched) &&
+    (analyzerData.isFetched || virtualChannelsData.isFetched)
+  ) {
     let parametersData: ParameterType[] | VirtualChannelsType[] = tcpParameters.data;
     let data: any[] = analyzerData.data;
 
-    if(queryAnalyzerType === "serial") {
+    if (query.analyzerType === "serial") {
       parametersData = serialParameters.data;
     }
 
-    if(queryVirtualChannel === "all") {
+    if (query.virtualChannel === "all") {
       parametersData = virtualChannels.data;
       data = virtualChannelsData.data;
     }
 
-    if(parametersData) {
+    if (parametersData) {
       return (
         <Box w="100%" p="1rem">
           <ParametersTable 
             parameters={parametersData}
             data={data}
-            analyzerType={queryAnalyzerType}
-            analyzerId={queryAnalyzerId ?? ''}
+            analyzerType={query.analyzerType}
+            analyzerId={query.analyzerId ?? ''}
           />
         </Box>
-      )
+      );
     }
-    
+
     return (
       <Box p="1rem" c="white">
         Please select an analyzer from the filter menu
       </Box>
-    )
+    );
   }
 
-  if(tcpParameters.isLoading && analyzerData.isLoading) {
+  if (tcpParameters.isLoading && analyzerData.isLoading) {
     return (
       <Box w="100%" p="1rem">
         <MantineReactTable table={table} />
       </Box>
-    )
+    );
   }
 
   return (
     <Box p="1rem" c="white">
       Please select an analyzer from the filter menu
     </Box>
-  )
-}
+  );
+};
 
 export default TableView;
