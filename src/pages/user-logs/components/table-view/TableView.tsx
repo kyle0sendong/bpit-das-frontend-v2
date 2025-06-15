@@ -20,13 +20,13 @@ const TableView = () => {
   if(userLogs.isFetched) {
     const data: UserLogsType[] = userLogs.data;
 
-    return (<div style={{border:'1px solid red'}}>
-      <UserLogsTable 
-        data={data}
-      />
-    </div>)
-
-
+    return (
+      <div>
+        <UserLogsTable 
+          data={data}
+        />
+      </div>
+    )
   }
 
   if(userLogs.isLoading) {
